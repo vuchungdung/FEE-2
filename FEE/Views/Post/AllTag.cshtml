@@ -1,0 +1,6 @@
+﻿@model List<FEE.ViewModel.TagViewModel>
+
+@foreach (var item in Model)
+{
+    <a href="/danh-muc-0-0-@item.TagId"><span class="label label-default">@item.Name</span></a>
+}

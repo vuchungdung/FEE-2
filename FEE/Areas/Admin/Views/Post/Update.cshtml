@@ -1,0 +1,133 @@
+﻿@model FEE.ViewModel.PostViewModel
+
+@{
+    ViewBag.Title = "Update";
+    Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml";
+}
+
+@Html.Partial("_MessageAlert")
+<script src="~/Areas/Admin/template_admin/bower_components/jquery/dist/jquery.min.js"></script>
+<script src="~/Areas/Admin/template_admin/bower_components/ckeditor/ckeditor.js"></script>
+<div class="box box-warning">
+    <div class="box-header with-border">
+        <h3 class="box-title">Cập nhật bài viết mới</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        @using (Html.BeginForm("Update", "Post", FormMethod.Post))
+        {
+            @Html.TextBoxFor(model => model.PostId, htmlAttributes: new { @style = "display:none", @type = "number" })
+            <div class="form-group">
+                <label>Tiêu đề:</label>
+                @Html.TextBoxFor(model => model.Name, htmlAttributes: new { @class = "form-control", @placeholder = "Nhập tiêu đề bài viết" })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+
+            </div>
+            <div class="form-group">
+                <label>Mô tả ngắn:</label>
+                @Html.TextBoxFor(model => model.Description, htmlAttributes: new { @class = "form-control", @placeholder = "Nhập mô tả cho bài viết" })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+
+            </div>
+            <div class="form-group">
+                <label>Chọn Tag cho bài viết</label>
+                <select class="form-control select2" name="TagIds" multiple="multiple" data-placeholder="Select a State"
+                        style="width: 100%;">
+                    @foreach (var key in Model.Tags)
+                    {
+                        var item = Model.TagIds.Where(x => x == key.TagId.ToString()).FirstOrDefault();
+                        if (item != null)
+                        {
+                            <option selected value="@key.TagId">@key.Name</option>
+                        }
+                        else
+                        {
+                            <option value="@key.TagId">@key.Name</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="Quiz">Danh mục bài viết:</label><br />
+                        @Html.DropDownListFor(m => m.MenuId, Model.ListMenus, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Loại bài đăng:</label><br />
+                        @Html.DropDownListFor(m => m.CategoryId, Model.ListCategories, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group" style="margin-bottom:0px">
+                        <label style="padding-right: 10px">Trạng thái</label>
+                        @Html.EnumDropDownListFor(model => model.Status, htmlAttributes: new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Chọn ngày đăng:</label>
+                        @Html.TextBoxFor(model => model.Date, htmlAttributes: new { @class = "form-control", @required = "true", @type = "date",@name="CreateDate" })
+                        @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Hình ảnh đại diện:</label>
+                <button type="button" class="btn btn-xs btn-default" style="margin-top:2px;margin-left:0px" onclick="chooseImage()">Chọn ảnh</button>
+                @Html.TextBoxFor(model => model.Img, htmlAttributes: new { @style = "display:none" })
+                @Html.ValidationMessageFor(model => model.Img, "", new { @class = "text-danger" })
+
+            </div>
+            <div class="form-group">
+                <img class="img-responsive" style="max-width:60%;text-align:center" id="Img2" src="@ViewBag.Img2" alt="Ảnh đại diện" />
+            </div>
+            <div class="form-group">
+                <label>Tiêu đề:</label>
+                @Html.TextAreaFor(model => model.Content, new { @class = "form-control", @required = "true", @id = "editor1" })
+                @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
+
+                <script>
+                    if ($('#editor1').length > 0) {
+                        var editor = CKEDITOR.replace('editor1', {
+                            languague: 'vi'
+                        });
+
+                    }
+                </script>
+            </div>
+            <div class="box-footer">
+                <button type="submit" class="btn btn-primary">Cập nhật</button>
+                <a href="/Admin/Post/Index" class="btn btn-default">Quay lại</a>
+            </div>
+        }
+    </div>
+</div>
+<script>
+    function chooseImage() {
+        var finder = new CKFinder();
+        finder.selectActionFunction = function (fileUrl) {
+            $('#Img').attr('value', fileUrl);
+            $('#Img2').attr('src', fileUrl);
+        }
+        finder.popup();
+    }
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#avtpreview').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#Img2").change(function () {
+        readURL(this);
+    });
+</script>
+

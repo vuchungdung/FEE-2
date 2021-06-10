@@ -1,0 +1,27 @@
+﻿@model FEE.ViewModel.TagViewModel
+
+@{ ViewBag.Title = "Create";
+                Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml"; }
+
+@Html.Partial("_MessageAlert")
+
+<div class="box box-warning">
+    <div class="box-header with-border">
+        <h3 class="box-title">Thêm tag</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        @using (Html.BeginForm("Create", "Tag", FormMethod.Post))
+        {
+                <div class="form-group">
+                    <label>Tên tag:</label>
+                    @Html.TextBoxFor(model => model.Name, htmlAttributes: new { @class = "form-control", @placeholder = "Nhập tên tag" })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+
+                </div>
+                <div class="box-footer">
+                    <button type="submit" class="btn btn-primary">Thêm mới</button>
+                    <a href="/Admin/Tag/Index" class="btn btn-default">Quay lại</a>
+                </div>}
+    </div>
+</div>

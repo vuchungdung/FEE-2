@@ -1,0 +1,116 @@
+﻿@model FEE.ViewModel.DepartmentViewModel
+
+@{ 
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml"; 
+}
+
+@Html.Partial("_MessageAlert")
+
+<div class="box box-warning">
+    <div class="box-header with-border">
+        <h3 class="box-title">Thêm bộ môn</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <form onsubmit="savePermission()">
+            <div class="form-group">
+                <label>Tên bộ môn:</label>
+                @Html.TextBoxFor(model => model.Name, htmlAttributes: new { @class = "form-control", @required = "true", @placeholder = "Nhập tên bộ môn" })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+            <label>Danh mục quản lý:</label>
+            <table id="example1" class="table table-bordered table-striped">
+                 <tbody>
+                      <tr style="width:100%" class="row">
+                          <td>
+                               @foreach (var item in Model.Menus)
+                               {
+                               
+                                    <div class="col-md-4">
+                                        <input class="isValue" onclick="checkedBox(this)" id="@item.Id" data-value="@item.Id" type="checkbox">
+                                        <span class="text-bold" style="color:red">@item.Name</span>
+                                        @if (item.SubItem.Count() > 0)
+                                        {
+                                            <ul style="padding-left:12px">
+                                                @foreach (var key in item.SubItem)
+                                                {
+                                                    <li style="list-style:none">
+                                                        <input class="isValue" disabled name="@item.Id" data-value="@key.Id" type="checkbox">
+                                                        <span>@key.Name</span>
+                                                        @if (key.SubItem.Count() > 0)
+                                                        {
+                                                            <ul>                                                               
+                                                                @foreach(var i in key.SubItem)
+                                                                {
+                                                                    <li style="list-style: none">
+                                                                        <input class="isValue" disabled name="@item.Id" data-value="@i.Id" type="checkbox">
+                                                                        <span>@i.Name</span>
+                                                                        @if (i.SubItem.Count() > 0)
+                                                                        {
+                                                                            <ul>
+                                                                                @foreach (var o in i.SubItem)
+                                                                                {
+                                                                                    <li style="list-style: none">
+                                                                                        <input class="isValue" disabled name="@item.Id" data-value="@o.Id" type="checkbox">
+                                                                                        <span>@o.Name</span>
+                                                                                    </li>
+                                                                                }
+                                                                            </ul>
+                                                                        }
+                                                                    </li>
+                                                                }
+                                                            </ul>
+                                                        }
+                                                    </li>
+                                                }
+                                            </ul>
+                                        }
+                                    </div>
+                               
+                              
+                               }
+                          </td>
+                      </tr>                      
+                 </tbody>
+            </table>
+            <div class="box-footer">
+                <button type="submit" class="btn btn-primary">Thêm mới</button>
+                <a href="/Admin/Department/Index" class="btn btn-default">Quay lại</a>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    function savePermission() {
+        var listMenuIds = [];
+        $(".isValue").each(function () {
+            if ($(this).is(":checked") == true) {
+                listMenuIds.push($(this).data("value"));
+            }
+        })
+        $.ajax({
+            type: "POST",
+            url: '/Admin/Department/Create',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({name:$('input[name="Name"]').val(), listMenuIds: listMenuIds }),
+            dataType: "json",
+            success: function (res) {
+                location.reload();
+            }
+        })
+    }
+    function checkedBox(xthis) {
+        if (xthis.checked) {
+            $('input[name="' + xthis.id + '"]').each(function () {
+                this.checked = true;
+            });
+        } else {
+            $('input[name="' + xthis.id + '"]').each(function () {
+                this.checked = false;
+            });
+        }
+    }
+
+</script>
+

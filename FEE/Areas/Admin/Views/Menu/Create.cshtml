@@ -1,0 +1,52 @@
+﻿@model FEE.ViewModel.MenuViewModel
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml";
+}
+
+@Html.Partial("_MessageAlert")
+
+<div class="box box-warning">
+    <div class="box-header with-border">
+        <h3 class="box-title">Thêm danh mục mới</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        @using (Html.BeginForm("Create", "Menu", FormMethod.Post))
+        {
+            <div class="row">
+                <div class="col-md-11">
+                    <div class="form-group">
+                        <label>Tên danh mục:</label>
+                        @Html.TextBoxFor(model => model.Name, htmlAttributes: new { @class = "form-control", @placeholder = "Nhập tên danh mục" })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <div class="form-group">
+                        <label>Thứ tự:</label>
+                        @Html.TextBoxFor(model => model.DisplayOrder, htmlAttributes: new { @class = "form-control", @type = "number" })
+                        @Html.ValidationMessageFor(model => model.DisplayOrder, "", new { @class = "text-danger" })
+
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Quiz">Danh mục cha:</label><br />
+                @Html.DropDownListFor(m => m.ParentId, Model.ListMenus, "[Chọn danh mục cha]", new { @class = "form-control", @required = "true" })
+                @Html.ValidationMessageFor(model => model.ParentId, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group" style="margin-bottom:0px">
+                <label for="Quiz" style="padding-right: 10px">Hiển thị</label>
+                @Html.CheckBoxFor(model => model.Status)
+            </div>
+
+            <div class="box-footer">
+                <button type="submit" class="btn btn-primary">Thêm mới</button>
+                <a href="/Admin/Menu/Index" class="btn btn-default">Quay lại</a>
+            </div>
+        }
+    </div>
+</div>

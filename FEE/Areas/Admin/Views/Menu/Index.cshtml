@@ -1,0 +1,301 @@
+﻿@model IEnumerable<FEE.ViewModel.MenuViewModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml";
+}
+
+@Html.Partial("_MessageAlert")
+<script src="~/Areas/Admin/template_admin/bower_components/jquery/dist/jquery.min.js"></script>
+<script>
+    $(function () {
+        $("#example1").DataTable({
+            "responsive": true,
+            "autoWidth": false,
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Vietnamese.json'
+            },
+            "columnDefs": [
+                { "orderable": false, "targets": [2, 3] },
+                { "orderable": true, "targets": [0, 1] }
+            ]
+        });
+        $('#example2').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": false,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true
+        });
+    });
+</script>
+
+<section class="content-header">
+    <h1>
+        QUẢN LÝ
+        <small>DANH MỤC</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Home"><i class="fa fa-dashboard"></i> Trang chính</a></li>
+        <li class="active">Danh mục</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Danh sách danh mục</h3>
+                    <a href="/admin/menu/create" style="margin-right:10px;position:absolute;right:0" class="btn btn-success"><i class="fa fa-fw fa-plus"></i>Thêm mới</a>
+                    @*<button href="/admin/menu/create" style="margin-right:10px;position:absolute;right:110px" class="btn btn-danger" disabled><i class="fa fa-fw fa-trash-o"></i>Xóa nhiều</button>*@
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Tên danh mục</th>
+                                <th>Ngày tạo</th>
+                                <th>Ẩn/Hiện</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        <span class="text-bold" style="color:red">@item.Name</span>
+                                        @if (item.SubItem.Count() > 0)
+                                        {
+                                            <ul style="padding-left:12px;padding:1px 0px">
+                                                @foreach (var key in item.SubItem)
+                                                {
+                                                    <li style="list-style:none;padding:1px 0px">
+                                                        <span>@key.Name</span>
+                                                        @if (key.SubItem.Count() > 0)
+                                                        {
+                                                            <ul>                                                               
+                                                                @foreach(var i in key.SubItem)
+                                                                {
+                                                                    <li style="list-style: none;padding:1px 0px">
+                                                                        <span>@i.Name</span>
+                                                                        @if (i.SubItem.Count() > 0)
+                                                                        {
+                                                                            <ul>
+                                                                                @foreach (var o in i.SubItem)
+                                                                                {
+                                                                                    <li style="list-style: none;padding:1px 0px">
+                                                                                        <span>@o.Name</span>
+                                                                                    </li>
+                                                                                }
+                                                                            </ul>
+                                                                        }
+                                                                    </li>
+                                                                }
+                                                            </ul>
+                                                        }
+                                                    </li>
+                                                }
+                                            </ul>
+                                        }
+                                    </td>
+                                    <td>
+                                        <span class="text-bold" style="color:red">@item.CreatedDate.ToString("dd/MM/yyyy")</span>
+                                        @if (item.SubItem.Count() > 0)
+                                        {
+                                            <ul style="padding-left:12px;padding:1px 0px">
+                                                @foreach (var key in item.SubItem)
+                                                {
+                                                    <li style="list-style:none;padding:1px 0px">
+                                                        <span>@key.CreatedDate.ToString("dd/MM/yyyy")</span>
+                                                        @if (key.SubItem.Count() > 0)
+                                                        {
+                                                            <ul>                                                               
+                                                                @foreach(var i in key.SubItem)
+                                                                {
+                                                                    <li style="list-style: none;padding:1px 0px">
+                                                                        <span>@i.CreatedDate.ToString("dd/MM/yyyy")</span>
+                                                                        @if (i.SubItem.Count() > 0)
+                                                                        {
+                                                                            <ul>
+                                                                                @foreach (var o in i.SubItem)
+                                                                                {
+                                                                                    <li style="list-style: none;padding:1px 0px">
+                                                                                        <span>@o.CreatedDate.ToString("dd/MM/yyyy")</span>
+                                                                                    </li>
+                                                                                }
+                                                                            </ul>
+                                                                        }
+                                                                    </li>
+                                                                }
+                                                            </ul>
+                                                        }
+                                                    </li>
+                                                }
+                                            </ul>
+                                        }
+                                    </td>
+                                    <td class="text-center">
+                                         <input type="checkbox" onclick="changeStatus(this)" id="@item.Id" @(item.Status == true ? "checked" : "") />
+
+                                        @if (item.SubItem.Count() > 0)
+                                        {
+                                            <ul style="padding-left:12px">
+                                                @foreach (var key in item.SubItem)
+                                                {
+                                                    <li style="list-style:none">
+                                                         <input type="checkbox" onclick="changeStatus(this)" id="@key.Id" @(key.Status == true ? "checked" : "") />
+
+                                                        @if (key.SubItem.Count() > 0)
+                                                        {
+                                                            <ul>                                                               
+                                                                @foreach(var i in key.SubItem)
+                                                                {
+                                                                    <li style="list-style: none">
+                                                                        <input type="checkbox" onclick="changeStatus(this)" id="@i.Id" @(i.Status == true ? "checked" : "") />
+                                                                        @if (i.SubItem.Count() > 0)
+                                                                        {
+                                                                            <ul>
+                                                                                @foreach (var o in i.SubItem)
+                                                                                {
+                                                                                    <li style="list-style: none">
+                                                                                        <input type="checkbox" onclick="changeStatus(this)" id="@o.Id" @(o.Status == true ? "checked" : "") />
+                                                                                    </li>
+                                                                                }
+                                                                            </ul>
+                                                                        }
+                                                                    </li>
+                                                                }
+                                                            </ul>
+                                                        }
+                                                    </li>
+                                                }
+                                            </ul>
+                                        }
+                                    </td>
+                                    <td class="text-center">
+                                        <a onclick="deleteConfirm(this)" id="@item.Id" data-toggle="modal" data-target="#myModal"><i style="color:red" class="fa fa-fw fa-trash"></i></a>
+                                        <a href="/admin/menu/update/@item.Id"><i style="color:green" class="fa fa-fw fa-pencil"></i></a>
+                                        @if (item.SubItem.Count() > 0)
+                                        {
+                                            <ul style="padding-left:12px;padding:1px 0px">
+                                                @foreach (var key in item.SubItem)
+                                                {
+                                                    <li style="list-style:none;padding:1px 0px">
+                                                        <a onclick="deleteConfirm(this)" id="@key.Id" data-toggle="modal" data-target="#myModal"><i style="color:red" class="fa fa-fw fa-trash"></i></a>
+                                                        <a href="/admin/menu/update/@key.Id"><i style="color:green" class="fa fa-fw fa-pencil"></i></a>
+                                                        @if (key.SubItem.Count() > 0)
+                                                        {
+                                                            <ul>                                                               
+                                                                @foreach(var i in key.SubItem)
+                                                                {
+                                                                    <li style="list-style: none;padding:1px 0px">
+                                                                        <a onclick="deleteConfirm(this)" id="@i.Id" data-toggle="modal" data-target="#myModal"><i style="color:red" class="fa fa-fw fa-trash"></i></a>
+                                                                        <a href="/admin/menu/update/@i.Id"><i style="color:green" class="fa fa-fw fa-pencil"></i></a>
+                                                                        @if (i.SubItem.Count() > 0)
+                                                                        {
+                                                                            <ul>
+                                                                                @foreach (var o in i.SubItem)
+                                                                                {
+                                                                                    <li style="list-style: none;padding:1px 0px">
+                                                                                        <a onclick="deleteConfirm(this)" id="@o.Id" data-toggle="modal" data-target="#myModal"><i style="color:red" class="fa fa-fw fa-trash"></i></a>
+                                                                                        <a href="/admin/menu/update/@o.Id"><i style="color:green" class="fa fa-fw fa-pencil"></i></a>
+                                                                                    </li>
+                                                                                }
+                                                                            </ul>
+                                                                        }
+                                                                    </li>
+                                                                }
+                                                            </ul>
+                                                        }
+                                                    </li>
+                                                }
+                                            </ul>
+                                        }
+                                        
+                                    </td>
+                                    @*<td class="text-center"><input type="checkbox" data-id="@item.Id" class="checkItem" /></td>*@
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Tên danh mục</th>
+                                <th>Ngày tạo</th>
+                                <th>Trạng thái</th>
+                                <th>Thao tác</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Bạn đang yêu cầu xóa dữ liệu</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                Bạn có thật sự muốn xóa dữ liệu này ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="deleteBtn" class="btn btn-danger" data-dismiss="modal">Xóa</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<script>
+    var idx;
+    var st;
+    var deleteConfirm = function (xthis) {
+        xid = xthis.id;
+    }
+    $('#deleteBtn').click(function () {
+        $.ajax({
+            type: "POST",
+            url: '/Admin/menu/delete',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({ id: xid}),
+            dataType: "json",
+            success: function (res) {
+                if (res == true) {
+                    location.reload();
+                }
+                else {
+                    location.reload();
+                }
+            }
+        });
+    })
+    function changeStatus(xthis) {
+        var xid = xthis.id;
+        var st = xthis.checked ? true : false;
+        $.ajax({
+            type: "POST",
+            url: '/Admin/Menu/changestatus',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({ id: xid, status: st }),
+            dataType: "json",
+            success: function (res) {
+                if (res == true) {
+                    location.reload();
+                }
+            }
+        });
+    }
+</script>

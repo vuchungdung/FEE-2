@@ -1,0 +1,23 @@
+﻿@model FEE.ViewModel.PostViewModel
+
+@{
+    ViewBag.Title = "Item";
+    Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml";
+}
+
+<div class="box box-warning">
+    <div class="box-header with-border">
+        <h3 class="box-title">Xem trước</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <div class="row">
+            <div class="col-md-9">
+                <h4 style="color:black">@Model.Name</h4>
+                <p>Ngày @Model.CreateDate.ToString("dd-MM-yyyy") Đăng bởi: @Model.Author</p>
+                <p style="color:black">@Html.Raw(Model.Content)</p>
+            </div>  
+            <div class="col-md-3"></div>
+        </div>
+    </div>
+</div>

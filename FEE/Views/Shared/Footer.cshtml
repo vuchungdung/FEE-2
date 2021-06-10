@@ -1,0 +1,55 @@
+﻿@model FEE.Models.WebInfo
+
+<footer class="footer" id="footer" style="background-color:#212331;">
+    <div class="container pt-30">
+        <div class="row">
+            <div class="col-sm-6 col-md-3">
+                <div class="widget dark">
+                    <img src="~/template-client/images/logo1.png" style="width: 80%;">
+                    <ul class="styled-icons icon-dark icon-circled icon-sm"
+                        style="text-align: center; margin-left: -30px;">
+                        <li><a style="cursor: pointer;"><i class="fa fa-facebook-square" aria-hidden="true"></i></a></li>
+                        <li><a style="cursor: pointer;"><i class="fa fa-youtube-play" aria-hidden="true"></i></a></li>
+                        <li><a style="cursor: pointer;"><i class="fa fa-envelope" aria-hidden="true"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-9">
+                <div class="widget dark">
+                    <h4 class="widget-title line-bottom-theme-colored-2">KHOA ĐIỆN - ĐIỆN TỬ</h4>
+                    <ul class="angle-double-right list-border">
+                        <li class="m-0 pl-10 pr-10">
+                            <i class="fa fa-location-arrow text-theme-colored2 mr-5"></i>
+                            <a class="text-gray" href="#">Trụ sử chính:  @Model.Address</a>
+                        </li>
+                        <li class="m-0 pl-10 pr-10">
+                            <i class="fa fa-phone text-theme-colored2 mr-5"></i><a class="text-gray" href="#">ĐT: @Model.Phone</a>
+                        </li>
+                        <li class="m-0 pl-10 pr-10">
+                            <i class="fa fa-envelope" style="color:white;padding-right:3px" aria-hidden="true"></i><a class="text-gray" href="#">Email: @Model.Email</a>
+                        </li>
+                        <li class="m-0 pl-10 pr-10" style="color:#808080">
+                            <i class="fa fa-copyright" style="color:white;padding-right:3px" aria-hidden="true"></i>
+                            Ghi rõ nguồn "fee.utehy.edu.vn" khi phát hành lại thông tin từ website này.
+                            Power by Trung tâm phát triểm phần mềm
+                        </li>
+                        <li class="m-0 pl-10 pr-10">
+                            <i class="fa fa-globe text-theme-colored2 mr-5"></i><a class="text-gray" href="#">http://utehy.edu.vn</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom" data-bg-color="#2b2d3b" style="background: rgb(43, 45, 59) !important;">
+        <div class="container pt-20 pb-20">
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="font-12 text-black-777 m-0 sm-text-center">
+                        Copyright ©2021 Khoa Điện - Điện Tử Trường ĐH Sư phạm Kỹ thuật Hưng Yên.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

@@ -1,0 +1,199 @@
+﻿@model IEnumerable<FEE.ViewModel.UserViewModel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml";
+}
+<script src="~/Areas/Admin/template_admin/bower_components/jquery/dist/jquery.min.js"></script>
+<script>
+    $(function () {
+        $("#example1").DataTable({
+            "responsive": true,
+            "autoWidth": false,
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Vietnamese.json'
+            }
+        });
+        $('#example2').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": false,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true
+        });
+
+
+
+    });
+</script>
+@Html.Partial("_MessageAlert")
+
+<section class="content-header">
+    <h1>
+        QUẢN LÝ
+        <small>NGƯỜI DÙNG</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Home"><i class="fa fa-dashboard"></i> Trang chính</a></li>
+        <li class="active">Người dùng</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Danh sách người dùng</h3>
+                    <a href="/admin/user/create" style="margin-right:10px;position:absolute;right:0" class="btn btn-success"><i class="fa fa-fw fa-plus"></i>Thêm mới</a>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Họ và tên</th>
+                                <th>Tài khoản</th>
+                                <th>Email</th>
+                                <th>Số ĐT</th>
+                                <th>Bộ môn</th>
+                                <th>Nhóm</th>
+                                <th>Trạng thái</th>
+                                <th style="width:10%">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+
+                                    <td>@item.Name</td>
+                                    <td>@item.Username</td>
+                                    <td>@item.Email</td>
+                                    <td>@item.Phone</td>  
+                                    <td>@item.Department</td>
+                                    <td>@item.Role</td>  
+                                    <td>@item.Status.GetDisplayName()</td>
+                                    <td class="text-center">
+                                        <a onclick="deleteConfirm(this)" id="@item.Id" data-toggle="modal" data-target="#myModal"><i style="color:red" class="fa fa-fw fa-trash"></i></a>
+                                        <a href="/admin/user/update/@item.Id"><i style="color:green" class="fa fa-fw fa-pencil"></i></a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Họ và tên</th>
+                                <th>Tài khoản</th>
+                                <th>Email</th>
+                                <th>Số ĐT</th>
+                                <th>Bộ môn</th>
+                                <th>Nhóm</th>
+                                <th>Trạng thái</th>
+                                <th>Trạng thái</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Bạn đang yêu cầu xóa dữ liệu</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                Bạn có thật sự muốn xóa dữ liệu này ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="deleteBtn" class="btn btn-danger" data-dismiss="modal">Xóa</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<script>
+    var idx;
+    var st;
+    var deleteConfirm = function (xthis) {
+        xid = xthis.id;
+        st = true;
+    }
+    $('#deleteBtn').click(function () {
+        $.ajax({
+            type: "POST",
+            url: '/Admin/User/Trash',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({ id: xid, status: st }),
+            dataType: "json",
+            success: function (res) {
+                if (res == true) {
+                    location.reload();
+                }
+            }
+        });
+    })
+    function changeShow(xthis) {
+        var xid = xthis.id;
+        var st = xthis.checked ? true : false;
+        $.ajax({
+            type: "POST",
+            url: '/Admin/User/changeshow',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({ id: xid, status: st }),
+            dataType: "json",
+            success: function (res) {
+                if (res == true) {
+                    location.reload();
+                }
+            }
+        });
+    }
+    function changeHome(xthis) {
+        var xid = xthis.id;
+        var st = xthis.checked ? true : false;
+        $.ajax({
+            type: "POST",
+            url: '/Admin/User/changehome',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({ id: xid, status: st }),
+            dataType: "json",
+            success: function (res) {
+                if (res == true) {
+                    location.reload();
+                }
+            }
+        });
+    }
+    function changeHot(xthis) {
+        var xid = xthis.id;
+        var st = xthis.checked ? true : false;
+        $.ajax({
+            type: "POST",
+            url: '/Admin/User/changehot',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({ id: xid, status: st }),
+            dataType: "json",
+            success: function (res) {
+                if (res == true) {
+                    location.reload();
+                }
+            }
+        });
+    }
+</script>
+

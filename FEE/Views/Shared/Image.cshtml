@@ -1,0 +1,46 @@
+﻿@model IEnumerable<FEE.ViewModel.ImageViewModel>
+
+@if (Model.Count() > 9)
+{
+    foreach (var item in Model.Take(9))
+    {
+        <div class="gallery-item design">
+            <div class="thumb">
+                <img class="img-fullwidth" style="width:378px;height:212px" src="@item.Img" alt="project">
+                <div class="overlay-shade"></div>
+                <div class="text-holder">
+                    <div class="title text-center">Hoạt động của khoa</div>
+                </div>
+                <div class="icons-holder">
+                    <div class="icons-holder-inner">
+                        <div class="styled-icons icon-sm icon-dark icon-circled icon-theme-colored">
+                            <a href="@item.Img" data-lightbox-gallery="gallery" title="Your Title Here"><i class="fa fa-picture-o"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+else
+{
+    foreach (var item in Model)
+    {
+        <div class="gallery-item design">
+            <div class="thumb">
+                <img class="img-fullwidth" style="width:378px;height:212px" src="@item.Img" alt="project">
+                <div class="overlay-shade"></div>
+                <div class="text-holder">
+                    <div class="title text-center">Hoạt động của khoa</div>
+                </div>
+                <div class="icons-holder">
+                    <div class="icons-holder-inner">
+                        <div class="styled-icons icon-sm icon-dark icon-circled icon-theme-colored">
+                            <a href="@item.Img" data-lightbox-gallery="gallery" title="Your Title Here"><i class="fa fa-picture-o"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}

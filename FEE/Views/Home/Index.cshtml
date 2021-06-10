@@ -1,0 +1,226 @@
+﻿@model FEE.ViewModel.HomeViewModel
+
+@{
+    ViewBag.Title = "Home Page";
+}
+<section id="home" class="container" style="margin-top:15px; padding-bottom:30px;padding-top:10px">
+    <div class="container-fluid p-0">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-solid">
+                    <!-- /.box-header -->
+                    <div class="box-body" style="width:100%;height:400px">
+                        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                            <ol class="carousel-indicators">
+                                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                                <li data-target="#carousel-example-generic" data-slide-to="1" class=""></li>
+                                <li data-target="#carousel-example-generic" data-slide-to="2" class=""></li>
+                            </ol>
+                            <div class="carousel-inner">
+                                <div class="item active">
+                                    <img src="@Model.Slides.ElementAt(0).Img" style="width:100%; height:400px" alt="First slide">
+                                </div>
+                                @foreach (var item in Model.Slides.Skip(1).Take(2))
+                                {
+                                    <div class="item">
+                                        <img src="@item.Img" style="width:100%; height:400px" alt="First slide">
+                                    </div>
+                                }
+                            </div>
+                            <a class="left carousel-control" href="#carousel-example-generic" style="height:400px" data-slide="prev">
+                                <span style="position:absolute;top:46%" class="fa fa-angle-left"></span>
+                            </a>
+                            <a class="right carousel-control" href="#carousel-example-generic" style="height:400px" data-slide="next">
+                                <span style="position:absolute;top:46%" class="fa fa-angle-right"></span>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="container" style="padding-bottom:30px;padding-top:30px">
+        <div class="section-title mt-0 mb-0">
+            <div class="row">
+                <div class="col-md-8">
+                    <h2 class="mt-0 line-height-1" style="color: #5D9CEC;">TIN NỔI BẬT</h2>
+                    <div class="double-line-bottom-theme-colored-2"></div>
+                </div>
+            </div>
+        </div>
+        <div class="section-content">
+            <div class="row">
+                <div class="col-md-6 mb-sm-30">
+                    @if (Model.BaiGhim != null)
+                    {
+                        <div>
+                            <div class="effect-wrapper">
+                                <div class="thumb">
+                                    <img class="img-fullwidth" style="border-radius:5px; margin-bottom:8px; height:380px" src="@Model.BaiGhim.Img" alt="project">
+                                </div>
+                                <div>
+                                    <a href="#" style="font-size:14px;color:black"><i class="fa fa-calendar" style="padding-right:5px;"></i>Ngày @Model.BaiGhim.CreateDate.ToString("dd-MM-yyyy")</a>
+                                    <a href="bai-viet-@Model.BaiGhim.Alias-@Model.BaiGhim.PostId">
+                                        <h3 style="margin-top:0">@Model.BaiGhim.Name</h3>
+                                    </a>
+                                    <span style="text-align: justify;">
+                                        @Model.BaiGhim.Description
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="col-md-6 mb-sm-30">
+                    @{
+                        foreach (var item in Model.TinNoiBats.Take(5))
+                        {
+                            <div class="item">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <div>
+                                            <img style="border-radius:5px;width:100%;height:90px" src="@item.Img">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-8 pl-0">
+                                        <div>
+                                            <a href="bai-viet-@item.Alias-@item.PostId" style="font-size:13.5px;color:black"><i class="fa fa-calendar" style="padding-right:5px"></i>Ngày @item.CreateDate.ToString("dd-MM-yyyy")</a>
+                                            <a href="bai-viet-@item.Alias-@item.PostId">
+                                                <h4 style="margin: 5px;">@item.Name</h4>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section: Courses -->
+<section class="bg-lighter">
+    <div class="container" style="padding-bottom:30px;padding-top:30px">
+        <div class="section-title mt-0 mb-0">
+            <div class="row">
+                <div class="col-md-8">
+                    <h2 class="mt-0 line-height-1" style="color: #5D9CEC;">TIN TỨC</h2>
+                    <div class="double-line-bottom-theme-colored-2"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row multi-row-clearfix">
+            <div class="col-md-12">
+                <div class="owl-carousel-3col" data-nav="true">
+                    @{
+                        foreach (var item in Model.TinTucs)
+                        {
+                            <div class="item">
+                                <div class="campaign bg-white maxwidth500 mb-30">
+                                    <div class="thumb">
+                                        <img src="@item.Img" style="width:327px;height:280px" alt="" class="img-fullwidth">
+                                        <div class="campaign-overlay"></div>
+                                    </div>
+                                    <div class="campaign-details clearfix pl-20 pr-20 pt-15 pb-15" style="height:152px;position:relative">
+                                        <h4 class="mt-0 mb-0"><a href="bai-viet-@item.Alias-@item.PostId">@item.Name</a></h4>
+                                        <ul class="mb-10">
+                                            <li class="text-theme-colored2"><span style="font-size:14px;color:black">Ngày @item.CreateDate.ToString("dd-MM-yyyy")</span></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section>
+    <div class="container" style="padding-bottom:30px;padding-top:30px">
+        <div class="section-title mt-0 mb-0">
+            <div class="row">
+                <div class="col-md-8">
+                    <h2 class="mt-0 line-height-1" style="color: #5D9CEC;">THÔNG BÁO</h2>
+                    <div class="double-line-bottom-theme-colored-2"></div>
+                    @{
+                        foreach (var item in Model.ThongBaos.Take(3))
+                        {
+                            <article style="margin-bottom:10px">
+                                <div style="margin: 4px 0; position: relative;">
+                                    <div style="padding: 6px 18px; position: absolute; top: 14px; transition: all 200ms ease-in-out 0s; background: #43b14b !important;">
+                                        <!---->
+                                        <!---->
+                                        <ul class="text-white font-18 font-weight-600">
+                                            <li class="border-bottom text-center">@item.CreateDate.Day</li>
+                                            <li class="">Th @item.CreateDate.Month</li>
+                                        </ul>
+                                    </div>
+                                    <div class="event-meta border-1px pl-40" style="width: 95%!important; height: 100px!important;margin-left: 40px;padding-top:12px;background-color:#f5f5f5">
+                                        <div class="event-content pull-left flip">
+                                            <h4 class="event-title media-heading font-roboto-slab font-weight-700">
+                                                <!---->
+                                                <!----><a href="bai-viet-@item.Alias-@item.PostId">
+                                                    @item.Name
+                                                </a>
+                                            </h4>
+                                            <!---->
+                                            <!----><span class="mb-10 text-black mr-10"><i class="fa fa-calendar mr-5 text-theme-colored"></i>Ngày @item.CreateDate.ToString("dd-MM-yyyy")</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        }
+                    }
+                </div>
+                <div class="col-md-4">
+                    <h2 class="mt-0 line-height-1" style="color: #5D9CEC;">TUYỂN DỤNG</h2>
+                    <div class="double-line-bottom-theme-colored-2"></div>
+                    <div aria-multiselectable="true" class="panel-group accordion-stylished-left-border accordion-icon-filled accordion-no-border accordion-icon-left accordion-icon-filled-theme-colored2" id="accordion6" role="tablist" style="text-align: center;">
+                        <a href="danh-muc-0-4-0" style="cursor: pointer;"><img alt="" src="~/UploadedFiles/images/tuyen_dung.png" style="height: 321px;"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="bg-lighter">
+    <div class="container" style="padding-bottom:30px;padding-top:30px">
+        <div class="section-title mt-0 mb-0">
+            <div class="row">
+                <div class="col-md-8">
+                    <h2 class="mt-0 line-height-1" style="color: #5D9CEC;">Hình ảnh cuả khoa</h2>
+                    <div class="double-line-bottom-theme-colored-2"></div>
+                </div>
+            </div>
+        </div>
+        <div class="section-content">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="gallery-isotope default-animation-effect grid-3 gutter-small clearfix" data-lightbox="gallery">
+                        @{Html.RenderAction("Image", "Home");}
+                    </div>
+                    <!-- End Portfolio Gallery Grid -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="clients bg-current" style="height:126px">
+    <div class="container pt-10 pb-10">
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Section: Clients -->
+                <div class="owl-carousel-6col text-center">
+                    @{Html.RenderAction("Partner", "Home");}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

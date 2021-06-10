@@ -1,0 +1,66 @@
+﻿@model PagedList.IPagedList<FEE.ViewModel.PostViewModel>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                @{
+                    if (Model.Count() == 0)
+                    {
+                        <p>Chưa có bài viết nào.</p>
+                    }
+                    else
+                    {
+                        foreach (var item in Model)
+                        {
+                            <div class="upcoming-events bg-white-f3 mb-20">
+                                <div class="row">
+                                    <div class="col-sm-4 pr-0 pr-sm-15">
+                                        <div class="thumb p-15">
+                                            <img class="img-fullwidth" style="width:256px;height:195px" src="@item.Img" alt="...">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-8 pl-0 pl-sm-15">
+                                        <div class="event-details p-15">
+                                            <h4 class="media-heading text-uppercase font-weight-500">@item.Name</h4>
+                                            <p>@item.Description</p>
+                                            <p>@item.CreateDate.ToString("dd-MM-yyyy")</p>
+                                            <a href="bai-viet-@item.Alias-@item.PostId" class="btn btn-flat btn-dark btn-theme-colored btn-sm">Chi tiết <i class="fa fa-angle-double-right"></i></a>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        }
+                    }
+                }
+                <div class="row">
+                    <div class="col-sm-12">
+                        @{ if (Model.PageCount > 1)
+                            {
+                                <nav aria-label="Page navigation example" style="text-align:center">
+                                    @Html.PagedListPager(Model, page => Url.Action("Search", new { page, @tukhoa = @ViewBag.keyWord}))
+                                </nav>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="sidebar sidebar-right mt-sm-30">
+                    <div class="widget">
+                        <h5 class="widget-title line-bottom">Từ khóa tìm kiếm</h5>
+                        @{Html.RenderAction("AllTag", "Post");}
+                    </div>
+                    @{Html.RenderAction("Category", "Post");}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,73 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml";
+}
+
+<section class="content">
+    <div class="row">
+        @{
+                var user = (FEE.Dtos.UserSession)Session["USER"];
+                if (user.RoleId == 1)
+                {
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-aqua"><i class="ion ion-ios-gear-outline"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Câu hỏi</span>
+                            <span class="info-box-number">@ViewBag.contacts</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+            }
+        }
+        <!-- /.col -->
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-red"><i class="fa fa-google-plus"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Bài viết</span>
+                    <span class="info-box-number">@ViewBag.posts</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Tổng lượng truy cập</span>
+                    @{
+                        HttpApplicationState thongke_2 = HttpContext.Current.ApplicationInstance.Application;
+                    }
+                    <span class="info-box-number">@thongke_2["visitors"]</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Đang Online</span>
+                    @{
+                        HttpApplicationState thongke_1 = HttpContext.Current.ApplicationInstance.Application;
+                    }
+                    <span class="info-box-number">@thongke_1["onlines"]</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+    </div>
+</section>

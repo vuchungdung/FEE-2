@@ -1,0 +1,240 @@
+﻿@model dynamic
+@{
+    ViewBag.Title = "GetCommandViews";
+    Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml";
+}
+
+@Html.Partial("_MessageAlert")
+<script src="~/Areas/Admin/template_admin/bower_components/jquery/dist/jquery.min.js"></script>
+<script>
+    $(function () {
+        $("#example1").DataTable({
+            "responsive": true,
+            "autoWidth": false,
+            language: {
+                url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Vietnamese.json'
+            },
+            "columnDefs":
+                [
+                    { "orderable": false, "targets": [] },
+                    { "orderable": true, "targets": [0, 1] },
+                    { "searchable": false, "targets": [0] }
+                ]
+
+        });
+        $('#example2').DataTable({
+            "paging": true,
+            "lengthChange": false,
+            "searching": false,
+            "ordering": false,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true
+        });
+    });
+</script>
+
+<section class="content-header">
+    <h1>
+        QUẢN LÝ
+        <small>PHÒNG BAN</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/Admin/Home"><i class="fa fa-dashboard"></i> Trang chính</a></li>
+        <li class="active">Phòng ban</li>
+    </ol>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Bảng danh sách quyền thác thác của hệ thống</h3>
+                    <button type="button" onclick="savePermission()" id="saveBTN" style="margin-right:10px;position:absolute;right:0" class="btn btn-success"><i class="fa fa-fw fa-plus"></i>Lưu lại</button>
+                    <select name="roleId" class="form-control" onclick="loadPermission(this)" style="position:absolute;right:100px;top:10px;width:190px">
+                        <option value="0">Nhóm quyền</option>
+                        @foreach(var item in Model.Roles)
+                        {
+                            <option value="@item.RoleId">@item.Name</option>
+                        }
+                    </select>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <table id="example1" class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+
+                                <th style="width:20%">Chức năng</th>
+
+                                <th style="width:80%">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Permissions)
+                            {
+                                <tr>
+                                    <td>@item.Name</td>
+                                    <td class="row">
+                                        <div class="col-md-12">
+                                            <input class="isValue" onclick="checkedBox(this)" id="@item.FunctionId" data-value="@item.FunctionId VIEW" type="checkbox">
+                                            <span class="text-bold" style="color:red">@item.Name (truy cập)</span>
+                                        </div>
+                                        @foreach (var sub in item.Childrens)
+                                        {
+                                            <div class="col-md-3" style="margin-left:20px">
+                                                <div>
+                                                    <span class="text-bold">@sub.Name</span>
+                                                </div>
+                                                <ul style="padding-left:12px">
+                                                    @if (sub.HasCreate == true)
+                                                    {
+                                                        <li style="list-style:none">
+                                                            <input class="isValue" name="@item.FunctionId" data-value="@sub.FunctionId CREATE" type="checkbox">
+                                                            <span>Thêm mới</span>
+                                                        </li>
+}
+                                                    @if (sub.HasUpdate == true)
+                                                    {
+                                                        <li style="list-style:none">
+                                                            <input class="isValue" name="@item.FunctionId" data-value="@sub.FunctionId UPDATE" type="checkbox">
+                                                            <span>Chỉnh sửa</span>
+                                                        </li>
+}
+                                                    @if (sub.HasDelete == true)
+                                                    {
+                                                        <li style="list-style:none">
+                                                            <input class="isValue" name="@item.FunctionId" data-value="@sub.FunctionId DELETE" type="checkbox">
+                                                            <span>Xóa bỏ</span>
+                                                        </li>
+}
+                                                    @if (sub.HasView == true)
+                                                    {
+                                                        <li style="list-style:none">
+                                                            <input class="isValue" name="@item.FunctionId" data-value="@sub.FunctionId VIEW" type="checkbox">
+                                                            <span>Truy cập</span>
+                                                        </li>
+                                                    }
+                                                    @if (sub.HasReply == true)
+                                                    {
+                                                        <li style="list-style:none">
+                                                            <input class="isValue" name="@item.FunctionId" data-value="@sub.FunctionId REPLY" type="checkbox">
+                                                            <span>Trả lời</span>
+                                                        </li>
+                                                    }
+                                                    @if (sub.HasTrash == true)
+                                                    {
+                                                        <li style="list-style:none">
+                                                            <input class="isValue" name="@item.FunctionId" data-value="@sub.FunctionId TRASH" type="checkbox">
+                                                            <span>Thùng rác</span>
+                                                        </li>
+                                                    }
+                                                </ul>
+                                            </div>}
+                                    </td>
+                                </tr>
+}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+
+                                <th>Chức năng</th>
+
+                                <th style="width:30%">Thao tác</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <!-- /.box-body -->
+            </div>
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<script>
+    var roleId;
+    var temp;
+    function loadPermission(xthis) {
+        $('input[type="checkbox"]').each(function () {
+            this.checked = false;
+        });
+        roleId = xthis.value;
+        if (roleId == 1) {
+            $('#saveBTN').attr('disabled', 'disabled');
+        }
+        else {
+            $('#saveBTN').removeAttr('disabled');
+        }
+        temp = xthis;
+        $.ajax({
+            type: "POST",
+            url: '/Admin/Permission/GetPermissions',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({ roleId: xthis.value }),
+            dataType: "json",
+            success: function (res) {
+                if (res) {
+                    res.forEach(function (item) {
+                        var _permission = item.FunctionId + "_" + item.CommandId;
+                        $('input[type="checkbox"]').each(function () {
+                            var permission = $(this).data("value").replace(' ', '_');
+                            if (permission === _permission) {
+                                this.checked = true;
+                            }
+                        })
+                    })
+                    console.log(res);
+
+                }
+                else {
+                    return;
+                }
+            }
+        })
+    }
+    function CheckedCommand(functionId, commandId) {
+        for (var i = 0; i < $scope.listPermissons.length; i++) {
+            if ($scope.listPermissons[i].CommandId == commandId && $scope.listPermissons[i].FunctionId == functionId) {
+                return true;
+            }
+            else {
+                continue;
+            }
+        }
+    }
+    function savePermission() {
+        var list_permissions = [];
+        $(".isValue").each(function () {
+            if ($(this).is(":checked") == true) {
+                list_permissions.push($(this).data("value").replace(' ', '_'));
+            }
+        })
+        $.ajax({
+            type: "POST",
+            url: '/Admin/Permission/SavePermission',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({ roleId: roleId, listPermissions: list_permissions }),
+            dataType: "json",
+            success: function (res) {
+                location.reload();
+            }
+        })
+    }
+    function checkedBox(xthis) {
+        if (xthis.checked) {
+            $('input[name="' + xthis.id + '"]').each(function () {
+                this.checked = true;
+            });
+        } else {
+            $('input[name="' + xthis.id + '"]').each(function () {
+                this.checked = false;
+            });
+        }
+    }
+
+</script>
+

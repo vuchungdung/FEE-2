@@ -1,0 +1,45 @@
+﻿@model FEE.ViewModel.ContactViewModel 
+@{
+    ViewBag.Title = "Reply";
+    Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml";
+}
+
+
+
+<div class="box box-warning">
+    <div class="box-header with-border">
+        <h3 class="box-title">Ý kiến sinh viên</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <div class="mailbox-read-info">
+            <h3>@Model.Name</h3>
+            <h5>
+                From: @Model.Email
+                <span class="mailbox-read-time pull-right">Ngày: @Model.CreateDate.ToString("dd-MM-yyyy")</span>
+            </h5>
+        </div>
+        <div class="mailbox-read-message">
+
+            <p>
+                @Model.Content.
+            </p>
+
+        </div>
+    </div>
+    <div class="box-body">
+        @using (Html.BeginForm("Reply", "Contact", FormMethod.Post))
+        {
+            @Html.TextBoxFor(model => model.ContactId, htmlAttributes: new { @style = "display:none", @type = "number" })
+            <div class="form-group">
+                <label>Tiêu đềCâu trả lời:</label>
+                @Html.TextAreaFor(model => model.Message, htmlAttributes: new { @class = "form-control", @placeholder = "Nhập nội dung câu trả lời" })
+                @Html.ValidationMessageFor(model => model.Message, "", new { @class = "text-danger" })
+            </div>
+            <div class="box-footer">
+                <button type="submit" class="btn btn-primary">Trả lời</button>
+                <a href="/Admin/Contact/List" class="btn btn-default">Quay lại</a>
+            </div>
+        }
+    </div>
+</div>
