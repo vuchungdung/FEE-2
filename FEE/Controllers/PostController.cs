@@ -14,19 +14,23 @@ namespace FEE.Controllers
         private FEEDbContext _db = new FEEDbContext();
         public ActionResult PostDetail(int id)
         {
-            var result = _db.Posts.Where(x => x.PostId == id).Select(x => new PostViewModel()
-            {
-                Name = x.Name,
-                PostId = x.PostId,
-                Img = x.Img,
-                Description = x.Description,
-                Content = x.Content,
-                CreateDate = x.CreateDate,
-                CategoryId = x.CategoryId.ToString(),
-                Author = x.Author,
-                Alias = x.Alias
-
-            }).SingleOrDefault();
+            var query = from x in _db.Posts
+                        join u in _db.Users
+                        on x.CreateBy equals u.Id
+                        where x.PostId == id
+                        select new PostViewModel()
+                        {
+                            Name = x.Name,
+                            PostId = x.PostId,
+                            Img = x.Img,
+                            Description = x.Description,
+                            Content = x.Content,
+                            CreateDate = x.CreateDate,
+                            CategoryId = x.CategoryId.ToString(),
+                            Author = u.Name,
+                            Alias = x.Alias
+                        };
+            var result = query.FirstOrDefault();
             TempData["categoryId"] = result.CategoryId;
             TempData["postId"] = id;
             var model = _db.Posts.Find(id);

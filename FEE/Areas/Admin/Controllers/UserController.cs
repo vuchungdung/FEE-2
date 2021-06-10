@@ -38,7 +38,8 @@ namespace FEE.Areas.Admin.Controllers
                              Role = r.Name,
                              Department = d.Name
                          };
-            return View(result);
+            var list = result.OrderByDescending(x => x.Id).ToList();
+            return View(list);
         }
         [HttpGet]
         [ClaimRequirementFilter(Command = CommandCode.CREATE, Function = FunctionCode.SYSTEM_USER)]
@@ -105,7 +106,6 @@ namespace FEE.Areas.Admin.Controllers
                 Phone = x.Phone,
                 Status = (UserStatus)x.Status,
                 CreateDate = x.CreateDate,
-                Password = x.Password,
                 RoleId = x.RoleId,
                 DepartmentId = x.DepartmentId
 
@@ -120,10 +120,10 @@ namespace FEE.Areas.Admin.Controllers
         {
             try
             {
+                var model = _db.Users.Find(viewModel.Id);
                 if (ModelState.IsValid)
                 {
-                    var user = (UserSession)Session["USER"];
-                    var model = _db.Users.Find(viewModel.Id);
+                    var user = (UserSession)Session["USER"];                    
                     model.Name = viewModel.Name;
                     model.Status = (int)viewModel.Status;
                     model.Deleted = false;
@@ -132,7 +132,6 @@ namespace FEE.Areas.Admin.Controllers
                     model.DepartmentId = viewModel.DepartmentId;
                     model.RoleId = viewModel.RoleId;
                     model.Phone = viewModel.Phone;
-                    model.Password = XString.ToMD5(viewModel.Password);
                     model.Email = viewModel.Email;
                     _db.SaveChanges();
                     Notification.set_flash("Lưu thành công!", "success");
@@ -144,6 +143,7 @@ namespace FEE.Areas.Admin.Controllers
                 viewModel = new UserViewModel();
                 viewModel.Departments = Helper.ListDepartments().ToList();
                 viewModel.Roles = Helper.ListRoles().ToList();
+                viewModel.Username = model.Username;
                 return View(viewModel);
             }
             catch
@@ -155,7 +155,7 @@ namespace FEE.Areas.Admin.Controllers
         [ClaimRequirementFilter(Command = CommandCode.DELETE, Function = FunctionCode.SYSTEM_USER)]
         public JsonResult Delete(int id)
         {
-            var model = _db.Users.Where(x => x.Id == id).SingleOrDefault();
+            var model = _db.Users.Where(x => x.Id == id).FirstOrDefault();
             _db.Users.Remove(model);
             _db.SaveChanges();
             Notification.set_flash("Xóa vĩnh viễn!", "success");
@@ -172,7 +172,7 @@ namespace FEE.Areas.Admin.Controllers
                 Username = x.Username,
                 Email = x.Email,
                 Phone = x.Phone
-            }).SingleOrDefault();
+            }).FirstOrDefault();
             return View(model);
         }
 
@@ -182,7 +182,7 @@ namespace FEE.Areas.Admin.Controllers
             try
             {
                 var user = (UserSession)Session["USER"];
-                var entity = _db.Users.Where(x => x.Id == user.Id && x.Deleted == false).SingleOrDefault();
+                var entity = _db.Users.Where(x => x.Id == user.Id && x.Deleted == false).FirstOrDefault();
                 entity.Name = model.Name;
                 entity.Email = model.Email;
                 entity.Phone = model.Phone;

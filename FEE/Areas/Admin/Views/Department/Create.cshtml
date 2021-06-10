@@ -96,7 +96,7 @@
             data: JSON.stringify({name:$('input[name="Name"]').val(), listMenuIds: listMenuIds }),
             dataType: "json",
             success: function (res) {
-                location.reload();
+                location.href = '/Admin/Department/Index';
             }
         })
     }

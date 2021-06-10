@@ -5,6 +5,7 @@ using FEE.Models;
 using FEE.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -22,37 +23,47 @@ namespace FEE.Areas.Admin.Controllers
 
         }
         [ClaimRequirementFilter(Command = CommandCode.VIEW, Function = FunctionCode.CONTENT_POST)]
-        public ActionResult IndexAll()
-        {           
-            var result = _db.Posts.Where(x=>x.Deleted == false).Select(x => new PostViewModel()
-            {
-                PostId = x.PostId,
-                Name = x.Name,
-                Img = x.Img,
-                HomeFlag = x.HomeFlag,
-                HotFlag = x.HotFlag,
-                IsShow = x.IsShow,
-                Status = x.Status,
-                CreateDate = x.CreateDate,
-                Author = x.Author
+        public ActionResult IndexAll(FilterViewModel viewModel)
+        {
+            var query = from x in _db.Posts
+                        join u in _db.Users
+                        on x.CreateBy equals u.Id
+                        select new PostViewModel()
+                        {
+                            PostId = x.PostId,
+                            CategoryId = x.CategoryId.ToString(),
+                            Name = x.Name,
+                            Img = x.Img,
+                            HomeFlag = x.HomeFlag,
+                            HotFlag = x.HotFlag,
+                            IsShow = x.IsShow,
+                            Status = x.Status,
+                            CreateDate = x.CreateDate,
+                            DepartmentId = x.DepartmentId,
+                            MenuId = x.MenuId,
+                            Author = u.Name
+                        };
+            var result = query.OrderByDescending(x => x.PostId).ToList();
 
-
-            }).OrderBy(x => x.CreateDate).ToList();
-            var user = (UserSession)Session["USER"];
-            if (user.RoleId == 1)
+            if (viewModel.MenuId != 0)
             {
-                ViewBag.TrashCount = _db.Posts.Where(x => x.Deleted == true).Count();
-                return View(result);
+                result = result.Where(x => x.MenuId == viewModel.MenuId).ToList();
             }
-            else
+            if (viewModel.CategoryId != 0)
             {
-                result = result.Where(x => x.DepartmentId == user.DepartmentId).ToList();
-                return View(result);
+                result = result.Where(x => x.CategoryId == viewModel.CategoryId.ToString()).ToList();
             }
+            ViewBag.TrashCount = _db.Posts.Where(x => x.Deleted == true).Count();
+            ViewData["PostAlls"] = result;
+            ViewBag.ListMenus = new SelectList(this.Dropdown(0), "Id", "Name", 0);
+            ViewBag.ListCategories = new SelectList(_db.Categories.ToList(), "CategoryId", "Name", 0);
+            return View();
         }
         [ClaimRequirementFilter(Command = CommandCode.VIEW, Function = FunctionCode.CONTENT_POST)]
-        public ActionResult Index(string menuId = "")
+        public ActionResult Index(FilterViewModel viewModel)
         {
+            dynamic multiModels = new ExpandoObject();
+
             var user = (UserSession)Session["USER"];
 
             var models = from x in _db.Posts
@@ -62,6 +73,7 @@ namespace FEE.Areas.Admin.Controllers
                          select new PostViewModel()
                          {
                              PostId = x.PostId,
+                             CategoryId = x.CategoryId.ToString(),
                              Name = x.Name,
                              Img = x.Img,
                              HomeFlag = x.HomeFlag,
@@ -69,25 +81,35 @@ namespace FEE.Areas.Admin.Controllers
                              IsShow = x.IsShow,
                              Status = x.Status,
                              CreateDate = x.CreateDate,
-                             Author = x.Author,
-                             DepartmentId = x.DepartmentId
+                             DepartmentId = x.DepartmentId,
+                             MenuId = x.MenuId,
+                             Author = u.Name
                          };
-            var result = models.ToList().OrderBy(x => x.CreateDate).ToList();
+            var result = models.ToList().OrderByDescending(x => x.PostId).ToList();
 
-            if (!String.IsNullOrEmpty(menuId))
+            if (viewModel.MenuId != 0)
             {
-                result = result.Where(x => x.MenuId == Convert.ToInt32(menuId)).ToList();
+                result = result.Where(x => x.MenuId == viewModel.MenuId).ToList();
             }
-
+            if(viewModel.CategoryId != 0)
+            {
+                result = result.Where(x => x.CategoryId == viewModel.CategoryId.ToString()).ToList();
+            }
             if (user.RoleId == 1)
             {
                 ViewBag.TrashCount = _db.Posts.Where(x => x.Deleted == true).Count();
-                return View(result);
+                ViewData["Posts"] = result;
+                ViewBag.ListMenus = new SelectList(this.Dropdown(0), "Id", "Name", 0);
+                ViewBag.ListCategories = new SelectList(_db.Categories.ToList(), "CategoryId", "Name", 0);
+                return View();
             }
             else
             {
                 result = result.Where(x => x.DepartmentId == user.DepartmentId).ToList();
-                return View(result);
+                ViewData["Posts"] = result;
+                ViewBag.ListMenus = new SelectList(this.Dropdown(0), "Id", "Name", 0);
+                ViewBag.ListCategories = new SelectList(_db.Categories.ToList(), "CategoryId", "Name", 0);
+                return View();
             }
         }
         public List<MenuViewModel> Dropdown(int? parentId, string text = "")
@@ -163,7 +185,6 @@ namespace FEE.Areas.Admin.Controllers
                     model.Content = viewModel.Content;
                     model.Deleted = false;
                     model.CreateBy = user.Id;
-                    model.Author = user.Name;
                     model.CreateDate = viewModel.CreateDate;
                     model.DepartmentId = user.DepartmentId;
                     model.Alias = XString.ToAscii(model.Name);
@@ -305,20 +326,25 @@ namespace FEE.Areas.Admin.Controllers
         [ClaimRequirementFilter(Command = CommandCode.TRASH, Function = FunctionCode.CONTENT_POST)]
         public ActionResult TrashIndex()
         {
-            var result = _db.Posts.Where(x => x.Deleted == true).Select(x => new PostViewModel()
-            {
-                PostId = x.PostId,
-                Name = x.Name,
-                Img = x.Img,
-                HomeFlag = x.HomeFlag,
-                HotFlag = x.HotFlag,
-                IsShow = x.IsShow,
-                Status = x.Status,
-                UpdateDate = x.UpdateDate,
-                Author = x.Author,
-                CreateDate = x.CreateDate
-
-            }).OrderBy(x => x.UpdateDate).ToList();
+            var query = from x in _db.Posts
+                        join u in _db.Users
+                        on x.CreateBy equals u.Id
+                        select new PostViewModel()
+                        {
+                            PostId = x.PostId,
+                            CategoryId = x.CategoryId.ToString(),
+                            Name = x.Name,
+                            Img = x.Img,
+                            HomeFlag = x.HomeFlag,
+                            HotFlag = x.HotFlag,
+                            IsShow = x.IsShow,
+                            Status = x.Status,
+                            CreateDate = x.CreateDate,
+                            DepartmentId = x.DepartmentId,
+                            MenuId = x.MenuId,
+                            Author = u.Name
+                        };
+            var result = query.OrderBy(x => x.CreateDate).ToList();
             return View(result);
         }
         public JsonResult ChangeHome(int id, bool status)
@@ -366,23 +392,23 @@ namespace FEE.Areas.Admin.Controllers
         }
         public ActionResult Item(int id)
         {
-            var model = _db.Posts.Where(x => x.PostId == id).Select(x => new PostViewModel()
-            {
-                PostId = x.PostId,
-                MenuId = x.MenuId,
-                Name = x.Name,
-                Description = x.Description,
-                CategoryId = x.CategoryId.ToString(),
-                Status = x.Status,
-                Img = x.Img,
-                Content = x.Content,
-                HomeFlag = x.HomeFlag,
-                HotFlag = x.HotFlag,
-                IsShow = x.IsShow,
-                Author = x.Author,
-                CreateDate = x.CreateDate
-
-            }).FirstOrDefault();
+            var query = from x in _db.Posts
+                        join u in _db.Users
+                        on x.CreateBy equals u.Id
+                        where x.PostId == id
+                        select new PostViewModel()
+                        {
+                            Name = x.Name,
+                            PostId = x.PostId,
+                            Img = x.Img,
+                            Description = x.Description,
+                            Content = x.Content,
+                            CreateDate = x.CreateDate,
+                            CategoryId = x.CategoryId.ToString(),
+                            Author = u.Name,
+                            Alias = x.Alias
+                        };
+            var model = query.FirstOrDefault();
             return View(model);
         }
     }

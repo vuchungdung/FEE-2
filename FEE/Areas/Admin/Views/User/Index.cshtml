@@ -12,7 +12,8 @@
             "autoWidth": false,
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Vietnamese.json'
-            }
+            },
+            "ordering": false
         });
         $('#example2').DataTable({
             "paging": true,
@@ -136,64 +137,16 @@
     $('#deleteBtn').click(function () {
         $.ajax({
             type: "POST",
-            url: '/Admin/User/Trash',
+            url: '/Admin/User/Delete',
             contentType: "application/json; charset=utf-8",
-            data: JSON.stringify({ id: xid, status: st }),
+            data: JSON.stringify({ id: xid}),
             dataType: "json",
             success: function (res) {
-                if (res == true) {
-                    location.reload();
-                }
+                location.reload();
+
             }
         });
     })
-    function changeShow(xthis) {
-        var xid = xthis.id;
-        var st = xthis.checked ? true : false;
-        $.ajax({
-            type: "POST",
-            url: '/Admin/User/changeshow',
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify({ id: xid, status: st }),
-            dataType: "json",
-            success: function (res) {
-                if (res == true) {
-                    location.reload();
-                }
-            }
-        });
-    }
-    function changeHome(xthis) {
-        var xid = xthis.id;
-        var st = xthis.checked ? true : false;
-        $.ajax({
-            type: "POST",
-            url: '/Admin/User/changehome',
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify({ id: xid, status: st }),
-            dataType: "json",
-            success: function (res) {
-                if (res == true) {
-                    location.reload();
-                }
-            }
-        });
-    }
-    function changeHot(xthis) {
-        var xid = xthis.id;
-        var st = xthis.checked ? true : false;
-        $.ajax({
-            type: "POST",
-            url: '/Admin/User/changehot',
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify({ id: xid, status: st }),
-            dataType: "json",
-            success: function (res) {
-                if (res == true) {
-                    location.reload();
-                }
-            }
-        });
-    }
+ 
 </script>
 

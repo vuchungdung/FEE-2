@@ -25,7 +25,7 @@ namespace FEE.Areas.Admin.Controllers
                 CreateDate = x.CreateDate,
                 Url = x.Url,
                 Status = x.Status
-            }).ToList().OrderBy(x => x.CreateDate).ToList();
+            }).OrderByDescending(x => x.PartnerId).ToList();
             return View(result);
         }
         [ClaimRequirementFilter(Command = CommandCode.CREATE, Function = FunctionCode.MORE_PARTNER)]
@@ -73,7 +73,7 @@ namespace FEE.Areas.Admin.Controllers
         [ClaimRequirementFilter(Command = CommandCode.UPDATE, Function = FunctionCode.MORE_PARTNER)]
         public ActionResult Update(int id)
         {
-            var model = _db.Partners.Where(x => x.PartId == id).SingleOrDefault();
+            var model = _db.Partners.Where(x => x.PartId == id).FirstOrDefault();
             var viewModel = new PartnerViewModel();
             viewModel.PartnerId = model.PartId;
             viewModel.Img = model.Img;
@@ -88,7 +88,7 @@ namespace FEE.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var model = _db.Partners.Where(x => x.PartId == viewModel.PartnerId).SingleOrDefault();
+                var model = _db.Partners.Where(x => x.PartId == viewModel.PartnerId).FirstOrDefault();
                 model.Img = viewModel.Img;
                 model.Status = viewModel.Status;
                 model.UpdateDate = DateTime.Now;
@@ -104,7 +104,7 @@ namespace FEE.Areas.Admin.Controllers
         [ClaimRequirementFilter(Command = CommandCode.DELETE, Function = FunctionCode.MORE_PARTNER)]
         public JsonResult Delete(int id)
         {
-            var model = _db.Partners.Where(x => x.PartId == id).SingleOrDefault();
+            var model = _db.Partners.Where(x => x.PartId == id).FirstOrDefault();
             _db.Partners.Remove(model);
             _db.SaveChanges();
             Notification.set_flash("Xóa thành công!", "success");
@@ -112,7 +112,7 @@ namespace FEE.Areas.Admin.Controllers
         }
         public JsonResult ChangeStatus(int id, bool status)
         {
-            var model = _db.Partners.Where(x => x.PartId == id).SingleOrDefault();
+            var model = _db.Partners.Where(x => x.PartId == id).FirstOrDefault();
             model.Status = status;
             _db.SaveChanges();
             Notification.set_flash("Cập nhật thành công!", "success");

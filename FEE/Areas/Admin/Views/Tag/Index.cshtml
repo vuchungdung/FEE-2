@@ -12,10 +12,7 @@
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Vietnamese.json'
             },
-            "columnDefs": [
-                { "orderable": false, "targets": [] },
-                { "orderable": true, "targets": [0, 1] }
-            ]
+            "ordering": false
         });
         $('#example2').DataTable({
             "paging": true,
@@ -123,12 +120,8 @@
             data: JSON.stringify({ id: xid }),
             dataType: "json",
             success: function (res) {
-                if (res == true) {
-                    location.reload();
-                }
-                else {
-                    location.reload();
-                }
+                location.reload();
+
             }
         });
     })

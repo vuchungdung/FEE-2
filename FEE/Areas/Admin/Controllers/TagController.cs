@@ -20,7 +20,7 @@ namespace FEE.Areas.Admin.Controllers
             {
                 TagId = x.Id,
                 Name = x.Name
-            }).ToList();
+            }).OrderByDescending(x=>x.TagId).ToList();
             return View(result);
         }
 
@@ -54,7 +54,7 @@ namespace FEE.Areas.Admin.Controllers
         [HttpGet]
         public ActionResult Update(int id)
         {
-            var model = _db.Tags.Where(x => x.Id == id).SingleOrDefault();
+            var model = _db.Tags.Where(x => x.Id == id).FirstOrDefault();
             var viewModel = new TagViewModel();
             viewModel.Name = model.Name;
             return View(viewModel);
@@ -65,7 +65,7 @@ namespace FEE.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var model = _db.Tags.Where(x => x.Id == viewModel.TagId).SingleOrDefault();
+                var model = _db.Tags.Where(x => x.Id == viewModel.TagId).FirstOrDefault();
                 model.Name = viewModel.Name;
                 _db.SaveChanges();
                 Notification.set_flash("Cập nhật thành công!", "success");
@@ -82,7 +82,7 @@ namespace FEE.Areas.Admin.Controllers
                 Notification.set_flash("Không được phép xóa!", "warning");
                 return Json(false, JsonRequestBehavior.AllowGet);
             }
-            var model = _db.Tags.Where(x => x.Id == id).SingleOrDefault();
+            var model = _db.Tags.Where(x => x.Id == id).FirstOrDefault();
             _db.Tags.Remove(model);
             _db.SaveChanges();
             Notification.set_flash("Xóa thành công!", "success");

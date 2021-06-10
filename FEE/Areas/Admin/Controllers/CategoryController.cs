@@ -23,7 +23,7 @@ namespace FEE.Areas.Admin.Controllers
             {
                 CategoryId = x.CategoryId,
                 Name = x.Name
-            }).ToList();
+            }).OrderByDescending(x => x.CategoryId).ToList();
             return View(result);
         }
         [ClaimRequirementFilter(Command = CommandCode.CREATE, Function = FunctionCode.CONTENT_CATEGORY)]
@@ -85,13 +85,13 @@ namespace FEE.Areas.Admin.Controllers
             var posts = _db.Posts.Where(x => x.CategoryId == id).ToList();
             if (posts.Count() > 0)
             {
-                Notification.set_flash("Không được phép xóa!", "success");
+                Notification.set_flash("Không được phép xóa!", "warning");
                 return Json(false, JsonRequestBehavior.AllowGet);
             }
             var model = _db.Categories.Where(x => x.CategoryId == id).FirstOrDefault();
             _db.Categories.Remove(model);
             _db.SaveChanges();
-            Notification.set_flash("Xóa thành công!", "warning");
+            Notification.set_flash("Xóa thành công!", "success");
             return Json(true, JsonRequestBehavior.AllowGet);
         }
     }

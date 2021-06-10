@@ -25,7 +25,7 @@ namespace FEE.Areas.Admin.Controllers
                 Img = x.Img,
                 CreateDate = x.CreateDate,
                 Status = x.Status
-            }).ToList().OrderBy(x => x.CreateDate).ToList();
+            }).OrderByDescending(x => x.SlideId).ToList();
             return View(result);
         }
         [ClaimRequirementFilter(Command = CommandCode.CREATE, Function = FunctionCode.MORE_SLIDE)]
@@ -72,7 +72,7 @@ namespace FEE.Areas.Admin.Controllers
         [ClaimRequirementFilter(Command = CommandCode.UPDATE, Function = FunctionCode.MORE_SLIDE)]
         public ActionResult Update(int id)
         {
-            var model = _db.Slides.Where(x => x.SlideId == id).SingleOrDefault();
+            var model = _db.Slides.Where(x => x.SlideId == id).FirstOrDefault();
             var viewModel = new SlideViewModel();
             viewModel.SlideId = model.SlideId;
             viewModel.Img = model.Img;
@@ -86,7 +86,7 @@ namespace FEE.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var model = _db.Slides.Where(x => x.SlideId == viewModel.SlideId).SingleOrDefault();
+                var model = _db.Slides.Where(x => x.SlideId == viewModel.SlideId).FirstOrDefault();
                 model.Img = viewModel.Img;
                 model.Status = viewModel.Status;
                 model.UpdateDate = DateTime.Now;
@@ -101,7 +101,7 @@ namespace FEE.Areas.Admin.Controllers
         [ClaimRequirementFilter(Command = CommandCode.DELETE, Function = FunctionCode.MORE_SLIDE)]
         public JsonResult Delete(int id)
         {
-            var model = _db.Slides.Where(x => x.SlideId == id).SingleOrDefault();
+            var model = _db.Slides.Where(x => x.SlideId == id).FirstOrDefault();
             _db.Slides.Remove(model);
             _db.SaveChanges();
             Notification.set_flash("Xóa thành công!", "success");
@@ -109,7 +109,7 @@ namespace FEE.Areas.Admin.Controllers
         }
         public JsonResult ChangeStatus(int id, bool status)
         {
-            var model = _db.Slides.Where(x => x.SlideId == id).SingleOrDefault();
+            var model = _db.Slides.Where(x => x.SlideId == id).FirstOrDefault();
             model.Status = status;
             _db.SaveChanges();
             Notification.set_flash("Cập nhật thành công!", "success");

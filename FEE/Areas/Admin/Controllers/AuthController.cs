@@ -136,11 +136,11 @@ namespace FEE.Areas.Admin.Controllers
             {
                 string content = System.IO.File.ReadAllText(Server.MapPath("~/Areas/Admin/Views/Mail/G_Pass.html"));
                 string pass = Guid.NewGuid().ToString().Substring(5, 10);
-                var acc = db.Users.Where(x => x.Email == model.Email && x.Username == model.Username).SingleOrDefault();
+                var acc = db.Users.Where(x=>x.Username == model.Username && x.Email == model.Email).FirstOrDefault();
                 if(acc == null)
                 {
                     Notification.set_flash("Thông tin bạn cung cấp không đúng!", "warning");
-                    return View();
+                    return View("RePassword");
                 }
                 else
                 {

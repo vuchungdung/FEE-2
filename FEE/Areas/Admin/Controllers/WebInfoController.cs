@@ -69,7 +69,7 @@ namespace FEE.Areas.Admin.Controllers
         [ClaimRequirementFilter(Command = CommandCode.UPDATE, Function = FunctionCode.MORE_WEBINFO)]
         public ActionResult Update(int id)
         {
-            var model = _db.WebInfos.Where(x => x.WebInfoId == id).SingleOrDefault();
+            var model = _db.WebInfos.Where(x => x.WebInfoId == id).FirstOrDefault();
 
             var viewModel = new WebInfoViewModel();
             viewModel.Logo = model.Logo;
@@ -88,7 +88,7 @@ namespace FEE.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var model = _db.WebInfos.Where(x => x.WebInfoId == viewModel.Id).SingleOrDefault();
+                var model = _db.WebInfos.Where(x => x.WebInfoId == viewModel.Id).FirstOrDefault();
                 model.Logo = viewModel.Logo;
                 model.Email = viewModel.Email;
                 model.Phone = viewModel.Phone;
@@ -107,7 +107,7 @@ namespace FEE.Areas.Admin.Controllers
         [ClaimRequirementFilter(Command = CommandCode.DELETE, Function = FunctionCode.MORE_WEBINFO)]
         public JsonResult Delete(int id)
         {
-            var model = _db.WebInfos.Where(x => x.WebInfoId == id).SingleOrDefault();
+            var model = _db.WebInfos.Where(x => x.WebInfoId == id).FirstOrDefault();
             _db.WebInfos.Remove(model);
             _db.SaveChanges();
             Notification.set_flash("Xóa thành công!", "success");

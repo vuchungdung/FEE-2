@@ -4,6 +4,7 @@
     ViewBag.Title = "Login";
     Layout = "~/Areas/Admin/Views/Shared/_Login.cshtml";
 }
+@Html.Partial("_MessageAlert")
 
 <div class="login-box-body">
     <p class="login-box-msg">Đăng nhập hệ thống</p>
@@ -23,7 +24,7 @@
             <!-- /.col -->
             <div class="col-md-6">
                 <button type="submit" class="btn btn-primary btn-block btn-flat">Đăng nhập</button>
-                
+
             </div>
             <div class="col-md-6">
                 <a href="/Admin/Auth/RePassword">Quên mật khẩu?</a>

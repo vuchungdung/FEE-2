@@ -31,7 +31,5 @@ namespace FEE.Models
         public int ViewCount { get; set; }
         public int LikeCount { get; set; }
         public string Tag { get; set; }
-        public string Author { get; set; }
-
     }
 }

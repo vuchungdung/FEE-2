@@ -14,10 +14,7 @@
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Vietnamese.json'
             },
-            "columnDefs": [
-                { "orderable": false, "targets": [2, 3] },
-                { "orderable": true, "targets": [0, 1] }
-            ]
+            "ordering": false
         });
         $('#example2').DataTable({
             "paging": true,
@@ -72,21 +69,21 @@
                                         <span class="text-bold" style="color:red">@item.Name</span>
                                         @if (item.SubItem.Count() > 0)
                                         {
-                                            <ul style="padding-left:12px;padding:1px 0px">
+                                            <ul style="padding-left:20px;">
                                                 @foreach (var key in item.SubItem)
                                                 {
                                                     <li style="list-style:none;padding:1px 0px">
                                                         <span>@key.Name</span>
                                                         @if (key.SubItem.Count() > 0)
                                                         {
-                                                            <ul>                                                               
+                                                            <ul style="padding-left:20px;">                                                               
                                                                 @foreach(var i in key.SubItem)
                                                                 {
                                                                     <li style="list-style: none;padding:1px 0px">
                                                                         <span>@i.Name</span>
                                                                         @if (i.SubItem.Count() > 0)
                                                                         {
-                                                                            <ul>
+                                                                            <ul style="padding-left:20px;">
                                                                                 @foreach (var o in i.SubItem)
                                                                                 {
                                                                                     <li style="list-style: none;padding:1px 0px">
@@ -108,21 +105,21 @@
                                         <span class="text-bold" style="color:red">@item.CreatedDate.ToString("dd/MM/yyyy")</span>
                                         @if (item.SubItem.Count() > 0)
                                         {
-                                            <ul style="padding-left:12px;padding:1px 0px">
+                                            <ul style="padding-left:20px;">
                                                 @foreach (var key in item.SubItem)
                                                 {
                                                     <li style="list-style:none;padding:1px 0px">
                                                         <span>@key.CreatedDate.ToString("dd/MM/yyyy")</span>
                                                         @if (key.SubItem.Count() > 0)
                                                         {
-                                                            <ul>                                                               
+                                                            <ul style="padding-left:20px;">                                                               
                                                                 @foreach(var i in key.SubItem)
                                                                 {
                                                                     <li style="list-style: none;padding:1px 0px">
                                                                         <span>@i.CreatedDate.ToString("dd/MM/yyyy")</span>
                                                                         @if (i.SubItem.Count() > 0)
                                                                         {
-                                                                            <ul>
+                                                                            <ul style="padding-left:20px;">
                                                                                 @foreach (var o in i.SubItem)
                                                                                 {
                                                                                     <li style="list-style: none;padding:1px 0px">
@@ -145,7 +142,7 @@
 
                                         @if (item.SubItem.Count() > 0)
                                         {
-                                            <ul style="padding-left:12px">
+                                            <ul style="padding-left:20px">
                                                 @foreach (var key in item.SubItem)
                                                 {
                                                     <li style="list-style:none">
@@ -153,14 +150,14 @@
 
                                                         @if (key.SubItem.Count() > 0)
                                                         {
-                                                            <ul>                                                               
+                                                            <ul style="padding-left:20px;">                                                               
                                                                 @foreach(var i in key.SubItem)
                                                                 {
                                                                     <li style="list-style: none">
                                                                         <input type="checkbox" onclick="changeStatus(this)" id="@i.Id" @(i.Status == true ? "checked" : "") />
                                                                         @if (i.SubItem.Count() > 0)
                                                                         {
-                                                                            <ul>
+                                                                            <ul style="padding-left:20px;">
                                                                                 @foreach (var o in i.SubItem)
                                                                                 {
                                                                                     <li style="list-style: none">
@@ -183,7 +180,7 @@
                                         <a href="/admin/menu/update/@item.Id"><i style="color:green" class="fa fa-fw fa-pencil"></i></a>
                                         @if (item.SubItem.Count() > 0)
                                         {
-                                            <ul style="padding-left:12px;padding:1px 0px">
+                                            <ul style="padding-left:20px;">
                                                 @foreach (var key in item.SubItem)
                                                 {
                                                     <li style="list-style:none;padding:1px 0px">
@@ -191,7 +188,7 @@
                                                         <a href="/admin/menu/update/@key.Id"><i style="color:green" class="fa fa-fw fa-pencil"></i></a>
                                                         @if (key.SubItem.Count() > 0)
                                                         {
-                                                            <ul>                                                               
+                                                            <ul padding-left:20px;>                                                               
                                                                 @foreach(var i in key.SubItem)
                                                                 {
                                                                     <li style="list-style: none;padding:1px 0px">
@@ -199,7 +196,7 @@
                                                                         <a href="/admin/menu/update/@i.Id"><i style="color:green" class="fa fa-fw fa-pencil"></i></a>
                                                                         @if (i.SubItem.Count() > 0)
                                                                         {
-                                                                            <ul>
+                                                                            <ul padding-left:20px;>
                                                                                 @foreach (var o in i.SubItem)
                                                                                 {
                                                                                     <li style="list-style: none;padding:1px 0px">
@@ -292,9 +289,8 @@
             data: JSON.stringify({ id: xid, status: st }),
             dataType: "json",
             success: function (res) {
-                if (res == true) {
-                    location.reload();
-                }
+                location.reload();
+
             }
         });
     }

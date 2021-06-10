@@ -29,7 +29,7 @@ namespace FEE.Areas.Admin.Controllers
                 Status = x.Status,
                 CreateDate = x.CreateDate,
                 Content = x.Content
-            }).ToList();
+            }).OrderByDescending(x => x.ContactId).ToList();
             return View(result);
         }
 
@@ -45,7 +45,7 @@ namespace FEE.Areas.Admin.Controllers
                 Name = x.Name,
                 Phone = x.Phone,
                 CreateDate = x.CreateDate
-            }).SingleOrDefault();
+            }).FirstOrDefault();
             return View(model);
         }
 

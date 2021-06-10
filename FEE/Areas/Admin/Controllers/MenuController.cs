@@ -138,7 +138,7 @@ namespace FEE.Areas.Admin.Controllers
         [ClaimRequirementFilter(Command = CommandCode.UPDATE, Function = FunctionCode.MORE_MENU)]
         public ActionResult Update(int id)
         {
-            var model = _db.Menus.Where(x => x.MenuId == id).SingleOrDefault();
+            var model = _db.Menus.Where(x => x.MenuId == id).FirstOrDefault();
             var viewModel = new MenuViewModel();
             viewModel.Id = model.MenuId;
             viewModel.Name = model.Name;
@@ -154,7 +154,7 @@ namespace FEE.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var model = _db.Menus.Where(x => x.MenuId == viewModel.Id).SingleOrDefault();
+                var model = _db.Menus.Where(x => x.MenuId == viewModel.Id).FirstOrDefault();
                 model.Name = viewModel.Name;
                 model.ParentId = viewModel.ParentId;
                 model.Status = viewModel.Status;
@@ -177,7 +177,7 @@ namespace FEE.Areas.Admin.Controllers
                 Notification.set_flash("Không thể xóa!", "warning");
                 return Json(true, JsonRequestBehavior.AllowGet);
             }
-            var model = _db.Menus.Where(x => x.MenuId == id).SingleOrDefault();
+            var model = _db.Menus.Where(x => x.MenuId == id).FirstOrDefault();
             _db.Menus.Remove(model);
             _db.SaveChanges();
             Notification.set_flash("Xóa thành công!", "success");
@@ -186,7 +186,7 @@ namespace FEE.Areas.Admin.Controllers
 
         public JsonResult ChangeStatus(int id, bool status)
         {
-            var model = _db.Menus.Where(x => x.MenuId == id).SingleOrDefault();
+            var model = _db.Menus.Where(x => x.MenuId == id).FirstOrDefault();
             model.Status = status;
             _db.SaveChanges();
             Notification.set_flash("Cập nhật thành công!", "success");

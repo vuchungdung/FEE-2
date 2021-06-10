@@ -23,7 +23,7 @@ namespace FEE.Areas.Admin.Controllers
             {
                 Id = x.RoleId,
                 Name = x.Name
-            }).ToList();
+            }).OrderByDescending(x=>x.Id).ToList();
             return View(result);
         }
         [ClaimRequirementFilter(Command = CommandCode.CREATE, Function = FunctionCode.SYSTEM_ROLE)]
@@ -60,7 +60,7 @@ namespace FEE.Areas.Admin.Controllers
         [ClaimRequirementFilter(Command = CommandCode.UPDATE, Function = FunctionCode.SYSTEM_ROLE)]
         public ActionResult Update(int id)
         {
-            var model = _db.Roles.Where(x => x.RoleId == id).SingleOrDefault();
+            var model = _db.Roles.Where(x => x.RoleId == id).FirstOrDefault();
             var viewModel = new RoleViewModel();
             viewModel.Name = model.Name;
             return View(viewModel);
@@ -70,7 +70,7 @@ namespace FEE.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var model = _db.Roles.Where(x => x.RoleId == viewModel.Id).SingleOrDefault();
+                var model = _db.Roles.Where(x => x.RoleId == viewModel.Id).FirstOrDefault();
                 model.Name = viewModel.Name;
                 _db.SaveChanges();
                 Notification.set_flash("Cập nhật thành công!", "success");
@@ -87,7 +87,7 @@ namespace FEE.Areas.Admin.Controllers
                 Notification.set_flash("Không thể xóa!", "warning");
                 return Json(false, JsonRequestBehavior.AllowGet);
             }
-            var model = _db.Roles.Where(x => x.RoleId == id).SingleOrDefault();
+            var model = _db.Roles.Where(x => x.RoleId == id).FirstOrDefault();
             _db.Roles.Remove(model);
             _db.SaveChanges();
             Notification.set_flash("Xóa thành công!", "success");

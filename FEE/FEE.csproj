@@ -200,6 +200,10 @@
     <Compile Include="Migrations\202106071556089_version_1.0.1.designer.cs">
       <DependentUpon>202106071556089_version_1.0.1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202106101527131_done-db.cs" />
+    <Compile Include="Migrations\202106101527131_done-db.designer.cs">
+      <DependentUpon>202106101527131_done-db.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Command.cs" />
@@ -224,6 +228,7 @@
     <Compile Include="ViewModel\ChangePassViewModel.cs" />
     <Compile Include="ViewModel\ContactViewModel.cs" />
     <Compile Include="ViewModel\DepartmentViewModel.cs" />
+    <Compile Include="ViewModel\FilterViewModel.cs" />
     <Compile Include="ViewModel\ImageViewModel.cs" />
     <Compile Include="ViewModel\PartnerViewModel.cs" />
     <Compile Include="ViewModel\PermissionScreenViewModel.cs" />
@@ -8677,6 +8682,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202106071556089_version_1.0.1.resx">
       <DependentUpon>202106071556089_version_1.0.1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202106101527131_done-db.resx">
+      <DependentUpon>202106101527131_done-db.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

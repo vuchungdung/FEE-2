@@ -24,7 +24,7 @@ namespace FEE.Areas.Admin.Controllers
                 Img = x.Img,
                 CreateDate = x.CreateDate,
                 Status = x.Status
-            }).ToList().OrderBy(x => x.CreateDate).ToList();
+            }).OrderByDescending(x => x.ImageId).ToList();
             return View(result);
         }
         [ClaimRequirementFilter(Command = CommandCode.CREATE, Function = FunctionCode.MORE_IMAGE)]
@@ -71,7 +71,7 @@ namespace FEE.Areas.Admin.Controllers
         [ClaimRequirementFilter(Command = CommandCode.UPDATE, Function = FunctionCode.MORE_IMAGE)]
         public ActionResult Update(int id)
         {
-            var model = _db.Images.Where(x => x.ImgId == id).SingleOrDefault();
+            var model = _db.Images.Where(x => x.ImgId == id).FirstOrDefault();
             var viewModel = new ImageViewModel();
             viewModel.ImageId = model.ImgId;
             viewModel.Img = model.Img;
@@ -85,7 +85,7 @@ namespace FEE.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var model = _db.Images.Where(x => x.ImgId == viewModel.ImageId).SingleOrDefault();
+                var model = _db.Images.Where(x => x.ImgId == viewModel.ImageId).FirstOrDefault();
                 model.Img = viewModel.Img;
                 model.Status = viewModel.Status;
                 model.UpdateDate = DateTime.Now;
@@ -100,7 +100,7 @@ namespace FEE.Areas.Admin.Controllers
         [ClaimRequirementFilter(Command = CommandCode.DELETE, Function = FunctionCode.MORE_IMAGE)]
         public JsonResult Delete(int id)
         {
-            var model = _db.Images.Where(x => x.ImgId == id).SingleOrDefault();
+            var model = _db.Images.Where(x => x.ImgId == id).FirstOrDefault();
             _db.Images.Remove(model);
             _db.SaveChanges();
             Notification.set_flash("Xóa thành công!", "success");
@@ -108,7 +108,7 @@ namespace FEE.Areas.Admin.Controllers
         }
         public JsonResult ChangeStatus(int id, bool status)
         {
-            var model = _db.Images.Where(x => x.ImgId == id).SingleOrDefault();
+            var model = _db.Images.Where(x => x.ImgId == id).FirstOrDefault();
             model.Status = status;
             _db.SaveChanges();
             Notification.set_flash("Cập nhật thành công!", "success");

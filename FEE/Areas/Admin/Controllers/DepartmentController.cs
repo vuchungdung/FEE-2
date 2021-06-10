@@ -23,7 +23,7 @@ namespace FEE.Areas.Admin.Controllers
             {
                 Id = x.DepartmentId,
                 Name = x.Name
-            }).ToList();
+            }).OrderByDescending(x => x.Id).ToList();
             return View(result);
         }
         [ClaimRequirementFilter(Command = CommandCode.CREATE, Function = FunctionCode.SYSTEM_DEPARTMENT)]
@@ -83,17 +83,19 @@ namespace FEE.Areas.Admin.Controllers
                 model.Name = viewmodel.Name;
                 _db.Departments.Add(model);
                 _db.SaveChanges();
-                foreach(var item in viewmodel.ListMenuIds)
+                if(viewmodel.ListMenuIds.Count()> 0)
                 {
-                    DepartmentInMenu entity = new DepartmentInMenu();
-                    entity.DepartmentId = model.DepartmentId;
-                    entity.MenuId = item;
-                    _db.DepartmentInMenus.Add(entity);
+                    foreach (var item in viewmodel.ListMenuIds)
+                    {
+                        DepartmentInMenu entity = new DepartmentInMenu();
+                        entity.DepartmentId = model.DepartmentId;
+                        entity.MenuId = item;
+                        _db.DepartmentInMenus.Add(entity);
+                    }
+                    _db.SaveChanges();
                 }
-                _db.SaveChanges();
                 Notification.set_flash("Lưu thành công!", "success");
-                ModelState.Clear();
-                return View("Index");
+                return Json(true, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {
@@ -194,12 +196,24 @@ namespace FEE.Areas.Admin.Controllers
         public JsonResult Delete(int id)
         {
             var users = _db.Users.Where(x => x.DepartmentId == id).ToList();
-            if(users.Count() > 0)
+            var query = from m in _db.Menus
+                        join dm in _db.DepartmentInMenus
+                        on m.MenuId equals dm.MenuId
+                        join d in _db.Departments
+                        on dm.DepartmentId equals d.DepartmentId
+                        where d.DepartmentId == id
+                        select new DepartmentViewModel()
+                        {
+                            Id = d.DepartmentId,
+                            Name = d.Name
+                        };
+            var list = query.ToList();
+            if(users.Count() > 0 || list.Count() > 0)
             {
-                Notification.set_flash("Không được phép xóa!", "success");
+                Notification.set_flash("Đã có tài khoản thuôc bộ môn hoặc bộ môn này đã được phân công quản lý danh mục!", "warning");
                 return Json(false, JsonRequestBehavior.AllowGet);
             }
-            var model = _db.Departments.Where(x => x.DepartmentId == id).SingleOrDefault();
+            var model = _db.Departments.Where(x => x.DepartmentId == id).FirstOrDefault();
             _db.Departments.Remove(model);
             _db.SaveChanges();
             Notification.set_flash("Xóa thành công!", "success");

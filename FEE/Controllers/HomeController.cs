@@ -147,7 +147,8 @@ namespace FEE.Controllers
         {
             var result = _db.Partners.Where(x=>x.Status == true).Select(x => new PartnerViewModel()
             {
-                Img = x.Img
+                Img = x.Img,
+                Url = x.Url
             }).ToList();
             return PartialView(result);
         }

@@ -1,9 +1,7 @@
 ﻿@model IEnumerable<FEE.ViewModel.RoleViewModel>
 
-@{
-    ViewBag.Title = "Index";
-    Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml";
-}
+@{ ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml"; }
 
 <script src="~/Areas/Admin/template_admin/bower_components/jquery/dist/jquery.min.js"></script>
 <script>
@@ -14,10 +12,7 @@
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Vietnamese.json'
             },
-            "columnDefs": [
-                { "orderable": false, "targets": [] },
-                { "orderable": true, "targets": [0, 1] }
-            ]
+            "ordering": false
         });
         $('#example2').DataTable({
             "paging": true,
@@ -28,7 +23,9 @@
             "autoWidth": false,
             "responsive": true
         });
-    });</script>
+    });
+</script>
+@Html.Partial("_MessageAlert")
 
 <section class="content-header">
     <h1>
@@ -65,14 +62,15 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                <tr>
+                <tr>
 
-                                    <td>@item.Name</td>
-                                    <td class="text-center">
-                                        <a href="/admin/role/update/@item.Id"><i style="color:green" class="fa fa-fw fa-pencil"></i></a>
-                                    </td>
-                                </tr>
-                             }                   
+                    <td>@item.Name</td>
+                    <td class="text-center">
+                        <a onclick="deleteConfirm(this)" id="@item.Id" data-toggle="modal" data-target="#myModal"><i style="color:red" class="fa fa-fw fa-trash"></i></a>
+                        <a href="/admin/role/update/@item.Id"><i style="color:green" class="fa fa-fw fa-pencil"></i></a>
+                    </td>
+                </tr>
+}
                         </tbody>
                         <tfoot>
                             <tr>
@@ -90,5 +88,44 @@
     </div>
     <!-- /.row -->
 </section>
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Bạn đang yêu cầu xóa dữ liệu</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                Bạn có thật sự muốn xóa dữ liệu này ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="deleteBtn" class="btn btn-danger" data-dismiss="modal">Xóa</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
 
+        </div>
+
+    </div>
+</div>
+
+<script>
+    var idx;
+    var st;
+    var deleteConfirm = function (xthis) {
+        xid = xthis.id;
+        st = xthis.checked ? true : false;
+    }
+    $('#deleteBtn').click(function () {
+        $.ajax({
+            type: "POST",
+            url: '/Admin/role/Delete',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({ id: xid }),
+            dataType: "json",
+            success: function (res) {
+                location.reload();
+            }
+        });
+    })
+</script>
 

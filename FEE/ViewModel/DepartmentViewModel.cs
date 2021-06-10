@@ -9,7 +9,7 @@ namespace FEE.ViewModel
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<int> ListMenuIds { get; set; }
-        public List<MenuViewModel> Menus { get; set; }
+        public List<int> ListMenuIds { get; set; } = new List<int>();
+        public List<MenuViewModel> Menus { get; set; } = new List<MenuViewModel>();
     }
 }

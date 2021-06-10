@@ -15,10 +15,7 @@
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Vietnamese.json'
             },
-            "columnDefs": [
-                { "orderable": false, "targets": [0,2, 3] },
-                { "orderable": true, "targets": [1] }
-            ]
+            "ordering": false
         });
         $('#example2').DataTable({
             "paging": true,
@@ -133,9 +130,7 @@
             data: JSON.stringify({ id: xid, status: st }),
             dataType: "json",
             success: function (res) {
-                if (res == true) {
-                    location.reload();
-                }
+                location.reload();
             }
         });
     }
@@ -153,9 +148,7 @@
             data: JSON.stringify({ id: xid, status: st }),
             dataType: "json",
             success: function (res) {
-                if (res == true) {
-                    location.reload();
-                }
+                location.reload();
             }
         });
     })

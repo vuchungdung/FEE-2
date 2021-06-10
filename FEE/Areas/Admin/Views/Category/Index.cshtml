@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<FEE.ViewModel.CategoryViewModel>
 
 @{ ViewBag.Title = "Index";
-                Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml"; }
+    Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml"; }
 
 <script src="~/Areas/Admin/template_admin/bower_components/jquery/dist/jquery.min.js"></script>
 <script>
@@ -12,10 +12,7 @@
             language: {
                 url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Vietnamese.json'
             },
-            "columnDefs": [
-                { "orderable": false, "targets": [] },
-                { "orderable": true, "targets": [0, 1] }
-            ]
+            "ordering": false
         });
         $('#example2').DataTable({
             "paging": true,
@@ -27,6 +24,7 @@
             "responsive": true
         });
     });</script>
+@Html.Partial("_MessageAlert")
 
 <section class="content-header">
     <h1>
@@ -63,15 +61,14 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                <tr>
+                <tr>
 
-                                    <td>@item.Name</td>
-                                    <td class="text-center">
-                                        <a onclick="deleteConfirm(this)" id="@item.CategoryId" data-toggle="modal" data-target="#myModal"><i style="color:red" class="fa fa-fw fa-trash"></i></a>
-                                        <a href="/admin/Category/update/@item.CategoryId"><i style="color:green" class="fa fa-fw fa-pencil"></i></a>
-                                    </td>
-                                </tr>
-                            }
+                    <td>@item.Name</td>
+                    <td class="text-center">
+                        <a onclick="deleteConfirm(this)" id="@item.CategoryId" data-toggle="modal" data-target="#myModal"><i style="color:red" class="fa fa-fw fa-trash"></i></a>
+                        <a href="/admin/Category/update/@item.CategoryId"><i style="color:green" class="fa fa-fw fa-pencil"></i></a>
+                    </td>
+                </tr>}
                         </tbody>
                         <tfoot>
                             <tr>
@@ -122,12 +119,8 @@
             data: JSON.stringify({ id: xid }),
             dataType: "json",
             success: function (res) {
-                if (res == true) {
-                    location.reload();
-                }
-                else {
-                    location.reload();
-                }
+                location.reload();
+
             }
         });
     })
