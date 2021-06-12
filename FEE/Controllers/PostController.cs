@@ -17,7 +17,7 @@ namespace FEE.Controllers
             var query = from x in _db.Posts
                         join u in _db.Users
                         on x.CreateBy equals u.Id
-                        where x.PostId == id
+                        where x.PostId == id && x.Deleted == false
                         select new PostViewModel()
                         {
                             Name = x.Name,

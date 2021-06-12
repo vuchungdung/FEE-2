@@ -28,6 +28,7 @@ namespace FEE.Areas.Admin.Controllers
             var query = from x in _db.Posts
                         join u in _db.Users
                         on x.CreateBy equals u.Id
+                        where x.Deleted == false
                         select new PostViewModel()
                         {
                             PostId = x.PostId,
@@ -144,7 +145,7 @@ namespace FEE.Areas.Admin.Controllers
                 {
                     item.Name = text + item.Name;
                     listMenus.Add(item);
-                    listMenus.Distinct();
+                    listMenus = listMenus.Distinct().ToList();
                     this.Dropdown(item.Id, text + "---");
                 }
             }
@@ -154,6 +155,7 @@ namespace FEE.Areas.Admin.Controllers
         [ClaimRequirementFilter(Command = CommandCode.CREATE,Function = FunctionCode.CONTENT_POST)]
         public ActionResult Create()
         {
+            listMenus = new List<MenuViewModel>();
             var model = new PostViewModel()
             {
                 ListCategories = Helper.ListCategories().ToList(),
@@ -218,6 +220,7 @@ namespace FEE.Areas.Admin.Controllers
         [ClaimRequirementFilter(Command = CommandCode.UPDATE, Function = FunctionCode.CONTENT_POST)]
         public ActionResult Update(int id)
         {
+            listMenus = new List<MenuViewModel>();
             var model = _db.Posts.Where(x => x.PostId == id).Select(x => new PostViewModel()
             {
                 PostId = x.PostId,
@@ -294,9 +297,10 @@ namespace FEE.Areas.Admin.Controllers
             }
         }
         [ClaimRequirementFilter(Command = CommandCode.DELETE, Function = FunctionCode.CONTENT_POST)]
+        [HttpPost]
         public JsonResult Delete(int id)
         {
-            var model = _db.Posts.Where(x => x.PostId == id).SingleOrDefault();
+            var model = _db.Posts.Where(x => x.PostId == id).FirstOrDefault();
             _db.Posts.Remove(model);
             _db.SaveChanges();
             Notification.set_flash("Xóa vĩnh viễn!", "success");
@@ -305,7 +309,7 @@ namespace FEE.Areas.Admin.Controllers
         [HttpPost]
         public JsonResult Trash(int id, bool status)
         {
-            var model = _db.Posts.Where(x => x.PostId == id).SingleOrDefault();
+            var model = _db.Posts.Where(x => x.PostId == id).FirstOrDefault();
             model.Deleted = status;
             model.UpdateDate = DateTime.Now;
             model.UpdateBy = 1;
@@ -315,7 +319,7 @@ namespace FEE.Areas.Admin.Controllers
         }
         public JsonResult ReTrash(int id, bool status)
         {
-            var model = _db.Posts.Where(x => x.PostId == id).SingleOrDefault();
+            var model = _db.Posts.Where(x => x.PostId == id).FirstOrDefault();
             model.Deleted = status;
             model.UpdateDate = DateTime.Now;
             model.UpdateBy = 1;
@@ -329,6 +333,7 @@ namespace FEE.Areas.Admin.Controllers
             var query = from x in _db.Posts
                         join u in _db.Users
                         on x.CreateBy equals u.Id
+                        where x.Deleted == true
                         select new PostViewModel()
                         {
                             PostId = x.PostId,
@@ -340,6 +345,7 @@ namespace FEE.Areas.Admin.Controllers
                             IsShow = x.IsShow,
                             Status = x.Status,
                             CreateDate = x.CreateDate,
+                            UpdateDate = x.UpdateDate,
                             DepartmentId = x.DepartmentId,
                             MenuId = x.MenuId,
                             Author = u.Name
@@ -349,7 +355,7 @@ namespace FEE.Areas.Admin.Controllers
         }
         public JsonResult ChangeHome(int id, bool status)
         {
-            var model = _db.Posts.Where(x => x.PostId == id).SingleOrDefault();
+            var model = _db.Posts.Where(x => x.PostId == id).FirstOrDefault();
             if(model.Status != Enums.PostStatus.Actived)
             {
                 Notification.set_flash("Bài đăng chưa được duyệt!", "warning");
@@ -362,7 +368,7 @@ namespace FEE.Areas.Admin.Controllers
         }
         public JsonResult ChangeShow(int id, bool status)
         {
-            var model = _db.Posts.Where(x => x.PostId == id).SingleOrDefault();
+            var model = _db.Posts.Where(x => x.PostId == id).FirstOrDefault();
             if (model.Status != Enums.PostStatus.Actived)
             {
                 Notification.set_flash("Bài đăng chưa được duyệt!", "warning");
@@ -379,7 +385,7 @@ namespace FEE.Areas.Admin.Controllers
             {
                 item.HotFlag = false;               
             }
-            var model = _db.Posts.Where(x => x.PostId == id).SingleOrDefault();
+            var model = _db.Posts.Where(x => x.PostId == id).FirstOrDefault();
             if (model.Status != Enums.PostStatus.Actived)
             {
                 Notification.set_flash("Bài đăng chưa được duyệt!", "warning");

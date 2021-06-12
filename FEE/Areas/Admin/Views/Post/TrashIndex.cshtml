@@ -78,7 +78,7 @@
                                     <td>@Convert.ToDateTime(item.UpdateDate).ToString("dd-MM-yyyy")</td>
                                     <td>@item.Author</td>
                                     <td class="text-center">
-                                        <a onclick="deleted(@item.PostId,@item.Delete)"><i style="color:red" class="fa fa-fw fa-trash"></i></a>
+                                        <a onclick="deleteConfirm(this)" id="@item.PostId" data-toggle="modal" data-target="#myModal"><i style="color:red" class="fa fa-fw fa-trash"></i></a>
                                         <a onclick="retrash(this)" id="@item.PostId"><i style="color:green" class="fa fa-fw fa-recycle"></i></a>
                                     </td>
                                 </tr>
@@ -103,7 +103,43 @@
     </div>
     <!-- /.row -->
 </section>
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Bạn đang yêu cầu xóa dữ liệu</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                Bạn có thật sự muốn xóa dữ liệu này ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="deleteBtn" class="btn btn-danger" data-dismiss="modal">Xóa</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+
+    </div>
+</div>
 <script>
+    var idx;
+    var deleteConfirm = function (xthis) {
+        xid = xthis.id;
+    }
+    $('#deleteBtn').click(function () {
+        $.ajax({
+            type: "POST",
+            url: '/Admin/Post/delete',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({ id: xid }),
+            dataType: "json",
+            success: function (res) {
+                location.reload();
+
+            }
+        });
+    })
     function retrash(xthis) {
         var xid = xthis.id;
         var st = false;

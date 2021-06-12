@@ -71,6 +71,7 @@ namespace FEE.Areas.Admin.Controllers
         [ClaimRequirementFilter(Command = CommandCode.CREATE, Function = FunctionCode.MORE_MENU)]
         public ActionResult Create()
         {
+            listMenus = new List<MenuViewModel>();
             MenuViewModel model = new MenuViewModel()
             {
                 ListMenus = new SelectList(this.Dropdown(0), "Id", "Name", 0)
@@ -127,7 +128,7 @@ namespace FEE.Areas.Admin.Controllers
                 {
                     item.Name = text + item.Name;
                     listMenus.Add(item);
-                    listMenus.Distinct();
+                    listMenus = listMenus.Distinct().ToList();
                     this.Dropdown(item.Id, text + "---");
                 }
             }
@@ -138,6 +139,7 @@ namespace FEE.Areas.Admin.Controllers
         [ClaimRequirementFilter(Command = CommandCode.UPDATE, Function = FunctionCode.MORE_MENU)]
         public ActionResult Update(int id)
         {
+            listMenus = new List<MenuViewModel>();
             var model = _db.Menus.Where(x => x.MenuId == id).FirstOrDefault();
             var viewModel = new MenuViewModel();
             viewModel.Id = model.MenuId;

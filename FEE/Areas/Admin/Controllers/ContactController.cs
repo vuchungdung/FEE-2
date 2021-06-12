@@ -48,8 +48,15 @@ namespace FEE.Areas.Admin.Controllers
             }).FirstOrDefault();
             return View(model);
         }
-
-
+        [HttpPost]
+        public JsonResult Delete(int id)
+        {
+            var model = _db.Contacts.Where(x => x.ContactId == id).FirstOrDefault();
+            _db.Contacts.Remove(model);
+            _db.SaveChanges();
+            Notification.set_flash("Xóa vĩnh viễn!", "success");
+            return Json(true, JsonRequestBehavior.AllowGet);
+        }
         [HttpPost]
         public ActionResult Reply(ContactViewModel model)
         {
