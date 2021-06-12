@@ -166,7 +166,7 @@ namespace FEE.Areas.Admin.Controllers
                 Notification.set_flash("Cập nhật thành công!", "success");
                 viewModel = new MenuViewModel();
                 viewModel.ListMenus = new SelectList(this.Dropdown(0), "Id", "Name", 0);
-                return View(viewModel);
+                return RedirectToAction("Index", "Menu");
             }
             return View(viewModel);
         }

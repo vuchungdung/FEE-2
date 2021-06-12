@@ -1,4 +1,5 @@
 ﻿@model FEE.ViewModel.FilterViewModel
+@using FEE.Library
 @{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml";
@@ -57,10 +58,10 @@
                     {
                         <div class="row">
                             <div class="col-md-3">
-                                @Html.DropDownListFor(model => model.MenuId, (SelectList)ViewBag.ListMenus, "[Chọn danh mục của bài viết]", new { @class = "form-control", @placeholder = "Nhập tên loại tin" })
+                                @Html.DropDownListFor(model => model.MenuId, (List<SelectListItem>)ViewBag.ListMenus, "[Chọn danh mục của bài viết]", new { @class = "form-control" })
                             </div>
                             <div class="col-md-3">
-                                @Html.DropDownListFor(model => model.CategoryId, (SelectList)ViewBag.ListCategories, "[Chọn loại tin]", new { @class = "form-control", @placeholder = "Nhập tên loại tin" })
+                                @Html.DropDownListFor(model => model.CategoryId, (SelectList)ViewBag.ListCategories, "[Chọn loại tin]", new { @class = "form-control" })
                             </div>
                         </div>
                         <button style="margin-top:4px" type="submit" class="btn btn-primary">Tìm kiếm</button>

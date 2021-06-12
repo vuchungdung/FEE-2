@@ -25,6 +25,7 @@ namespace FEE.Areas.Admin.Controllers
         [ClaimRequirementFilter(Command = CommandCode.VIEW, Function = FunctionCode.CONTENT_POST)]
         public ActionResult IndexAll(FilterViewModel viewModel)
         {
+            listMenus = new List<MenuViewModel>();
             var query = from x in _db.Posts
                         join u in _db.Users
                         on x.CreateBy equals u.Id
@@ -56,14 +57,14 @@ namespace FEE.Areas.Admin.Controllers
             }
             ViewBag.TrashCount = _db.Posts.Where(x => x.Deleted == true).Count();
             ViewData["PostAlls"] = result;
-            ViewBag.ListMenus = new SelectList(this.Dropdown(0), "Id", "Name", 0);
+            ViewBag.ListMenus = Helper.ListMenus(this.Dropdown(0));
             ViewBag.ListCategories = new SelectList(_db.Categories.ToList(), "CategoryId", "Name", 0);
             return View();
         }
         [ClaimRequirementFilter(Command = CommandCode.VIEW, Function = FunctionCode.CONTENT_POST)]
         public ActionResult Index(FilterViewModel viewModel)
         {
-            dynamic multiModels = new ExpandoObject();
+            listMenus = new List<MenuViewModel>();
 
             var user = (UserSession)Session["USER"];
 
@@ -100,7 +101,7 @@ namespace FEE.Areas.Admin.Controllers
             {
                 ViewBag.TrashCount = _db.Posts.Where(x => x.Deleted == true).Count();
                 ViewData["Posts"] = result;
-                ViewBag.ListMenus = new SelectList(this.Dropdown(0), "Id", "Name", 0);
+                ViewBag.ListMenus = Helper.ListMenus(this.Dropdown(0));
                 ViewBag.ListCategories = new SelectList(_db.Categories.ToList(), "CategoryId", "Name", 0);
                 return View();
             }
@@ -108,7 +109,7 @@ namespace FEE.Areas.Admin.Controllers
             {
                 result = result.Where(x => x.DepartmentId == user.DepartmentId).ToList();
                 ViewData["Posts"] = result;
-                ViewBag.ListMenus = new SelectList(this.Dropdown(0), "Id", "Name", 0);
+                ViewBag.ListMenus = Helper.ListMenus(this.Dropdown(0));
                 ViewBag.ListCategories = new SelectList(_db.Categories.ToList(), "CategoryId", "Name", 0);
                 return View();
             }
@@ -116,40 +117,73 @@ namespace FEE.Areas.Admin.Controllers
         public List<MenuViewModel> Dropdown(int? parentId, string text = "")
         {
             var user = (UserSession)Session["USER"];
-
-            var query = from m in _db.Menus
-                       join dm in _db.DepartmentInMenus
-                       on m.MenuId equals dm.MenuId
-                       join d in _db.Departments
-                       on dm.DepartmentId equals d.DepartmentId
-                       select new MenuViewModel
-                       {
-                           Id = m.MenuId,
-                           Name = m.Name,
-                           ParentId = m.ParentId,
-                           DepartmentId = d.DepartmentId
-                       };
-
             var list = new List<MenuViewModel>();
-            if(user.DepartmentId == 0 && user.RoleId == 1)
+            
+            if (user.DepartmentId == 0 && user.RoleId == 1)
             {
-                list = query.ToList();
-            }
-            else if(user.DepartmentId != 0 && user.RoleId != 1)
-            {
-                list = query.Where(x => x.DepartmentId == user.DepartmentId).ToList();
-            }
-            foreach (var item in list)
-            {
-                if (item.ParentId == parentId)
+                list = _db.Menus.Select(x => new MenuViewModel()
                 {
-                    item.Name = text + item.Name;
-                    listMenus.Add(item);
-                    listMenus = listMenus.Distinct().ToList();
-                    this.Dropdown(item.Id, text + "---");
+                    Id = x.MenuId,
+                    Attr = false,
+                    Name = x.Name,
+                    ParentId = x.ParentId,
+                    DisplayOrder = x.DisplayOrder
+                }).ToList().OrderBy(y => y.DisplayOrder).ToList();
+                foreach (var item in list)
+                {
+                    if (item.ParentId == parentId)
+                    {
+                        item.Name = text + item.Name;
+                        listMenus.Add(item);
+                        this.Dropdown(item.Id, text + "---");
+                    }
                 }
+                return listMenus;
             }
-            return listMenus;
+            else
+            {
+                list = _db.Menus.Select(x => new MenuViewModel()
+                {
+                    Id = x.MenuId,
+                    Name = x.Name,
+                    ParentId = x.ParentId,
+                    Attr = true,
+                    DisplayOrder = x.DisplayOrder
+                }).ToList().OrderBy(y => y.DisplayOrder).ToList();
+                var query = from m in _db.Menus
+                            join dm in _db.DepartmentInMenus
+                            on m.MenuId equals dm.MenuId
+                            join d in _db.Departments
+                            on dm.DepartmentId equals d.DepartmentId
+                            where d.DepartmentId == user.DepartmentId
+                            select new MenuViewModel
+                            {
+                                Id = m.MenuId,
+                                Name = m.Name,
+                                ParentId = m.ParentId,
+                                DepartmentId = d.DepartmentId
+                            };
+                
+                foreach (var item in list)
+                {
+                    if (item.ParentId == parentId)
+                    {
+                        item.Name = text + item.Name;
+                        foreach(var m in query.ToList())
+                        {
+                            if(item.Id == m.Id)
+                            {
+                                item.Attr = false;
+                            }
+                        }
+                        listMenus.Add(item);
+                        this.Dropdown(item.Id, text + "---");
+
+                    }
+                }
+                return listMenus;
+            }
+            
         }
         [HttpGet]
         [ClaimRequirementFilter(Command = CommandCode.CREATE,Function = FunctionCode.CONTENT_POST)]
@@ -164,7 +198,7 @@ namespace FEE.Areas.Admin.Controllers
                     TagId = x.Id,
                     Name = x.Name
                 }).ToList(),
-                ListMenus = new SelectList(this.Dropdown(0), "Id", "Name", 0)
+                ListMenus = Helper.ListMenus(this.Dropdown(0)).ToList()
             };
             return View(model);
         }
@@ -207,7 +241,8 @@ namespace FEE.Areas.Admin.Controllers
                     TagId = x.Id,
                     Name = x.Name
                 }).ToList();
-                viewModel.ListMenus = new SelectList(this.Dropdown(0), "Id", "Name", 0);
+                listMenus = new List<MenuViewModel>();
+                viewModel.ListMenus = Helper.ListMenus(this.Dropdown(0)).ToList();
                 return View(viewModel);
             }
             catch
@@ -237,7 +272,7 @@ namespace FEE.Areas.Admin.Controllers
             model.Date = model.CreateDate.ToString("yyyy-MM-dd");
             ViewBag.Img2 = model.Img;
             model.ListCategories = Helper.ListCategories().ToList();
-            model.ListMenus = new SelectList(this.Dropdown(0), "Id", "Name", 0);
+            model.ListMenus = Helper.ListMenus(this.Dropdown(0)).ToList();
             model.Tags = _db.Tags.Select(x => new TagViewModel()
             {
                 TagId = x.Id,
@@ -279,6 +314,7 @@ namespace FEE.Areas.Admin.Controllers
                     Notification.set_flash("Nhập đầy đủ thông tin!", "warning");
                 }
                 ViewBag.Img2 = viewModel.Img;
+                listMenus = new List<MenuViewModel>();
                 viewModel = new PostViewModel();
                 viewModel.ListCategories = Helper.ListCategories().ToList();
                 viewModel.Tags = _db.Tags.Select(x => new TagViewModel()
@@ -287,7 +323,7 @@ namespace FEE.Areas.Admin.Controllers
                     Name = x.Name
                 }).ToList();
                 viewModel.TagIds = _db.Posts.Find(id).Tag.Split(',').ToList();
-                viewModel.ListMenus = new SelectList(this.Dropdown(0), "Id", "Name", 0);
+                viewModel.ListMenus = Helper.ListMenus(this.Dropdown(0)).ToList();
                 return View(viewModel);
             }
             catch

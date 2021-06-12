@@ -23,7 +23,7 @@ namespace FEE.ViewModel
 
         public List<MenuViewModel> SubItem = new List<MenuViewModel>();
         public int DepartmentId { get; set; }
-
+        public bool Attr { get; set; }
         public SelectList ListMenus { get; set; }
 
     }

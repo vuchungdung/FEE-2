@@ -43,6 +43,6 @@ namespace FEE.ViewModel
         public List<TagViewModel> Tags { get; set; }
         public string Date { get; set; }
         public List<SelectListItem> ListCategories { get; set; }
-        public SelectList ListMenus { get; set; }
+        public List<SelectListItem> ListMenus { get; set; }
     }
 }

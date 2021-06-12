@@ -36,7 +36,7 @@
                                                 @foreach (var key in item.SubItem)
                                                 {
                                                     <li style="list-style:none">
-                                                        <input class="isValue" disabled name="@item.Id" data-value="@key.Id" type="checkbox">
+                                                        <input class="isValue" name="@item.Id" data-value="@key.Id" type="checkbox">
                                                         <span>@key.Name</span>
                                                         @if (key.SubItem.Count() > 0)
                                                         {
@@ -44,7 +44,7 @@
                                                                 @foreach(var i in key.SubItem)
                                                                 {
                                                                     <li style="list-style: none">
-                                                                        <input class="isValue" disabled name="@item.Id" data-value="@i.Id" type="checkbox">
+                                                                        <input class="isValue" name="@item.Id" data-value="@i.Id" type="checkbox">
                                                                         <span>@i.Name</span>
                                                                         @if (i.SubItem.Count() > 0)
                                                                         {
@@ -52,7 +52,7 @@
                                                                                 @foreach (var o in i.SubItem)
                                                                                 {
                                                                                     <li style="list-style: none">
-                                                                                        <input class="isValue" disabled name="@item.Id" data-value="@o.Id" type="checkbox">
+                                                                                        <input class="isValue" name="@item.Id" data-value="@o.Id" type="checkbox">
                                                                                         <span>@o.Name</span>
                                                                                     </li>
                                                                                 }

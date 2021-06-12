@@ -1,9 +1,12 @@
 ﻿using FEE.Models;
+using FEE.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Mvc.Html;
 
 namespace FEE.Library
 {
@@ -60,6 +63,24 @@ namespace FEE.Library
                 }
                 ).ToList();
             return lstSub;
+        }
+        public static IEnumerable<SelectListItem> ListMenus(List<MenuViewModel> list)
+        {
+            List<SelectListItem> lstSub = list
+                .Select(m =>
+                new SelectListItem
+                {
+                    Text = m.Name,
+                    Value = m.Id.ToString(),
+                    Disabled = m.Attr
+                }
+                ).ToList();
+            return lstSub;
+        }
+        public static MvcHtmlString MyDropDownListFor<TModel, TProperty>(this HtmlHelper<TModel> html, Expression<Func<TModel, TProperty>> expression, IEnumerable<SelectListItem> selectList, string optionText, bool canEdit)
+        {
+            if (canEdit) return html.DropDownListFor(expression, selectList, optionText,new { @class = "form-control" });
+            return html.DropDownListFor(expression, selectList, optionText, new { @class = "form-control", @disabled="" });
         }
     }
 }

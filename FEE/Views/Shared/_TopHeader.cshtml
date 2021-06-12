@@ -1,4 +1,6 @@
-﻿<div class="header-top bg-theme-colored sm-text-center">
+﻿@model FEE.Models.WebInfo
+
+<div class="header-top bg-theme-colored sm-text-center">
     <div class="container">
         <div class="row">
             <div class="col-md-8">
@@ -10,15 +12,15 @@
                 <div class="widget no-border m-0">
                     <ul class="list-inline text-right flip sm-text-center mt-5">
                         <li>
-                            <a class="text-white" href="#" style="font-size:11px">Facebook</a>
+                            <a class="text-white" href="@Model.Facebook" style="font-size:11px">Facebook</a>
                         </li>
                         <li class="text-white" style="font-size:11px">|</li>
                         <li>
-                            <a class="text-white" href="#" style="font-size:11px">Fanpage</a>
+                            <a class="text-white" href="@Model.Email" style="font-size:11px">Email</a>
                         </li>
                         <li class="text-white" style="font-size:11px">|</li>
                         <li>
-                            <a class="text-white" href="#" style="font-size:11px">Youtube</a>
+                            <a class="text-white" href="@Model.Youtube" style="font-size:11px">Youtube</a>
                         </li>
                     </ul>
                 </div>

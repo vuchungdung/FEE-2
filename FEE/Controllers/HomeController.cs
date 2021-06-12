@@ -133,7 +133,11 @@ namespace FEE.Controllers
             var result = _db.WebInfos.SingleOrDefault();
             return PartialView(result);
         }
-
+        public ActionResult _TopHeader()
+        {
+            var result = _db.WebInfos.SingleOrDefault();
+            return PartialView(result);
+        }
         public ActionResult Image()
         {
             var result = _db.Images.Select(x => new ImageViewModel()
