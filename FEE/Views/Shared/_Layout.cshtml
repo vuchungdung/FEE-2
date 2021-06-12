@@ -49,7 +49,7 @@
 
         <header id="header" class="header">
         </header>
-        @Html.Partial("_TopHeader")
+        @{Html.RenderAction("_TopHeader", "Home");}
         @Html.Partial("_MiddleHeader")
         @{Html.RenderAction("Menu", "Home");}
         <div class="main-content">
