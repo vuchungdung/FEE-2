@@ -86,7 +86,10 @@ namespace FEE.Areas.Admin.Controllers
 
                     }
                 }
-
+                else
+                {
+                    ModelState.AddModelError("", "Sai tài khoản hoặc mật khẩu!");
+                }
             }
             return View();
         }
@@ -136,7 +139,7 @@ namespace FEE.Areas.Admin.Controllers
             {
                 string content = System.IO.File.ReadAllText(Server.MapPath("~/Areas/Admin/Views/Mail/G_Pass.html"));
                 string pass = Guid.NewGuid().ToString().Substring(5, 10);
-                var acc = db.Users.Where(x=>x.Username == model.Username && x.Email == model.Email).FirstOrDefault();
+                var acc = db.Users.Where(x=>x.Username == model.Username).FirstOrDefault();
                 if(acc == null)
                 {
                     Notification.set_flash("Thông tin bạn cung cấp không đúng!", "warning");
@@ -146,10 +149,11 @@ namespace FEE.Areas.Admin.Controllers
                 {
                     acc.Password = XString.ToMD5(pass);
                     acc.UpdateDate = DateTime.Now;
+                    acc.UpdateBy = acc.Id;
                     db.SaveChanges();
                     content = content.Replace("{{password}}", pass);
                     string subject = "Phản hồi liên hệ từ Khoa Điện - Điện tử, trường Đại học Sư phạm Kỹ thuật Hưng Yên";
-                    new MailHelper().SendMail(model.Email, subject, content);
+                    new MailHelper().SendMail(acc.Email, subject, content);
                     Notification.set_flash("Đã gửi mật khẩu tạm thời tới email của bạn!", "success");
                     return View("Login");
                 }

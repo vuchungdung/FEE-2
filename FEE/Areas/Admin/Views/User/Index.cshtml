@@ -80,8 +80,9 @@
                                     <td>@item.Role</td>  
                                     <td>@item.Status.GetDisplayName()</td>
                                     <td class="text-center">
-                                        <a onclick="deleteConfirm(this)" id="@item.Id" data-toggle="modal" data-target="#myModal"><i style="color:red" class="fa fa-fw fa-trash"></i></a>
+                                        <a onclick="deleteConfirm(this)" id="@item.Id" data-toggle="modal" data-target="#myModal1"><i style="color:red" class="fa fa-fw fa-trash"></i></a>
                                         <a href="/admin/user/update/@item.Id"><i style="color:green" class="fa fa-fw fa-pencil"></i></a>
+                                        <a onclick="refresh(this)" id="@item.Id" data-toggle="modal" data-target="#myModal2"><i style="color:blue" class="fa fa-fw fa-refresh"></i></a>
                                     </td>
                                 </tr>
                             }
@@ -107,32 +108,49 @@
     </div>
     <!-- /.row -->
 </section>
-<div class="modal fade" id="myModal" role="dialog">
+<div class="modal fade" id="myModal1" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Bạn đang yêu cầu xóa dữ liệu</h4>
+                <h4 class="modal-title">YÊU CẦU XÓA</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                Bạn có thật sự muốn xóa dữ liệu này ?
+                Bạn có thật sự muốn xóa dữ liệu này
             </div>
             <div class="modal-footer">
                 <button type="button" id="deleteBtn" class="btn btn-danger" data-dismiss="modal">Xóa</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
             </div>
 
         </div>
 
     </div>
 </div>
+<div class="modal fade" id="myModal2" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">YÊU CẦU THAY ĐỔI MẬT KHẨU</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body" id="messagesPass">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+            </div>
 
+        </div>
+
+    </div>
+</div>
 <script>
     var idx;
     var st;
     var deleteConfirm = function (xthis) {
         xid = xthis.id;
         st = true;
+        $("#messagesPass").html("Bạn có thật sự muốn xóa dữ liệu này ?");
     }
     $('#deleteBtn').click(function () {
         $.ajax({
@@ -143,10 +161,21 @@
             dataType: "json",
             success: function (res) {
                 location.reload();
-
             }
         });
     })
- 
+    var refresh = function (xthis) {
+        var id = xthis.id;
+        $.ajax({
+            type: "POST",
+            url: '/Admin/User/Refresh',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({ id: id }),
+            dataType: "json",
+            success: function (res) {
+                $("#messagesPass").html("Mật khẩu mới là: " + res);
+            }
+        });
+    }
 </script>
 

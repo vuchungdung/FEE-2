@@ -10,7 +10,5 @@ namespace FEE.ViewModel
     {
         [Required(ErrorMessage ="Nhập đầy đủ thông tin")]
         public string Username { get; set; }
-        [Required(ErrorMessage = "Nhập đầy đủ thông tin")]
-        public string Email { get; set; }
     }
 }

@@ -148,7 +148,7 @@ namespace FEE.Areas.Admin.Controllers
             }
             catch
             {
-                Notification.set_flash("Thêm thất bại!", "warning");
+                Notification.set_flash("Lưu thất bại! Email thay thế không được trùng với Email của người dùng khác", "warning");
                 throw;
             }
         }
@@ -169,7 +169,6 @@ namespace FEE.Areas.Admin.Controllers
             {
                 Id = x.Id,
                 Name = x.Name,
-                Username = x.Username,
                 Email = x.Email,
                 Phone = x.Phone
             }).FirstOrDefault();
@@ -190,13 +189,25 @@ namespace FEE.Areas.Admin.Controllers
                 entity.UpdateDate = DateTime.Now;
                 _db.SaveChanges();
                 Notification.set_flash("Lưu thành công!", "success");
+                model.Username = entity.Username;
                 return View(model);
             }
-            catch
+            catch(Exception ex)
             {
-                Notification.set_flash("Lưu thất bại!", "warning");
-                return View(model);
+                Notification.set_flash("Lưu thất bại! Email thay thế không được trùng với Email của người dùng khác", "warning");
+                return View();
             }
+        }
+        public JsonResult Refresh(int id)
+        {
+            var user = (UserSession)Session["USER"];
+            var entity = _db.Users.Find(id);
+            string pass = Guid.NewGuid().ToString().Substring(5, 10);
+            entity.Password = XString.ToMD5(pass);
+            entity.UpdateDate = DateTime.Now;
+            entity.UpdateBy = entity.Id;
+            _db.SaveChanges();
+            return Json(pass, JsonRequestBehavior.AllowGet);
         }
     }
 }

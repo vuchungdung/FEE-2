@@ -243,7 +243,7 @@ namespace FEE.Areas.Admin.Controllers
                 }).ToList();
                 listMenus = new List<MenuViewModel>();
                 viewModel.ListMenus = Helper.ListMenus(this.Dropdown(0)).ToList();
-                return View(viewModel);
+                return View("Index");
             }
             catch
             {

@@ -31,6 +31,7 @@ namespace FEE.Models
         public string Password { get; set; }
         public int Status { get; set; }
         public int RoleId { get; set; }
+        public string Image { get; set; }
 
     }
 }
