@@ -30,7 +30,9 @@
     });
 </script>
 @Html.Partial("_MessageAlert")
-
+@{
+    var permission = (List<string>)HttpContext.Current.Session["PERMISSION"];
+}
 <section class="content-header">
     <h1>
         QUẢN LÝ
@@ -75,13 +77,25 @@
                                     <td>@item.Name</td>
                                     <td>@item.Username</td>
                                     <td>@item.Email</td>
-                                    <td>@item.Phone</td>  
+                                    <td>@item.Phone</td>
                                     <td>@item.Department</td>
-                                    <td>@item.Role</td>  
+                                    <td>@item.Role</td>
                                     <td>@item.Status.GetDisplayName()</td>
                                     <td class="text-center">
-                                        <a onclick="deleteConfirm(this)" id="@item.Id" data-toggle="modal" data-target="#myModal1"><i style="color:red" class="fa fa-fw fa-trash"></i></a>
-                                        <a href="/admin/user/update/@item.Id"><i style="color:green" class="fa fa-fw fa-pencil"></i></a>
+                                        @{
+                                            if (permission.Contains("CONTENT_POST_DELETE"))
+                                            {
+                                                <a onclick="deleteConfirm(this)" id="@item.Id" data-toggle="modal" data-target="#myModal1"><i style="color:red" class="fa fa-fw fa-trash"></i></a>
+
+                                            }
+                                        }
+                                        @{
+                                            if (permission.Contains("CONTENT_POST_DELETE"))
+                                            {
+                                                <a href="/admin/user/update/@item.Id"><i style="color:green" class="fa fa-fw fa-pencil"></i></a>
+
+                                            }
+                                        }
                                         <a onclick="refresh(this)" id="@item.Id" data-toggle="modal" data-target="#myModal2"><i style="color:blue" class="fa fa-fw fa-refresh"></i></a>
                                     </td>
                                 </tr>
@@ -157,7 +171,7 @@
             type: "POST",
             url: '/Admin/User/Delete',
             contentType: "application/json; charset=utf-8",
-            data: JSON.stringify({ id: xid}),
+            data: JSON.stringify({ id: xid }),
             dataType: "json",
             success: function (res) {
                 location.reload();

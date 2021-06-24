@@ -32,7 +32,9 @@
     });
 </script>
 @Html.Partial("_MessageAlert")
-
+@{
+    var permission = (List<string>)HttpContext.Current.Session["PERMISSION"];
+}
 <section class="content-header">
     <h1>
         QUẢN LÝ
@@ -76,8 +78,20 @@
                                         <input type="checkbox" onclick="changeShow(this)" id="@item.PartnerId" @(item.Status == true ? "checked" : "") />
                                     </td>
                                     <td class="text-center">
-                                        <a onclick="deleteConfirm(this)" id="@item.PartnerId" data-toggle="modal" data-target="#myModal"><i style="color:red" class="fa fa-fw fa-trash"></i></a>
-                                        <a href="/admin/partner/update/@item.PartnerId"><i style="color:green" class="fa fa-fw fa-pencil"></i></a>
+                                        @{
+                                            if (permission.Contains("CONTENT_POST_DELETE"))
+                                            {
+                                                <a onclick="deleteConfirm(this)" id="@item.PartnerId" data-toggle="modal" data-target="#myModal"><i style="color:red" class="fa fa-fw fa-trash"></i></a>
+
+                                            }
+                                        }
+                                        @{
+                                            if (permission.Contains("CONTENT_POST_DELETE"))
+                                            {
+                                                <a href="/admin/partner/update/@item.PartnerId"><i style="color:green" class="fa fa-fw fa-pencil"></i></a>
+
+                                            }
+                                        }
                                     </td>
                                 </tr>
                             }

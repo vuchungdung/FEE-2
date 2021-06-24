@@ -208,6 +208,14 @@
     <Compile Include="Migrations\202106230438157_update-img-user.designer.cs">
       <DependentUpon>202106230438157_update-img-user.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202106240840316_update-webinfo.cs" />
+    <Compile Include="Migrations\202106240840316_update-webinfo.designer.cs">
+      <DependentUpon>202106240840316_update-webinfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202106241450518_update-webinfo-add-field-note.cs" />
+    <Compile Include="Migrations\202106241450518_update-webinfo-add-field-note.designer.cs">
+      <DependentUpon>202106241450518_update-webinfo-add-field-note.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Command.cs" />
@@ -8693,6 +8701,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202106230438157_update-img-user.resx">
       <DependentUpon>202106230438157_update-img-user.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202106240840316_update-webinfo.resx">
+      <DependentUpon>202106240840316_update-webinfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202106241450518_update-webinfo-add-field-note.resx">
+      <DependentUpon>202106241450518_update-webinfo-add-field-note.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

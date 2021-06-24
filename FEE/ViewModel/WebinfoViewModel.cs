@@ -15,5 +15,9 @@ namespace FEE.ViewModel
         public string Facebook { get; set; }
         public string Youtube { get; set; }
         public string Zalo { get; set; }
+        public string Website { get; set; }
+        public string Time { get; set; }
+        public string Copyright { get; set; }
+        public string Note { get; set; }
     }
 }

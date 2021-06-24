@@ -23,6 +23,6 @@ namespace FEE.ViewModel
         public List<SelectListItem> Roles { get; set; }
         public string Role { get; set; }
         public string Department { get; set; }
-
+        public string Image { get; set; }
     }
 }

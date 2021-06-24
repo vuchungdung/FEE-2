@@ -48,6 +48,7 @@ namespace FEE.Areas.Admin.Controllers
             }).FirstOrDefault();
             return View(model);
         }
+        [ClaimRequirementFilter(Command = CommandCode.DELETE, Function = FunctionCode.CONTENT_CONTACT)]
         [HttpPost]
         public JsonResult Delete(int id)
         {

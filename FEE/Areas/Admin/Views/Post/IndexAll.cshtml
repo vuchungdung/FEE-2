@@ -5,7 +5,7 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml";
 }
 @{
-
+    var permission = (List<string>)HttpContext.Current.Session["PERMISSION"];
     IEnumerable<FEE.ViewModel.PostViewModel> posts = ViewData["PostAlls"] as IEnumerable<FEE.ViewModel.PostViewModel>;
 }
 <script src="~/Areas/Admin/template_admin/bower_components/jquery/dist/jquery.min.js"></script>
@@ -66,9 +66,13 @@
                         </div>
                         <button style="margin-top:4px" type="submit" class="btn btn-primary">Tìm kiếm</button>
                     }
-                    <a href="/admin/post/create" class="btn btn-success"><i class="fa fa-fw fa-plus"></i>Thêm mới</a>
                     @{
-                        var permission = (List<string>)HttpContext.Current.Session["PERMISSION"];
+                        if (permission.Contains("CONTENT_POST_CREATE"))
+                        {
+                            <a href="/admin/post/create" class="btn btn-success"><i class="fa fa-fw fa-plus"></i>Thêm mới</a>
+                        }
+                    }
+                    @{
                         if (permission.Contains("CONTENT_POST_TRASH"))
                         {
                             <a href="/admin/post/trashindex" class="btn btn-warning"><i class="fa fa-fw fa-recycle"></i>Đã xóa(@ViewBag.TrashCount)</a>
@@ -111,10 +115,19 @@
                                         <input type="checkbox" onclick="changeShow(this)" id="@item.PostId" @(item.IsShow == true ? "checked" : "") />
                                     </td>
                                     <td class="text-center">
-                                        <a onclick="deleteConfirm(this)" id="@item.PostId" data-toggle="modal" data-target="#myModal"><i style="color:red" class="fa fa-fw fa-trash"></i></a>
-                                        <a href="/admin/post/update/@item.PostId"><i style="color:green" class="fa fa-fw fa-pencil"></i></a>
+                                        @{
+                                            if (permission.Contains("CONTENT_POST_DELETE"))
+                                            {
+                                                <a onclick="deleteConfirm(this)" id="@item.PostId" data-toggle="modal" data-target="#myModal"><i style="color:red" class="fa fa-fw fa-trash"></i></a>
+                                            }
+                                        }
+                                        @{
+                                            if (permission.Contains("CONTENT_POST_UPDATE"))
+                                            {
+                                                <a href="/admin/post/update/@item.PostId"><i style="color:green" class="fa fa-fw fa-pencil"></i></a>
+                                            }
+                                        }
                                         <a href="/admin/post/item/@item.PostId"><i style="color:blue" class="fa fa-fw fa-eye"></i></a>
-
                                     </td>
                                 </tr>
                             }

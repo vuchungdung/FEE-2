@@ -26,7 +26,9 @@
     });
 </script>
 @Html.Partial("_MessageAlert")
-
+@{
+    var permission = (List<string>)HttpContext.Current.Session["PERMISSION"];
+}
 <section class="content-header">
     <h1>
         QUẢN LÝ
@@ -62,15 +64,27 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
-                <tr>
+                                <tr>
 
-                    <td>@item.Name</td>
-                    <td class="text-center">
-                        <a onclick="deleteConfirm(this)" id="@item.Id" data-toggle="modal" data-target="#myModal"><i style="color:red" class="fa fa-fw fa-trash"></i></a>
-                        <a href="/admin/role/update/@item.Id"><i style="color:green" class="fa fa-fw fa-pencil"></i></a>
-                    </td>
-                </tr>
-}
+                                    <td>@item.Name</td>
+                                    <td class="text-center">
+                                        @{
+                                            if (permission.Contains("CONTENT_POST_DELETE"))
+                                            {
+                                                <a onclick="deleteConfirm(this)" id="@item.Id" data-toggle="modal" data-target="#myModal"><i style="color:red" class="fa fa-fw fa-trash"></i></a>
+
+                                            }
+                                        }
+                                        @{
+                                            if (permission.Contains("CONTENT_POST_DELETE"))
+                                            {
+                                                <a href="/admin/role/update/@item.Id"><i style="color:green" class="fa fa-fw fa-pencil"></i></a>
+
+                                            }
+                                        }
+                                    </td>
+                                </tr>
+                            }
                         </tbody>
                         <tfoot>
                             <tr>

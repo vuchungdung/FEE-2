@@ -27,7 +27,9 @@
         });
     });
 </script>
-
+@{
+    var permission = (List<string>)HttpContext.Current.Session["PERMISSION"];
+}
 <section class="content-header">
     <h1>
         QUẢN LÝ
@@ -76,8 +78,8 @@
                                                         <span>@key.Name</span>
                                                         @if (key.SubItem.Count() > 0)
                                                         {
-                                                            <ul style="padding-left:20px;">                                                               
-                                                                @foreach(var i in key.SubItem)
+                                                            <ul style="padding-left:20px;">
+                                                                @foreach (var i in key.SubItem)
                                                                 {
                                                                     <li style="list-style: none;padding:1px 0px">
                                                                         <span>@i.Name</span>
@@ -112,8 +114,8 @@
                                                         <span>@key.CreatedDate.ToString("dd/MM/yyyy")</span>
                                                         @if (key.SubItem.Count() > 0)
                                                         {
-                                                            <ul style="padding-left:20px;">                                                               
-                                                                @foreach(var i in key.SubItem)
+                                                            <ul style="padding-left:20px;">
+                                                                @foreach (var i in key.SubItem)
                                                                 {
                                                                     <li style="list-style: none;padding:1px 0px">
                                                                         <span>@i.CreatedDate.ToString("dd/MM/yyyy")</span>
@@ -138,7 +140,7 @@
                                         }
                                     </td>
                                     <td class="text-center">
-                                         <input type="checkbox" onclick="changeStatus(this)" id="@item.Id" @(item.Status == true ? "checked" : "") />
+                                        <input type="checkbox" onclick="changeStatus(this)" id="@item.Id" @(item.Status == true ? "checked" : "") />
 
                                         @if (item.SubItem.Count() > 0)
                                         {
@@ -146,12 +148,12 @@
                                                 @foreach (var key in item.SubItem)
                                                 {
                                                     <li style="list-style:none">
-                                                         <input type="checkbox" onclick="changeStatus(this)" id="@key.Id" @(key.Status == true ? "checked" : "") />
+                                                        <input type="checkbox" onclick="changeStatus(this)" id="@key.Id" @(key.Status == true ? "checked" : "") />
 
                                                         @if (key.SubItem.Count() > 0)
                                                         {
-                                                            <ul style="padding-left:20px;">                                                               
-                                                                @foreach(var i in key.SubItem)
+                                                            <ul style="padding-left:20px;">
+                                                                @foreach (var i in key.SubItem)
                                                                 {
                                                                     <li style="list-style: none">
                                                                         <input type="checkbox" onclick="changeStatus(this)" id="@i.Id" @(i.Status == true ? "checked" : "") />
@@ -176,32 +178,80 @@
                                         }
                                     </td>
                                     <td class="text-center">
-                                        <a onclick="deleteConfirm(this)" id="@item.Id" data-toggle="modal" data-target="#myModal"><i style="color:red" class="fa fa-fw fa-trash"></i></a>
-                                        <a href="/admin/menu/update/@item.Id"><i style="color:green" class="fa fa-fw fa-pencil"></i></a>
+                                        @{
+                                            if (permission.Contains("CONTENT_POST_DELETE"))
+                                            {
+                                                <a onclick="deleteConfirm(this)" id="@item.Id" data-toggle="modal" data-target="#myModal"><i style="color:red" class="fa fa-fw fa-trash"></i></a>
+
+                                            }
+                                        }
+                                        @{
+                                            if (permission.Contains("CONTENT_POST_DELETE"))
+                                            {
+                                                <a href="/admin/menu/update/@item.Id"><i style="color:green" class="fa fa-fw fa-pencil"></i></a>
+
+                                            }
+                                        }
                                         @if (item.SubItem.Count() > 0)
                                         {
                                             <ul style="padding-left:20px;">
                                                 @foreach (var key in item.SubItem)
                                                 {
                                                     <li style="list-style:none;padding:1px 0px">
-                                                        <a onclick="deleteConfirm(this)" id="@key.Id" data-toggle="modal" data-target="#myModal"><i style="color:red" class="fa fa-fw fa-trash"></i></a>
-                                                        <a href="/admin/menu/update/@key.Id"><i style="color:green" class="fa fa-fw fa-pencil"></i></a>
+                                                        @{
+                                                            if (permission.Contains("CONTENT_POST_DELETE"))
+                                                            {
+                                                                <a onclick="deleteConfirm(this)" id="@key.Id" data-toggle="modal" data-target="#myModal"><i style="color:red" class="fa fa-fw fa-trash"></i></a>
+
+                                                            }
+                                                        }
+                                                        @{
+                                                            if (permission.Contains("CONTENT_POST_DELETE"))
+                                                            {
+                                                                <a href="/admin/menu/update/@key.Id"><i style="color:green" class="fa fa-fw fa-pencil"></i></a>
+
+                                                            }
+                                                        }
                                                         @if (key.SubItem.Count() > 0)
                                                         {
-                                                            <ul padding-left:20px;>                                                               
-                                                                @foreach(var i in key.SubItem)
+                                                            <ul padding-left:20px;>
+                                                                @foreach (var i in key.SubItem)
                                                                 {
                                                                     <li style="list-style: none;padding:1px 0px">
-                                                                        <a onclick="deleteConfirm(this)" id="@i.Id" data-toggle="modal" data-target="#myModal"><i style="color:red" class="fa fa-fw fa-trash"></i></a>
-                                                                        <a href="/admin/menu/update/@i.Id"><i style="color:green" class="fa fa-fw fa-pencil"></i></a>
+                                                                        @{
+                                                                            if (permission.Contains("CONTENT_POST_DELETE"))
+                                                                            {
+                                                                                <a onclick="deleteConfirm(this)" id="@i.Id" data-toggle="modal" data-target="#myModal"><i style="color:red" class="fa fa-fw fa-trash"></i></a>
+
+                                                                            }
+                                                                        }
+                                                                        @{
+                                                                            if (permission.Contains("CONTENT_POST_DELETE"))
+                                                                            {
+                                                                                <a href="/admin/menu/update/@i.Id"><i style="color:green" class="fa fa-fw fa-pencil"></i></a>
+
+                                                                            }
+                                                                        }
                                                                         @if (i.SubItem.Count() > 0)
                                                                         {
                                                                             <ul padding-left:20px;>
                                                                                 @foreach (var o in i.SubItem)
                                                                                 {
                                                                                     <li style="list-style: none;padding:1px 0px">
-                                                                                        <a onclick="deleteConfirm(this)" id="@o.Id" data-toggle="modal" data-target="#myModal"><i style="color:red" class="fa fa-fw fa-trash"></i></a>
-                                                                                        <a href="/admin/menu/update/@o.Id"><i style="color:green" class="fa fa-fw fa-pencil"></i></a>
+                                                                                        @{
+                                                                                            if (permission.Contains("CONTENT_POST_DELETE"))
+                                                                                            {
+                                                                                                <a onclick="deleteConfirm(this)" id="@o.Id" data-toggle="modal" data-target="#myModal"><i style="color:red" class="fa fa-fw fa-trash"></i></a>
+
+                                                                                            }
+                                                                                        }
+                                                                                        @{
+                                                                                            if (permission.Contains("CONTENT_POST_DELETE"))
+                                                                                            {
+                                                                                                <a href="/admin/menu/update/@o.Id"><i style="color:green" class="fa fa-fw fa-pencil"></i></a>
+
+                                                                                            }
+                                                                                        }
                                                                                     </li>
                                                                                 }
                                                                             </ul>
@@ -214,7 +264,7 @@
                                                 }
                                             </ul>
                                         }
-                                        
+
                                     </td>
                                     @*<td class="text-center"><input type="checkbox" data-id="@item.Id" class="checkItem" /></td>*@
                                 </tr>
@@ -267,7 +317,7 @@
             type: "POST",
             url: '/Admin/menu/delete',
             contentType: "application/json; charset=utf-8",
-            data: JSON.stringify({ id: xid}),
+            data: JSON.stringify({ id: xid }),
             dataType: "json",
             success: function (res) {
                 if (res == true) {

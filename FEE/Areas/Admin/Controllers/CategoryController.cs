@@ -80,6 +80,7 @@ namespace FEE.Areas.Admin.Controllers
             }
             return View(viewModel);
         }
+        [ClaimRequirementFilter(Command = CommandCode.DELETE, Function = FunctionCode.CONTENT_CATEGORY)]
         public JsonResult Delete(int id)
         {
             var posts = _db.Posts.Where(x => x.CategoryId == id).ToList();

@@ -94,7 +94,7 @@ namespace FEE.Areas.Admin.Controllers
         [ClaimRequirementFilter(Command = CommandCode.CREATE, Function = FunctionCode.SYSTEM_PERMISSION)]
         public JsonResult SavePermission(int roleId, List<string> listPermissions)
         {
-            if(roleId == 0)
+            if (roleId == 0)
             {
                 Notification.set_flash("Vui lòng chọn nhóm quyền!", "warning");
                 return Json(false, JsonRequestBehavior.AllowGet);
@@ -105,15 +105,18 @@ namespace FEE.Areas.Admin.Controllers
                 {
                     db.Permissions.Remove(item);
                 }
-                foreach (var item in listPermissions.Distinct())
+                if(listPermissions.Count() > 0)
                 {
-                    string[] arrListStr = item.Split('_');
-                    var model = new Permission();
-                    model.RoleId = roleId;
-                    model.CommandId = arrListStr[arrListStr.Length - 1];
-                    model.FunctionId = item.Substring(0, item.Length - arrListStr[arrListStr.Length - 1].Length - 1);
+                    foreach (var item in listPermissions.Distinct())
+                    {
+                        string[] arrListStr = item.Split('_');
+                        var model = new Permission();
+                        model.RoleId = roleId;
+                        model.CommandId = arrListStr[arrListStr.Length - 1];
+                        model.FunctionId = item.Substring(0, item.Length - arrListStr[arrListStr.Length - 1].Length - 1);
 
-                    db.Permissions.Add(model);
+                        db.Permissions.Add(model);
+                    }
                 }
                 Notification.set_flash("Cập nhật quyền thành công!", "success");
                 db.SaveChanges();
