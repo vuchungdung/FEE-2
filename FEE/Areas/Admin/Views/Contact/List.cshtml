@@ -87,13 +87,13 @@
                                     </td>
                                     <td class="text-center">
                                         @{
-                                            if (permission.Contains("CONTENT_POST_DELETE"))
+                                            if (permission.Contains("CONTENT_CONTACT_DELETE"))
                                             {
                                                 <a onclick="deleteConfirm(this)" id="@item.ContactId" data-toggle="modal" data-target="#myModal"><i style="color:red" class="fa fa-fw fa-trash"></i></a>
                                             }
                                         }
                                         @{
-                                            if (permission.Contains("CONTENT_POST_DELETE"))
+                                            if (permission.Contains("CONTENT_CONTACT_REPLY"))
                                             {
                                                 <a href="/admin/contact/reply/@item.ContactId"><i class="fa fa-fw fa-wechat" style="color:green;font-size:18px;font-weight:600"></i></a>
                                             }

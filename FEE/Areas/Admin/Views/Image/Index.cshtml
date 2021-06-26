@@ -54,7 +54,13 @@
             <div class="box">
                 <div class="box-header">
                     <h3 class="box-title">Danh sách ảnh</h3>
-                    <a href="/admin/image/create" style="margin-right:10px;position:absolute;right:0" class="btn btn-success"><i class="fa fa-fw fa-plus"></i>Thêm mới</a>
+                    @{
+                        if (permission.Contains("MORE_IMAGE_CREATE"))
+                        {
+                            <a href="/admin/image/create" style="margin-right:10px;position:absolute;right:0" class="btn btn-success"><i class="fa fa-fw fa-plus"></i>Thêm mới</a>
+
+                        }
+                    }
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
@@ -79,14 +85,14 @@
                                     </td>
                                     <td class="text-center">
                                         @{
-                                            if (permission.Contains("CONTENT_POST_DELETE"))
+                                            if (permission.Contains("MORE_IMAGE_DELETE"))
                                             {
                                                 <a onclick="deleteConfirm(this)" id="@item.ImageId" data-toggle="modal" data-target="#myModal"><i style="color:red" class="fa fa-fw fa-trash"></i></a>
 
                                             }
                                         }
                                         @{
-                                            if (permission.Contains("CONTENT_POST_DELETE"))
+                                            if (permission.Contains("MORE_IMAGE_UPDATE"))
                                             {
                                                 <a href="/admin/image/update/@item.ImageId"><i style="color:green" class="fa fa-fw fa-pencil"></i></a>
 

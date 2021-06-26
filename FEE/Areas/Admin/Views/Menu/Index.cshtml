@@ -49,8 +49,12 @@
             <div class="box">
                 <div class="box-header">
                     <h3 class="box-title">Danh sách danh mục</h3>
-                    <a href="/admin/menu/create" style="margin-right:10px;position:absolute;right:0" class="btn btn-success"><i class="fa fa-fw fa-plus"></i>Thêm mới</a>
-                    @*<button href="/admin/menu/create" style="margin-right:10px;position:absolute;right:110px" class="btn btn-danger" disabled><i class="fa fa-fw fa-trash-o"></i>Xóa nhiều</button>*@
+                    @{
+                        if (permission.Contains("MORE_MENU_CREATE"))
+                        {
+                            <a href="/admin/menu/create" style="margin-right:10px;position:absolute;right:0" class="btn btn-success"><i class="fa fa-fw fa-plus"></i>Thêm mới</a>
+                        }
+                    }
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
@@ -179,14 +183,14 @@
                                     </td>
                                     <td class="text-center">
                                         @{
-                                            if (permission.Contains("CONTENT_POST_DELETE"))
+                                            if (permission.Contains("MORE_MENU_DELETE"))
                                             {
                                                 <a onclick="deleteConfirm(this)" id="@item.Id" data-toggle="modal" data-target="#myModal"><i style="color:red" class="fa fa-fw fa-trash"></i></a>
 
                                             }
                                         }
                                         @{
-                                            if (permission.Contains("CONTENT_POST_DELETE"))
+                                            if (permission.Contains("MORE_MENU_UPDATE"))
                                             {
                                                 <a href="/admin/menu/update/@item.Id"><i style="color:green" class="fa fa-fw fa-pencil"></i></a>
 
@@ -199,14 +203,14 @@
                                                 {
                                                     <li style="list-style:none;padding:1px 0px">
                                                         @{
-                                                            if (permission.Contains("CONTENT_POST_DELETE"))
+                                                            if (permission.Contains("MORE_MENU_DELETE"))
                                                             {
                                                                 <a onclick="deleteConfirm(this)" id="@key.Id" data-toggle="modal" data-target="#myModal"><i style="color:red" class="fa fa-fw fa-trash"></i></a>
 
                                                             }
                                                         }
                                                         @{
-                                                            if (permission.Contains("CONTENT_POST_DELETE"))
+                                                            if (permission.Contains("MORE_MENU_UPDATE"))
                                                             {
                                                                 <a href="/admin/menu/update/@key.Id"><i style="color:green" class="fa fa-fw fa-pencil"></i></a>
 
@@ -219,14 +223,14 @@
                                                                 {
                                                                     <li style="list-style: none;padding:1px 0px">
                                                                         @{
-                                                                            if (permission.Contains("CONTENT_POST_DELETE"))
+                                                                            if (permission.Contains("MORE_MENU_DELETE"))
                                                                             {
                                                                                 <a onclick="deleteConfirm(this)" id="@i.Id" data-toggle="modal" data-target="#myModal"><i style="color:red" class="fa fa-fw fa-trash"></i></a>
 
                                                                             }
                                                                         }
                                                                         @{
-                                                                            if (permission.Contains("CONTENT_POST_DELETE"))
+                                                                            if (permission.Contains("MORE_MENU_UPDATE"))
                                                                             {
                                                                                 <a href="/admin/menu/update/@i.Id"><i style="color:green" class="fa fa-fw fa-pencil"></i></a>
 
@@ -239,14 +243,14 @@
                                                                                 {
                                                                                     <li style="list-style: none;padding:1px 0px">
                                                                                         @{
-                                                                                            if (permission.Contains("CONTENT_POST_DELETE"))
+                                                                                            if (permission.Contains("MORE_MENU_DELETE"))
                                                                                             {
                                                                                                 <a onclick="deleteConfirm(this)" id="@o.Id" data-toggle="modal" data-target="#myModal"><i style="color:red" class="fa fa-fw fa-trash"></i></a>
 
                                                                                             }
                                                                                         }
                                                                                         @{
-                                                                                            if (permission.Contains("CONTENT_POST_DELETE"))
+                                                                                            if (permission.Contains("MORE_MENU_UPDATE"))
                                                                                             {
                                                                                                 <a href="/admin/menu/update/@o.Id"><i style="color:green" class="fa fa-fw fa-pencil"></i></a>
 

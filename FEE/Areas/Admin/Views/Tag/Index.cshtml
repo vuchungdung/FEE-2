@@ -47,7 +47,13 @@
             <div class="box">
                 <div class="box-header">
                     <h3 class="box-title">Danh sách các tag</h3>
-                    <a href="/admin/tag/create" style="margin-right:10px;position:absolute;right:0" class="btn btn-success"><i class="fa fa-fw fa-plus"></i>Thêm mới</a>
+                    @{
+                        if (permission.Contains("CONTENT_TAG_CREATE"))
+                        {
+                            <a href="/admin/tag/create" style="margin-right:10px;position:absolute;right:0" class="btn btn-success"><i class="fa fa-fw fa-plus"></i>Thêm mới</a>
+
+                        }
+                    }
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
@@ -68,14 +74,14 @@
                                     <td>@item.Name</td>
                                     <td class="text-center">
                                         @{
-                                            if (permission.Contains("CONTENT_POST_DELETE"))
+                                            if (permission.Contains("CONTENT_TAG_DELETE"))
                                             {
                                                 <a onclick="deleteConfirm(this)" id="@item.TagId" data-toggle="modal" data-target="#myModal"><i style="color:red" class="fa fa-fw fa-trash"></i></a>
 
                                             }
                                         }
                                         @{
-                                            if (permission.Contains("CONTENT_POST_DELETE"))
+                                            if (permission.Contains("CONTENT_TAG_UPDATE"))
                                             {
                                                 <a href="/admin/tag/update/@item.TagId"><i style="color:green" class="fa fa-fw fa-pencil"></i></a>
 

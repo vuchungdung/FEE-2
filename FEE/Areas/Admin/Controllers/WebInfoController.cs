@@ -50,6 +50,10 @@ namespace FEE.Areas.Admin.Controllers
                 model.Facebook = viewmodel.Facebook;
                 model.Youtube = viewmodel.Youtube;
                 model.Zalo = viewmodel.Zalo;
+                model.Copyright = viewmodel.Copyright;
+                model.Website = viewmodel.Website;
+                model.Note = viewmodel.Note;
+                model.Time = viewmodel.Time;
                 _db.WebInfos.Add(model);
                 _db.SaveChanges();
                 Notification.set_flash("Lưu thành công!", "success");
@@ -79,6 +83,10 @@ namespace FEE.Areas.Admin.Controllers
             viewModel.Facebook = model.Facebook;
             viewModel.Youtube = model.Youtube;
             viewModel.Zalo = model.Zalo;
+            viewModel.Copyright = model.Copyright;
+            viewModel.Website = model.Website;
+            viewModel.Note = model.Note;
+            viewModel.Time = model.Time;
             ViewBag.Img = viewModel.Logo;
             return View(viewModel);
         }
@@ -96,6 +104,10 @@ namespace FEE.Areas.Admin.Controllers
                 model.Facebook = viewModel.Facebook;
                 model.Youtube = viewModel.Youtube;
                 model.Zalo = viewModel.Zalo;
+                model.Copyright = viewModel.Copyright;
+                model.Website = viewModel.Website;
+                model.Note = viewModel.Note;
+                model.Time = viewModel.Time;
                 _db.SaveChanges();
                 Notification.set_flash("Cập nhật thành công!", "success");
                 ViewBag.Img = viewModel.Logo;
