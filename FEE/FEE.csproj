@@ -7321,6 +7321,9 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="ImageUsers\1.jpg" />
+    <Content Include="ImageUsers\14.jpg" />
+    <Content Include="ImageUsers\30.jpg" />
     <Content Include="Lib\CKFinder.dll" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -7909,7 +7912,7 @@
     <Content Include="Areas\Admin\template_admin\dist\css\adminlte.min.css.map" />
     <Content Include="Areas\Admin\template_admin\plugins\input-mask\phone-codes\phone-be.json" />
     <Content Include="Areas\Admin\template_admin\plugins\input-mask\phone-codes\phone-codes.json" />
-    <Content Include="Areas\Admin\Views\Shared\_Header.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\Header.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Footer.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Login.cshtml" />
     <Content Include="Areas\Admin\Views\Auth\Login.cshtml" />
@@ -8523,6 +8526,7 @@
     <Content Include="template-client\images\testimonials\2.jpg" />
     <Content Include="template-client\images\testimonials\3.jpg" />
     <Content Include="template-client\images\testimonials\quote_arrow.html" />
+    <Content Include="ImageUsers\unnamed.png" />
     <Content Include="template-client\js\bootstrap.min.js" />
     <Content Include="template-client\js\calendar-events-data.js" />
     <Content Include="template-client\js\chart.js" />

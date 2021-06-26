@@ -198,7 +198,7 @@ namespace FEE.Areas.Admin.Controllers
                     TagId = x.Id,
                     Name = x.Name
                 }).ToList(),
-                ListMenus = Helper.ListMenus(this.Dropdown(0)).ToList()
+                ListMenus = Helper.ListMenus(this.Dropdown(0)).ToList(),
             };
             return View(model);
         }
@@ -221,7 +221,14 @@ namespace FEE.Areas.Admin.Controllers
                     model.Content = viewModel.Content;
                     model.Deleted = false;
                     model.CreateBy = user.Id;
-                    model.CreateDate = viewModel.CreateDate;
+                    if(viewModel.CreateDate == null)
+                    {
+                        model.CreateDate = DateTime.Now;
+                    }
+                    else
+                    {
+                        model.CreateDate = viewModel.CreateDate;
+                    }
                     model.DepartmentId = user.DepartmentId;
                     model.Alias = XString.ToAscii(model.Name);
                     model.Img = viewModel.Img;
@@ -243,7 +250,7 @@ namespace FEE.Areas.Admin.Controllers
                 }).ToList();
                 listMenus = new List<MenuViewModel>();
                 viewModel.ListMenus = Helper.ListMenus(this.Dropdown(0)).ToList();
-                return View("Index");
+                return RedirectToAction("Index");
             }
             catch
             {

@@ -74,7 +74,7 @@ namespace FEE.Areas.Admin.Controllers
                             userSession.RoleId = user.RoleId;
                             userSession.Username = user.Username;
                             userSession.DepartmentId = user.DepartmentId;
-
+                            userSession.Image = user.Image;
                             Session.Add("USER", userSession);
                             Session.Add("PERMISSION", AuthPermission.GetProfileService(user.Id));
                             if (ReturnUrl != null)

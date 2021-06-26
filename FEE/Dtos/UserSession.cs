@@ -12,5 +12,6 @@ namespace FEE.Dtos
         public string Username { get; set; }
         public int RoleId { get; set; }
         public int DepartmentId { get; set; }
+        public string Image { get; set; }
     }
 }

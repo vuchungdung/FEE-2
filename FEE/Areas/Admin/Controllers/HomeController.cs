@@ -25,7 +25,10 @@ namespace FEE.Areas.Admin.Controllers
             }
             return RedirectToAction("Login", "Auth");
         }
-
+        public ActionResult Header()
+        {
+            return PartialView();
+        }
         [Authorize]          
         public ActionResult SideBar()
         {

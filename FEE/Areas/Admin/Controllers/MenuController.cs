@@ -103,9 +103,9 @@ namespace FEE.Areas.Admin.Controllers
                 }
                 viewmodel = new MenuViewModel();
                 viewmodel.ListMenus = new SelectList(this.Dropdown(0), "Id", "Name", 0);
-                return View(viewmodel);
+                return RedirectToAction("Index");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Notification.set_flash("Thêm thất bại!", "warning");
                 throw ex;

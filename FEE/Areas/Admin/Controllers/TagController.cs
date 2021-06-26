@@ -42,7 +42,7 @@ namespace FEE.Areas.Admin.Controllers
                 _db.SaveChanges();
                 Notification.set_flash("Lưu thành công!", "success");
                 ModelState.Clear();
-                return View();
+                return RedirectToAction("Index");
             }
             catch (Exception ex)
             {

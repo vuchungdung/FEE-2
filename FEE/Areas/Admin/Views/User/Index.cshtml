@@ -65,6 +65,7 @@
                     <table id="example1" class="table table-bordered table-striped">
                         <thead>
                             <tr>
+                                <th>Ảnh</th>
                                 <th>Họ và tên</th>
                                 <th>Tài khoản</th>
                                 <th>Email</th>
@@ -79,7 +80,9 @@
                             @foreach (var item in Model)
                             {
                                 <tr>
-
+                                    <td>
+                                        <img src="@item.Image" style="width:30px;height:30px;border-radius:50%" />
+                                    </td>
                                     <td>@item.Name</td>
                                     <td>@item.Username</td>
                                     <td>@item.Email</td>
@@ -109,6 +112,7 @@
                         </tbody>
                         <tfoot>
                             <tr>
+                                <th>Ảnh</th>
                                 <th>Họ và tên</th>
                                 <th>Tài khoản</th>
                                 <th>Email</th>

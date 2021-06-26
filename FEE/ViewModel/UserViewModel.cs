@@ -24,5 +24,6 @@ namespace FEE.ViewModel
         public string Role { get; set; }
         public string Department { get; set; }
         public string Image { get; set; }
+        public HttpPostedFileBase File { get; set; }
     }
 }

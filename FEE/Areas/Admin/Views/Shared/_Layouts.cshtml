@@ -20,7 +20,7 @@
 <body class="hold-transition skin-blue sidebar-mini">
     @Html.Partial("_MessageAlert")
     <div class="wrapper">
-        @Html.Partial("_Header")
+        @{ Html.RenderAction("Header", "Home");}
         @{ Html.RenderAction("SideBar", "Home");}
         <div class="content-wrapper">
             <section class="content container-fluid">

@@ -4,13 +4,16 @@
     <section class="sidebar">
         <div class="user-panel">
             <div class="pull-left image">
-                <img src="~/Areas/Admin/template_admin/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                @{
+                    var user_1 = (FEE.Dtos.UserSession)Session["USER"];
+                    <img src="@user_1.Image" class="img-circle" alt="User Image">
+                }
 
             </div>
             <div class="pull-left info">
                 @{
-                    var user = (FEE.Dtos.UserSession)Session["USER"];
-                    <p>Tài khoản : @user.Username</p>                
+                    var user_2= (FEE.Dtos.UserSession)Session["USER"];
+                    <p>Tài khoản : @user_2.Username</p>                
                  }
                 
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
@@ -53,7 +56,7 @@
             }
             @{
 
-                if (user.RoleId == 1)
+                if (user_1.RoleId == 1)
                 {
                     <li><a href="/Admin/BackUp/Index"><i class="fa fa-edit"></i> Sao lưu dữ liệu</a></li>
                     <li><a href="/Admin/Post/IndexAll"><i class="fa fa-edit"></i> Tổng hợp bài viết</a></li>

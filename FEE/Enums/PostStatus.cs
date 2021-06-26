@@ -10,8 +10,8 @@ namespace FEE.Enums
     public enum PostStatus
     {
         [Display(Name = "Bản nháp")]
-        Doing = 1,
-        [Display(Name = "Hoàn thành")]
-        Actived = 0,
+        Doing = 0,
+        [Display(Name = "Đăng ngay")]
+        Actived = 1,
     }
 }

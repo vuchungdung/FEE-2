@@ -5,6 +5,8 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layouts.cshtml";
 }
 
+@Html.Partial("_MessageAlert")
+<script src="~/Areas/Admin/template_admin/bower_components/jquery/dist/jquery.min.js"></script>
 
 <div class="box box-warning">
     <div class="box-header with-border">
@@ -12,16 +14,14 @@
     </div>
     <!-- /.box-header -->
     <div class="box-body">
-        @using (Html.BeginForm("Create", "User", FormMethod.Post))
+        @using (Html.BeginForm("Create", "User", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             <div class="form-group">
                 <label>Hình ảnh đại diện:</label>
-                @Html.TextBoxFor(model => model.Image, htmlAttributes: new { @style = "display:none", @type="file" })
-                @Html.ValidationMessageFor(model => model.Image, "", new { @class = "text-danger" })
-
+                @Html.TextBoxFor(model => model.File, htmlAttributes: new { @type = "file" })
             </div>
             <div class="form-group">
-                <img class="img-responsive" style="max-width:60%;text-align:center" id="Img2" src="~/Areas/Admin/template_admin/dist/img/no-image-available.jpg" alt="Ảnh đại diện" />
+                <img class="img-responsive" style="width:100px;height:100px;border-radius:50%" id="avtpreview" src="~/ImageUsers/unnamed.png" alt="Ảnh đại diện" />
             </div>
             <div class="form-group">
                 <label>Họ và tên:</label>
@@ -88,3 +88,20 @@
         }
     </div>
 </div>
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#avtpreview').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#File").change(function () {
+        readURL(this);
+    });
+</script>

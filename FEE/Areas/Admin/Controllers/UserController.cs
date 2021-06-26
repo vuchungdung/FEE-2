@@ -1,4 +1,4 @@
-﻿using FEE.Authorize;
+﻿ using FEE.Authorize;
 using FEE.Dtos;
 using FEE.Enums;
 using FEE.Library;
@@ -6,6 +6,7 @@ using FEE.Models;
 using FEE.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -36,7 +37,8 @@ namespace FEE.Areas.Admin.Controllers
                              Status = (UserStatus)x.Status,
                              CreateDate = x.CreateDate,
                              Role = r.Name,
-                             Department = d.Name
+                             Department = d.Name,
+                             Image = x.Image
                          };
             var list = result.OrderByDescending(x => x.Id).ToList();
             return View(list);
@@ -73,6 +75,17 @@ namespace FEE.Areas.Admin.Controllers
                     model.Password = XString.ToMD5(viewModel.Password);
                     model.Username = viewModel.Username;
                     model.Email = viewModel.Email;
+                    if(viewModel.File == null)
+                    {
+                        model.Image = "/ImageUsers/unnamed.png";
+                    }
+                    else
+                    {
+                        string fileName = Path.GetFileName(viewModel.File.FileName);
+                        model.Image = "~/ImageUsers/" + fileName;
+                        string path = Path.Combine(Server.MapPath("~/ImageUsers"), fileName);
+                        viewModel.File.SaveAs(path);
+                    }
                     _db.Users.Add(model);
                     _db.SaveChanges();
                     Notification.set_flash("Lưu thành công!", "success");
@@ -85,7 +98,7 @@ namespace FEE.Areas.Admin.Controllers
                 viewModel = new UserViewModel();
                 viewModel.Departments = Helper.ListDepartments().ToList();
                 viewModel.Roles = Helper.ListRoles().ToList();
-                return View(viewModel);
+                return RedirectToAction("Index");
             }
             catch
             {
@@ -107,7 +120,8 @@ namespace FEE.Areas.Admin.Controllers
                 Status = (UserStatus)x.Status,
                 CreateDate = x.CreateDate,
                 RoleId = x.RoleId,
-                DepartmentId = x.DepartmentId
+                DepartmentId = x.DepartmentId,
+                Image = x.Image
 
             }).SingleOrDefault();
             model.Departments = Helper.ListDepartments().ToList();
@@ -133,6 +147,17 @@ namespace FEE.Areas.Admin.Controllers
                     model.RoleId = viewModel.RoleId;
                     model.Phone = viewModel.Phone;
                     model.Email = viewModel.Email;
+                    if (viewModel.File == null)
+                    {
+                        model.Image = viewModel.Image;
+                    }
+                    else
+                    {
+                        string fileName = Path.GetFileName(viewModel.File.FileName);
+                        model.Image = "/ImageUsers/" + fileName;
+                        string path = Path.Combine(Server.MapPath("~/ImageUsers"), fileName);
+                        viewModel.File.SaveAs(path);
+                    }
                     _db.SaveChanges();
                     Notification.set_flash("Lưu thành công!", "success");
                 }
@@ -170,7 +195,8 @@ namespace FEE.Areas.Admin.Controllers
                 Id = x.Id,
                 Name = x.Name,
                 Email = x.Email,
-                Phone = x.Phone
+                Phone = x.Phone,
+                Image = x.Image
             }).FirstOrDefault();
             return View(model);
         }
@@ -187,8 +213,20 @@ namespace FEE.Areas.Admin.Controllers
                 entity.Phone = model.Phone;
                 entity.UpdateBy = user.Id;
                 entity.UpdateDate = DateTime.Now;
+                if (model.File == null)
+                {
+                    entity.Image = model.Image;
+                }
+                else
+                {
+                    string fileName = Path.GetFileName(model.File.FileName);
+                    entity.Image = "/ImageUsers/" + fileName;
+                    string path = Path.Combine(Server.MapPath("~/ImageUsers"), fileName);
+                    model.File.SaveAs(path);
+                }
                 _db.SaveChanges();
                 Notification.set_flash("Lưu thành công!", "success");
+                model.Image = entity.Image;
                 model.Username = entity.Username;
                 return View(model);
             }

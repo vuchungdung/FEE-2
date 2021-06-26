@@ -56,7 +56,7 @@ namespace FEE.Areas.Admin.Controllers
                 {
                     Notification.set_flash("Nhập đầy đủ thông tin!", "warning");
                 }
-                return View();
+                return RedirectToAction("Index");
             }
             catch (Exception ex)
             {

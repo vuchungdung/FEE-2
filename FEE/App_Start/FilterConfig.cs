@@ -35,6 +35,7 @@ namespace FEE
                     userSession.RoleId = user.RoleId;
                     userSession.Username = user.Username;
                     userSession.DepartmentId = user.DepartmentId;
+                    userSession.Image = user.Image;
                     HttpContext.Current.Session.Add("USER", userSession);
                     HttpContext.Current.Session.Add("PERMISSION", AuthPermission.GetProfileService(user.Id));
                 }

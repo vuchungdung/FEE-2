@@ -11,10 +11,10 @@
             <ul class="nav navbar-nav">
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="~/Areas/Admin/template_admin/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                        @if((FEE.Dtos.UserSession)Session["USER"] != null)
+                        @if ((FEE.Dtos.UserSession)Session["USER"] != null)
                         {
                             var user = (FEE.Dtos.UserSession)Session["USER"];
+                            <img src="@user.Image" class="user-image" alt="User Image">
                             <span class="hidden-xs">Người dùng: @user.Name</span>
                         }
 
