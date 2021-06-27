@@ -8667,6 +8667,7 @@
     <Content Include="Views\Shared\Image.cshtml" />
     <Content Include="Views\Shared\Partner.cshtml" />
     <Content Include="Views\Post\Search.cshtml" />
+    <Content Include="Views\Post\PostHot.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

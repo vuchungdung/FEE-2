@@ -5,20 +5,20 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div id="fb-root"></div>
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v11.0" nonce="n22sCSu7"></script>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v11.0" nonce="vjpcPD3V"></script>
 <section>
-    <div class="container">
+    <div class="container" style="padding-top:45px">
         <div class="row">
             <div class="col-md-9">
-                <h4 style="color:black">@Model.Name</h4>
-                <p style="margin-right:10px">Ngày: @Model.CreateDate.ToString("dd-MM-yyyy") Người soạn: @Model.Author</p>
+                <h2 style="color:black;margin-top:0px;">@Model.Name</h2>
+                <p style="margin-left:10px;font-style:italic;font-size:14px"><i class="fa fa-calendar" style="padding-right:5px;color:#5D9CEC !important;"></i>Ngày: @Model.CreateDate.ToString("dd-MM-yyyy") - Người soạn: @Model.Author</p>
                 <p style="color:black">@Html.Raw(Model.Content)</p>
-                <p><a href="javascript:void(0)" onclick="In_Content()">Tạo bản IN</a></p>
+                <p><a href="javascript:void(0)" onclick="In_Content()"><i class="fa fa-print" style="padding-right:5px;color:#5D9CEC !important;"></i>Tạo bản IN</a></p>
                 <div style="margin-top:20px;position:absolute;right:-60px">
-                    <div class="fb-like" data-href="https://localhost:44303/@Model.Alias-@Model.PostId" data-width="" data-layout="standard" data-action="like" data-size="small" data-share="true"></div>
+                    <div class="fb-like" data-href="https://www.facebook.com/fee.utehy" data-width="" data-layout="standard" data-action="like" data-size="small" data-share="true"></div>
                 </div>
                 <div style="margin-top: 60px;" class="commment-fb-cus">
-                    <div class="fb-comments" data-href="https://localhost:44303/@Model.Alias-@Model.PostId" data-numposts="5" data-width="100%"></div>
+                    <div class="fb-comments" data-href="/@Model.Alias-@Model.PostId" data-numposts="5" data-width="100%"></div>
                 </div>
             </div>
             <div class="col-md-3">
@@ -57,15 +57,15 @@
             <div class="col-md-12">
                 <div id="header" class="clearfix">
                     <h2>Khoa Điện - Điện Tử</h2>
-                    <p><a title="Khoa Điện - Điện Tử" href="http://fee.utehy.edu.vn/">http://fee.utehy.edu.vn</a></p>
+                    <p><a title="Khoa Điện - Điện Tử" href="http://fee.utehy.edu.vn/"><i class="fa fa-globe text-theme-colored2 mr-5" style="padding-right:5px;color:#5D9CEC !important;"></i>http://fee.utehy.edu.vn</a></p>
                 </div>
                 <div class="clear"></div>
                 <div id="content">
                     <h1>@Model.Name</h1>
                     <ul>
                         <li class="time">Ngày: @Model.CreateDate.ToString("dd-MM-yyyy")</li>
-                        <li><a title="Đóng cửa sổ này" href="javascript:;" onclick="window.close()">Đóng cửa sổ này</a></li>
-                        <li><a title="Đóng cửa sổ này" href="javascript:;" onclick="window.print()">In bài</a></li>
+                        <li><a title="Đóng cửa sổ này" href="javascript:;" onclick="window.close()"><i class="fa fa-close" style="padding-right:5px;color:#5D9CEC !important;"></i>Đóng cửa sổ này</a></li>
+                        <li><a title="Đóng cửa sổ này" href="javascript:;" onclick="window.print()"><i class="fa fa-print" style="padding-right:5px;color:#5D9CEC !important;"></i>In bài</a></li>
                     </ul>
                     <div class="clear"></div>
                     <div>

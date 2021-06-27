@@ -42,6 +42,13 @@ namespace FEE
            );
 
             routes.MapRoute(
+               name: "Tin Hot",
+               url: "danh-sach-tin-noi-bat",
+               defaults: new { controller = "Post", action = "PostHot", id = UrlParameter.Optional },
+               namespaces: new[] { "FEE.Controllers" }
+           );
+
+            routes.MapRoute(
                 name: "Trang chủ",
                 url: "",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },

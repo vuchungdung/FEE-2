@@ -111,6 +111,23 @@ namespace FEE.Controllers
             return View(result);
         }
 
+        public ActionResult PostHot(int page = 1, int pageSize = 6)
+        {
+            IPagedList<PostViewModel> result = null;
+            var listItem = _db.Posts.Where(x => x.Deleted == false && x.IsShow == true && x.HomeFlag == true && x.HotFlag == false)
+                                            .Select(x => new PostViewModel()
+                                            {
+                                                PostId = x.PostId,
+                                                Name = x.Name,
+                                                Description = x.Description,
+                                                Img = x.Img,
+                                                CreateDate = x.CreateDate,
+                                                Alias = x.Alias
+
+                                            }).OrderByDescending(x => x.CreateDate).ToList();
+            result = listItem.ToPagedList(page, pageSize);
+            return View(result);
+        }
 
         public ActionResult Category()
         {

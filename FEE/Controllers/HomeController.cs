@@ -25,7 +25,7 @@ namespace FEE.Controllers
                                                 CreateDate = x.CreateDate,
                                                 Alias = x.Alias
 
-                                            }).OrderBy(x => x.CreateDate).ToList();
+                                            }).OrderByDescending(x => x.CreateDate).ToList();
             listResult.TinNoiBats = _db.Posts.Where(x => x.Deleted == false && x.IsShow == true && x.HomeFlag == true && x.HotFlag == false)
                                             .Select(x => new PostViewModel()
                                             {
@@ -36,7 +36,7 @@ namespace FEE.Controllers
                                                 CreateDate = x.CreateDate,
                                                 Alias = x.Alias
 
-                                            }).OrderBy(x => x.CreateDate).ToList();
+                                            }).OrderByDescending(x => x.CreateDate).ToList();
             listResult.TinTucs = _db.Posts.Where(x => x.Deleted == false && x.CategoryId == 1 && x.IsShow == true)
                                             .Select(x => new PostViewModel()
                                             {
@@ -47,7 +47,7 @@ namespace FEE.Controllers
                                                 CreateDate = x.CreateDate,
                                                 Alias = x.Alias
 
-                                            }).OrderBy(x => x.CreateDate).ToList();
+                                            }).OrderByDescending(x => x.CreateDate).ToList();
             listResult.TinTuyenDung = _db.Posts.Where(x => x.Deleted == false && x.CategoryId == 4 && x.IsShow == true)
                                             .Select(x => new PostViewModel()
                                             {
@@ -58,7 +58,7 @@ namespace FEE.Controllers
                                                 CreateDate = x.CreateDate,
                                                 Alias = x.Alias
 
-                                            }).OrderBy(x => x.CreateDate).ToList();
+                                            }).OrderByDescending(x => x.CreateDate).ToList();
             listResult.BaiGhim = _db.Posts.Where(x => x.HotFlag == true && x.Deleted == false && x.IsShow == true)
                                             .Select(x => new PostViewModel()
                                             {
