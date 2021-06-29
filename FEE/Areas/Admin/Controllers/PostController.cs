@@ -393,7 +393,7 @@ namespace FEE.Areas.Admin.Controllers
                             MenuId = x.MenuId,
                             Author = u.Name
                         };
-            var result = query.OrderBy(x => x.CreateDate).ToList();
+            var result = query.OrderByDescending(x => x.UpdateDate).ToList();
             return View(result);
         }
         public JsonResult ChangeHome(int id, bool status)
