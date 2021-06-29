@@ -114,7 +114,7 @@ namespace FEE.Controllers
         public ActionResult PostHot(int page = 1, int pageSize = 6)
         {
             IPagedList<PostViewModel> result = null;
-            var listItem = _db.Posts.Where(x => x.Deleted == false && x.IsShow == true && x.HomeFlag == true && x.HotFlag == false)
+            var listItem = _db.Posts.Where(x => x.Deleted == false && x.IsShow == true && x.HomeFlag == true)
                                             .Select(x => new PostViewModel()
                                             {
                                                 PostId = x.PostId,
