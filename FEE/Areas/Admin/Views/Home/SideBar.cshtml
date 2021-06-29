@@ -6,7 +6,7 @@
             <div class="pull-left image">
                 @{
                     var user_1 = (FEE.Dtos.UserSession)Session["USER"];
-                    <img src="@user_1.Image" class="img-circle" alt="User Image">
+                    <img src="@user_1.Image" class="img-circle" style="margin-top:2px;height:45px" alt="User Image">
                 }
 
             </div>
@@ -16,19 +16,9 @@
                     <p>Tài khoản : @user_2.Username</p>                
                  }
                 
-                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                <a><i class="fa fa-circle text-success"></i> Online</a>
             </div>
         </div>
-        <form action="#" method="get" class="sidebar-form">
-            <div class="input-group">
-                <input type="text" name="q" class="form-control" placeholder="Search...">
-                <span class="input-group-btn">
-                    <button type="submit" name="search" id="search-btn" class="btn btn-flat">
-                        <i class="fa fa-search"></i>
-                    </button>
-                </span>
-            </div>
-        </form>
         <ul class="sidebar-menu" data-widget="tree">
             @if (Model != null)
             {

@@ -54,7 +54,7 @@ namespace FEE.Controllers
                 CategoryId = x.CategoryId.ToString(),
                 Alias = x.Alias
 
-            }).OrderBy(x => x.CreateDate).ToList();
+            }).OrderByDescending(x => x.CreateDate).ToList();
 
             if(id != 0)
             {
@@ -99,7 +99,7 @@ namespace FEE.Controllers
                 CategoryId = x.CategoryId.ToString(),
                 Alias = x.Alias
 
-            }).OrderBy(x => x.CreateDate).ToList();          
+            }).OrderByDescending(x => x.CreateDate).ToList();          
 
             if (!String.IsNullOrEmpty(tukhoa))
             {
@@ -136,7 +136,7 @@ namespace FEE.Controllers
 
                 Name = x.Name,
                 CategoryId = x.CategoryId,
-            }).ToList().OrderBy(x => x.CategoryId).ToList();
+            }).ToList().OrderByDescending(x => x.CategoryId).ToList();
 
             return PartialView(listItem);
         }
@@ -152,7 +152,7 @@ namespace FEE.Controllers
                 CreateDate = x.CreateDate,
                 CategoryId = x.CategoryId.ToString()
 
-            }).OrderBy(x => x.CreateDate).ToList();
+            }).OrderByDescending(x => x.CreateDate).ToList();
             listItem = listItem.Where(x => x.CategoryId == TempData["categoryId"].ToString() && x.PostId != Convert.ToInt32(TempData["postId"])).ToList();
             return PartialView(listItem);
         }

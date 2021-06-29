@@ -166,6 +166,7 @@ namespace FEE.Areas.Admin.Controllers
                     Notification.set_flash("Nhập đầy đủ thông tin!", "warning");
                 }
                 viewModel = new UserViewModel();
+                viewModel.Image = model.Image;
                 viewModel.Departments = Helper.ListDepartments().ToList();
                 viewModel.Roles = Helper.ListRoles().ToList();
                 viewModel.Username = model.Username;
