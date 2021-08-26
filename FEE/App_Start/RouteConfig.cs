@@ -36,7 +36,7 @@ namespace FEE
 
             routes.MapRoute(
                name: "Tin",
-               url: "bai-viet-{alias}-{id}",
+               url: "{alias}-{id}",
                defaults: new { controller = "Post", action = "PostDetail", id = UrlParameter.Optional },
                namespaces: new[] { "FEE.Controllers" }
            );

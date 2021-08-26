@@ -105,7 +105,7 @@
 
                                             }
                                         }
-                                        <a onclick="refresh(this)" id="@item.Id" data-toggle="modal" data-target="#myModal2"><i style="color:blue" class="fa fa-fw fa-refresh"></i></a>
+                                        <a onclick="refreshConfirm(this)" id="@item.Id" data-toggle="modal" data-target="#myModal2"><i style="color:blue" class="fa fa-fw fa-refresh"></i></a>
                                     </td>
                                 </tr>
                             }
@@ -161,6 +161,7 @@
             <div class="modal-body" id="messagesPass">
             </div>
             <div class="modal-footer">
+                <button type="button" id="refreshBtn" class="btn btn-danger">Đồng ý</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
             </div>
 
@@ -171,6 +172,11 @@
 <script>
     var idx;
     var st;
+    var refreshConfirm = function (xthis) {
+        xid = xthis.id;
+        st = true;
+        $("#messagesPass").html("Mật khẩu mới là: ");
+    }
     var deleteConfirm = function (xthis) {
         xid = xthis.id;
         st = true;
@@ -188,18 +194,17 @@
             }
         });
     })
-    var refresh = function (xthis) {
-        var id = xthis.id;
+    $('#refreshBtn').click(function () {
         $.ajax({
             type: "POST",
             url: '/Admin/User/Refresh',
             contentType: "application/json; charset=utf-8",
-            data: JSON.stringify({ id: id }),
+            data: JSON.stringify({ id: xid }),
             dataType: "json",
             success: function (res) {
                 $("#messagesPass").html("Mật khẩu mới là: " + res);
             }
         });
-    }
+    })
 </script>
 

@@ -68,16 +68,15 @@ namespace FEE.Controllers
 
             if(categoryId != 0)
             {
-                ViewBag.categoryId = categoryId;
                 listItem = listItem.Where(x => x.CategoryId == categoryId.ToString()).ToList();
             }
 
             if(tag != 0)
             {
-                ViewBag.tag = tag;
                 listItem = listItem.Where(x => x.TagId.Contains(tag.ToString())).ToList();
             }
-
+            ViewBag.tag = tag;
+            ViewBag.categoryId = categoryId;
             ViewBag.Count = listItem.Count();
             result = listItem.ToPagedList(page, pageSize);            
             return View(result);

@@ -64,7 +64,7 @@
                                 </div>
                                 <div>
                                     <a href="#" style="font-size:14px;color:black"><i class="fa fa-calendar" style="padding-right:5px;color:#5D9CEC !important"></i>Ngày @Model.BaiGhim.CreateDate.ToString("dd-MM-yyyy")</a>
-                                    <a href="bai-viet-@Model.BaiGhim.Alias-@Model.BaiGhim.PostId">
+                                    <a href="@Model.BaiGhim.Alias-@Model.BaiGhim.PostId">
                                         <h3 style="margin-top:0">@Model.BaiGhim.Name</h3>
                                     </a>
                                     <span style="text-align: justify;">
@@ -88,8 +88,8 @@
                                     </div>
                                     <div class="col-sm-8 pl-0">
                                         <div>
-                                            <a href="bai-viet-@item.Alias-@item.PostId" style="font-size:13.5px;color:black;"><i class="fa fa-calendar" style="padding-right:5px;color:#5D9CEC !important;font-weight:600;"></i>Ngày @item.CreateDate.ToString("dd-MM-yyyy")</a>
-                                            <a href="bai-viet-@item.Alias-@item.PostId">
+                                            <a href="@item.Alias-@item.PostId" style="font-size:13.5px;color:black;"><i class="fa fa-calendar" style="padding-right:5px;color:#5D9CEC !important;font-weight:600;"></i>Ngày @item.CreateDate.ToString("dd-MM-yyyy")</a>
+                                            <a href="@item.Alias-@item.PostId">
                                                 <h4 style="margin: 5px;">@item.Name</h4>
                                             </a>
                                         </div>
@@ -129,7 +129,7 @@
                                         <div class="campaign-overlay"></div>
                                     </div>
                                     <div class="campaign-details clearfix pl-20 pr-20 pt-15 pb-15" style="height:152px;position:relative">
-                                        <h4 class="mt-0 mb-0"><a href="bai-viet-@item.Alias-@item.PostId">@item.Name</a></h4>
+                                        <h4 class="mt-0 mb-0"><a href="@item.Alias-@item.PostId">@item.Name</a></h4>
                                         <ul class="mb-10">
                                             <li class="text-theme-colored2"><span style="font-size:14px;color:black"><i class="fa fa-calendar" style="padding-right:5px;color:#5D9CEC !important;font-weight:600;"></i>Ngày @item.CreateDate.ToString("dd-MM-yyyy")</span></li>
                                         </ul>
@@ -167,7 +167,7 @@
                                         <div class="event-content pull-left flip">
                                             <h4 class="event-title media-heading font-roboto-slab font-weight-700">
                                                 <!---->
-                                                <!----><a href="bai-viet-@item.Alias-@item.PostId">
+                                                <!----><a href="@item.Alias-@item.PostId">
                                                     @item.Name
                                                 </a>
                                             </h4>
