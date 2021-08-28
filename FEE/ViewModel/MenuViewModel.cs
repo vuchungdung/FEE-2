@@ -16,9 +16,9 @@ namespace FEE.ViewModel
         public string URL { get; set; }
 
         [Required(ErrorMessage = "Chưa chọn thứ tự")]
-        public int? DisplayOrder { get; set; }
+        public int DisplayOrder { get; set; } = 1;
         public bool Status { get; set; }
-        public int? ParentId { get; set; }
+        public int ParentId { get; set; }
         public List<SelectListItem> NavItem = new List<SelectListItem>();
 
         public List<MenuViewModel> SubItem = new List<MenuViewModel>();

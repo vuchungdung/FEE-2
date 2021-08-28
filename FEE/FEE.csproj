@@ -216,6 +216,10 @@
     <Compile Include="Migrations\202106241450518_update-webinfo-add-field-note.designer.cs">
       <DependentUpon>202106241450518_update-webinfo-add-field-note.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202108280634475_update-db.cs" />
+    <Compile Include="Migrations\202108280634475_update-db.designer.cs">
+      <DependentUpon>202108280634475_update-db.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Command.cs" />
@@ -8712,6 +8716,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202106241450518_update-webinfo-add-field-note.resx">
       <DependentUpon>202106241450518_update-webinfo-add-field-note.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202108280634475_update-db.resx">
+      <DependentUpon>202108280634475_update-db.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

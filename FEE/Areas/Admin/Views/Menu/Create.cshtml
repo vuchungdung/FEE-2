@@ -19,7 +19,7 @@
                 <div class="col-md-11">
                     <div class="form-group">
                         <label>Tên danh mục:</label>
-                        @Html.TextBoxFor(model => model.Name, htmlAttributes: new { @class = "form-control", @placeholder = "Nhập tên danh mục" })
+                        @Html.TextBoxFor(model => model.Name, htmlAttributes: new { @class = "form-control", @placeholder = "Nhập tên danh mục", @required = "true" })
                         @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
 
                     </div>
@@ -27,7 +27,7 @@
                 <div class="col-md-1">
                     <div class="form-group">
                         <label>Thứ tự:</label>
-                        @Html.TextBoxFor(model => model.DisplayOrder, htmlAttributes: new { @class = "form-control", @type = "number" })
+                        @Html.TextBoxFor(model => model.DisplayOrder, htmlAttributes: new { @class = "form-control", @type = "number", @required = "true" })
                         @Html.ValidationMessageFor(model => model.DisplayOrder, "", new { @class = "text-danger" })
 
                     </div>
