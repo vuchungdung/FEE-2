@@ -126,6 +126,7 @@ namespace FEE.Areas.Admin.Controllers
             }
             return View();
         }
+
         [HttpGet]
         [AllowAnonymous]
         public ActionResult RePassword()
