@@ -14,11 +14,11 @@ namespace FEE.ViewModel
         public string Name { get; set; }
         public DateTime CreatedDate { get; set; }
         public string URL { get; set; }
-
+        public string Link { get; set; }
         [Required(ErrorMessage = "Chưa chọn thứ tự")]
         public int DisplayOrder { get; set; } = 1;
         public bool Status { get; set; }
-        public int ParentId { get; set; }
+        public int ParentId { get; set; } = 0;
         public List<SelectListItem> NavItem = new List<SelectListItem>();
 
         public List<MenuViewModel> SubItem = new List<MenuViewModel>();

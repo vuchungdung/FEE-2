@@ -13,9 +13,20 @@
                                 {
                                     <a href="/" style="font-size:13px">@item.Name</a>
                                 }
+                                else if (item.URL == "gui-phan-hoi")
+                                {
+                                    <a href="gui-phan-hoi" target="_blank" style="font-size:13px">@item.Name</a>
+                                }
                                 else
                                 {
-                                    <a href="danh-muc-@item.Id-0-0" style="font-size:13px">@item.Name</a>
+                                    if (!string.IsNullOrEmpty(item.Link))
+                                    {
+                                        <a href="@item.Link" target="_blank" style="font-size:13px">@item.Name</a>
+                                    }
+                                    else
+                                    {
+                                        <a href="danh-muc-@item.Id-0-0" style="font-size:13px">@item.Name</a>
+                                    }
                                 }
                                 @if (item.SubItem.Count() != 0)
                                 {
@@ -24,14 +35,30 @@
                                             foreach (var sub in item.SubItem)
                                             {
                                                 <li>
-                                                    <a href="danh-muc-@sub.Id-0-0" style="font-size:13px">@sub.Name</a>
+                                                    @if (!string.IsNullOrEmpty(sub.Link))
+                                                    {
+                                                        <a href="@sub.Link" target="_blank" style="font-size:13px">@sub.Name</a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a href="danh-muc-@sub.Id-0-0" style="font-size:13px">@sub.Name</a>
+                                                    }
                                                     @if (sub.SubItem.Count() != 0)
                                                     {
                                                         <ul class="dropdown">
                                                             @{
                                                                 foreach (var subsm in sub.SubItem)
                                                                 {
-                                                                    <li><a href="danh-muc-@subsm.Id-0-0" style="font-size:13px">@subsm.Name</a></li>
+                                                                    <li>
+                                                                        @if (!string.IsNullOrEmpty(subsm.Link))
+                                                                        {
+                                                                            <a href="@subsm.Link" target="_blank" style="font-size:13px">@subsm.Name</a>
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <a href="danh-muc-@subsm.Id-0-0" style="font-size:13px">@subsm.Name</a>
+                                                                        }
+                                                                    </li>
                                                                 }
                                                             }
                                                         </ul>
@@ -44,7 +71,7 @@
                             </li>
                         }
                     }
-                    <li><a href="gui-phan-hoi" style="font-size:13px">Gửi ý kiến</a></li>
+
                 </ul>
                 <div class="pull-right sm-pull-none mb-sm-15">
                 </div>

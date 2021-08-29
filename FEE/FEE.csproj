@@ -196,6 +196,10 @@
     <Compile Include="Migrations\202106031107490_setup-database.designer.cs">
       <DependentUpon>202106031107490_setup-database.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202106070836382_version_1.0.0.cs" />
+    <Compile Include="Migrations\202106070836382_version_1.0.0.Designer.cs">
+      <DependentUpon>202106070836382_version_1.0.0.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\202106071556089_version_1.0.1.cs" />
     <Compile Include="Migrations\202106071556089_version_1.0.1.designer.cs">
       <DependentUpon>202106071556089_version_1.0.1.cs</DependentUpon>
@@ -8701,6 +8705,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202106031107490_setup-database.resx">
       <DependentUpon>202106031107490_setup-database.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202106070836382_version_1.0.0.resx">
+      <DependentUpon>202106070836382_version_1.0.0.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202106071556089_version_1.0.1.resx">
       <DependentUpon>202106071556089_version_1.0.1.cs</DependentUpon>

@@ -87,6 +87,7 @@ namespace FEE.Controllers
                     Id = x.MenuId,
                     Name = x.Name,
                     ParentId = x.ParentId,
+                    Link = x.Link,
                     DisplayOrder = x.DisplayOrder,
                     URL = x.URL
                     

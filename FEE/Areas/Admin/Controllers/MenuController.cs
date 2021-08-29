@@ -84,23 +84,17 @@ namespace FEE.Areas.Admin.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
-                {
-                    var model = new Menu();
-                    model.Name = viewmodel.Name;
-                    model.ParentId = viewmodel.ParentId;
-                    model.Status = viewmodel.Status;
-                    model.CreateDate = DateTime.Now;
-                    model.DisplayOrder = viewmodel.DisplayOrder;
-                    _db.Menus.Add(model);
-                    _db.SaveChanges();
-                    Notification.set_flash("Lưu thành công!", "success");
-                    ModelState.Clear();
-                }
-                else
-                {
-                    Notification.set_flash("Nhập đầy đủ thông tin!", "warning");
-                }
+                var model = new Menu();
+                model.Name = viewmodel.Name;
+                model.ParentId = viewmodel.ParentId;
+                model.Link = viewmodel.Link;
+                model.Status = viewmodel.Status;
+                model.CreateDate = DateTime.Now;
+                model.DisplayOrder = viewmodel.DisplayOrder;
+                _db.Menus.Add(model);
+                _db.SaveChanges();
+                Notification.set_flash("Lưu thành công!", "success");
+                ModelState.Clear();
                 viewmodel = new MenuViewModel();
                 viewmodel.ListMenus = new SelectList(this.Dropdown(0), "Id", "Name", 0);
                 return RedirectToAction("Index");
@@ -143,6 +137,7 @@ namespace FEE.Areas.Admin.Controllers
             var model = _db.Menus.Where(x => x.MenuId == id).FirstOrDefault();
             var viewModel = new MenuViewModel();
             viewModel.Id = model.MenuId;
+            viewModel.Link = model.Link;
             viewModel.Name = model.Name;
             viewModel.ParentId = model.ParentId;
             viewModel.Status = model.Status;
@@ -154,12 +149,13 @@ namespace FEE.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Update(MenuViewModel viewModel)
         {
-            if (ModelState.IsValid)
+            try
             {
                 var model = _db.Menus.Where(x => x.MenuId == viewModel.Id).FirstOrDefault();
                 model.Name = viewModel.Name;
                 model.ParentId = viewModel.ParentId;
                 model.Status = viewModel.Status;
+                model.Link = viewModel.Link;
                 model.UpdateDate = DateTime.Now;
                 model.DisplayOrder = viewModel.DisplayOrder;
                 _db.SaveChanges();
@@ -168,7 +164,10 @@ namespace FEE.Areas.Admin.Controllers
                 viewModel.ListMenus = new SelectList(this.Dropdown(0), "Id", "Name", 0);
                 return RedirectToAction("Index", "Menu");
             }
-            return View(viewModel);
+            catch(Exception ex)
+            {
+                return View(viewModel);
+            }           
         }
         [ClaimRequirementFilter(Command = CommandCode.DELETE, Function = FunctionCode.MORE_MENU)]
         public JsonResult Delete(int id)
