@@ -183,6 +183,11 @@ namespace FEE.Areas.Admin.Controllers
         {
             var model = _db.Users.Where(x => x.Id == id).FirstOrDefault();
             _db.Users.Remove(model);
+            var list = _db.Posts.Where(x => x.CreateBy == id).ToList();
+            foreach(var item in list)
+            {
+                item.Deleted = true;
+            }
             _db.SaveChanges();
             Notification.set_flash("Xóa vĩnh viễn!", "success");
             return Json(true, JsonRequestBehavior.AllowGet);

@@ -35,6 +35,13 @@ namespace FEE
            );
 
             routes.MapRoute(
+               name: "Tin nổi bật",
+               url: "danh-sach-tin-noi-bat",
+               defaults: new { controller = "Post", action = "PostHot" },
+               namespaces: new[] { "FEE.Controllers" }
+           );
+
+            routes.MapRoute(
                name: "Tin",
                url: "{alias}-{id}",
                defaults: new { controller = "Post", action = "PostDetail", id = UrlParameter.Optional },
@@ -42,16 +49,9 @@ namespace FEE
            );
 
             routes.MapRoute(
-               name: "Tin Hot",
-               url: "danh-sach-tin-noi-bat",
-               defaults: new { controller = "Post", action = "PostHot", id = UrlParameter.Optional },
-               namespaces: new[] { "FEE.Controllers" }
-           );
-
-            routes.MapRoute(
                 name: "Trang chủ",
                 url: "",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+                defaults: new { controller = "Home", action = "Index" },
                 namespaces: new[] { "FEE.Controllers" }
             );
 
