@@ -240,6 +240,7 @@ namespace FEE.Areas.Admin.Controllers
                 else
                 {
                     Notification.set_flash("Nhập đầy đủ thông tin!", "warning");
+                    return RedirectToAction("Create");
                 }
                 viewModel = new PostViewModel();
                 viewModel.ListCategories = Helper.ListCategories().ToList();

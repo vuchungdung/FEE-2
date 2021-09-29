@@ -33,7 +33,7 @@
                     <div class="form-group">
                         <label>Hình ảnh đại diện:</label>
                         <button type="button" class="btn btn-xs btn-default" style="margin-top:2px;margin-left:0px" onclick="chooseImage()">Chọn ảnh</button>
-                        @Html.TextBoxFor(model => model.Img, htmlAttributes: new { @style = "display:none" })
+                        @Html.TextBoxFor(model => model.Img, htmlAttributes: new { @style = "display:none", @required = "true"})
                         @Html.ValidationMessageFor(model => model.Img, "", new { @class = "text-danger" })
 
                     </div>
@@ -78,13 +78,11 @@
             </div>
             <div class="form-group">
                 <label>Nội dung bài viết:</label>
-                @Html.TextAreaFor(model => model.Content, new { @class = "form-control", @required = "true", @id = "editor1" })
-                @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
-
+                @Html.TextAreaFor(model => model.Content, new { @class = "form-control", @id = "editor1", @required = "true" })
                 <script>
                     if ($('#editor1').length > 0) {
                         var editor = CKEDITOR.replace('editor1', {
-                            languague: 'vi'
+                            languague: 'vi',
                         });
 
                     }
