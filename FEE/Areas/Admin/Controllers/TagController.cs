@@ -57,6 +57,7 @@ namespace FEE.Areas.Admin.Controllers
             var model = _db.Tags.Where(x => x.Id == id).FirstOrDefault();
             var viewModel = new TagViewModel();
             viewModel.Name = model.Name;
+            viewModel.TagId = model.Id;
             return View(viewModel);
         }
 
