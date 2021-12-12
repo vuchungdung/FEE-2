@@ -59,9 +59,12 @@
                     {
                         <div>
                             <div class="effect-wrapper">
-                                <div class="thumb">
-                                    <img class="img-fullwidth" style="border-radius:5px; margin-bottom:8px; height:380px" src="@Model.BaiGhim.Img" alt="project">
-                                </div>
+                                <a href="@Model.BaiGhim.Alias-@Model.BaiGhim.PostId">
+                                    <div class="thumb">
+                                        <img class="img-fullwidth" style="border-radius:5px; margin-bottom:8px; height:380px" src="@Model.BaiGhim.Img" alt="project">
+                                    </div>
+                                </a>
+
                                 <div>
                                     <a href="#" style="font-size:14px;color:black"><i class="fa fa-calendar" style="padding-right:5px;color:#5D9CEC !important"></i>Ngày @Model.BaiGhim.CreateDate.ToString("dd-MM-yyyy")</a>
                                     <a href="@Model.BaiGhim.Alias-@Model.BaiGhim.PostId">
@@ -82,9 +85,13 @@
                             <div class="item">
                                 <div class="row">
                                     <div class="col-sm-4">
-                                        <div>
-                                            <img style="border-radius:5px;width:100%;height:90px" src="@item.Img">
-                                        </div>
+
+                                        <a href="@item.Alias-@item.PostId">
+                                            <div>
+                                                <img style="border-radius:5px;width:100%;height:90px" src="@item.Img">
+                                            </div>
+                                        </a>
+
                                     </div>
                                     <div class="col-sm-8 pl-0">
                                         <div>
@@ -100,7 +107,7 @@
                     }
                     <a href="danh-sach-tin-noi-bat" style="float:right;margin-right:50px;font-style:italic;color:#5D9CEC !important;font-weight:600">>> XEM THÊM</a>
                 </div>
-            </div>           
+            </div>
         </div>
     </div>
 </section>
@@ -124,10 +131,14 @@
                         {
                             <div class="item">
                                 <div class="campaign bg-white maxwidth500 mb-30">
-                                    <div class="thumb">
-                                        <img src="@item.Img" style="width:327px;height:280px" alt="" class="img-fullwidth">
-                                        <div class="campaign-overlay"></div>
-                                    </div>
+                                    <a href="@item.Alias-@item.PostId">
+                                        <div class="thumb">
+                                            <img src="@item.Img" style="width:327px;height:280px" alt="" class="img-fullwidth">
+                                            <div class="campaign-overlay"></div>
+                                        </div>
+                                    </a>
+
+
                                     <div class="campaign-details clearfix pl-20 pr-20 pt-15 pb-15" style="height:152px;position:relative">
                                         <h4 class="mt-0 mb-0"><a href="@item.Alias-@item.PostId">@item.Name</a></h4>
                                         <ul class="mb-10">

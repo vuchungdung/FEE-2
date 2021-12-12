@@ -6,7 +6,7 @@
             foreach (var item in Model.Take(6))
             {
                 <article class="post media-post clearfix pb-0 mb-10">
-                    <a class="post-thumb" href="#"><img style="width:75px;height:75px" src="@item.Img" alt=""></a>
+                    <a class="post-thumb" href="@item.Alias-@item.PostId"><img style="width:75px;height:75px" src="@item.Img" alt=""></a>
                     <div class="post-right">
                         <h5 class="post-title mt-0"><a href="@item.Alias-@item.PostId">@item.Name</a></h5>
                     </div>
@@ -18,7 +18,7 @@
             foreach (var item in Model)
             {
                 <article class="post media-post clearfix pb-0 mb-10">
-                    <a class="post-thumb" href="#"><img style="width:75px;height:75px" src="@item.Img" alt=""></a>
+                    <a class="post-thumb" href="@item.Alias-@item.PostId"><img style="width:75px;height:75px" src="@item.Img" alt=""></a>
                     <div class="post-right">
                         <h5 class="post-title mt-0"><a href="@item.Alias-@item.PostId">@item.Name</a></h5>
                     </div>

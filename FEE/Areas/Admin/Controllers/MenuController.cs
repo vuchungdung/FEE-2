@@ -34,7 +34,7 @@ namespace FEE.Areas.Admin.Controllers
                 Status = x.Status,
                 CreatedDate = x.CreateDate
 
-            }).ToList();
+            }).OrderBy(x=>x.DisplayOrder).ToList();
 
             List<MenuViewModel> listResult = new List<MenuViewModel>();
 
@@ -61,6 +61,7 @@ namespace FEE.Areas.Admin.Controllers
                             item.SubItem.Add(sub);
                         }
                     }
+                    item.SubItem.OrderBy(x=>x.DisplayOrder).ToList();
                 }
             }
             var listMenu = listResult.ToList().OrderBy(x => x.DisplayOrder).ToList();

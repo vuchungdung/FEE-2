@@ -299,19 +299,17 @@ namespace FEE.Areas.Admin.Controllers
                 if (ModelState.IsValid)
                 {
                     var model = _db.Posts.Find(viewModel.PostId);
+                    var user = (UserSession)Session["USER"];
                     model.Name = viewModel.Name;
                     model.CategoryId = Convert.ToInt32(viewModel.CategoryId);
                     model.Status = viewModel.Status;
                     model.MenuId = viewModel.MenuId;
                     model.Description = viewModel.Description;
                     model.Content = viewModel.Content;
-                    model.Deleted = false;
-                    model.CreateBy = 1;
                     model.Tag = String.Join(",",viewModel.TagIds);
                     model.UpdateDate = DateTime.Now;
                     model.CreateDate = Convert.ToDateTime(viewModel.Date);
-                    model.UpdateBy = 1;
-                    model.DepartmentId = 0;
+                    model.UpdateBy = user.Id;
                     model.Alias = XString.ToAscii(model.Name);
                     model.Img = viewModel.Img;
                     _db.SaveChanges();

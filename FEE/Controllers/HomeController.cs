@@ -91,7 +91,7 @@ namespace FEE.Controllers
                     DisplayOrder = x.DisplayOrder,
                     URL = x.URL
                     
-                }).ToList();
+                }).OrderBy(x=>x.DisplayOrder).ToList();
 
                 List<MenuViewModel> listResult = new List<MenuViewModel>();
 
@@ -118,6 +118,7 @@ namespace FEE.Controllers
                                 item.SubItem.Add(sub);
                             }
                         }
+                        item.SubItem.OrderBy(x=>x.DisplayOrder).ToList();
                     }
                 }
                 var listMenu = listResult.ToList().OrderBy(x => x.DisplayOrder).ToList();
