@@ -54,7 +54,7 @@ namespace FEE.Controllers
                 CategoryId = x.CategoryId.ToString(),
                 Alias = x.Alias
 
-            }).OrderByDescending(x => x.CreateDate).ToList();
+            }).OrderBy(x => x.CreateDate).ToList();
 
             if(id != 0)
             {
