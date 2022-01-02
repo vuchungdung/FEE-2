@@ -3,6 +3,7 @@ using FEE.ViewModel;
 using PagedList;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -11,6 +12,7 @@ namespace FEE.Controllers
 {
     public class PostController : Controller
     {
+        private string ids = "";
         private FEEDbContext _db = new FEEDbContext();
         public ActionResult PostDetail(int id)
         {
@@ -54,11 +56,26 @@ namespace FEE.Controllers
                 CategoryId = x.CategoryId.ToString(),
                 Alias = x.Alias
 
-            }).OrderBy(x => x.CreateDate).ToList();
+            }).OrderByDescending(x => x.CreateDate).ToList();
 
             if(id != 0)
             {
-                listItem = listItem.Where(x => x.MenuId == id).ToList();
+                var menu = _db.Menus.FirstOrDefault(s=>s.MenuId == id);
+                if (menu.ParentId != 0 && isParent(menu.MenuId) == false)
+                {
+                    listItem = listItem.Where(x => x.MenuId == id).ToList();
+                }
+                else
+                {
+                    this.ids = "";
+                    var list = _db.Menus.Where(s => s.ParentId == id).ToList();
+                    this.ids = String.Join(",", list.Select(s=>s.MenuId).ToList()) + ",";
+                    foreach(var item in list)
+                    {
+                        Ids(item.MenuId);
+                    }
+                    listItem = listItem.Where(s => ids.Contains(s.MenuId.ToString())).ToList();
+                }
             }
 
             if (!String.IsNullOrEmpty(tukhoa))
@@ -176,6 +193,27 @@ namespace FEE.Controllers
                 TagId = x.Id,
             }).ToList();
             return PartialView(listItem);
+        }
+        private void Ids(int? parentid)
+        {
+            var list = _db.Menus.Where(s => s.ParentId == parentid).ToList();
+            this.ids = this.ids + String.Join(",", list.Select(s => s.MenuId).ToList()) + ",";
+            foreach (var item in list)
+            {
+                if (isParent(item.MenuId) == true)
+                {
+                    Ids(item.MenuId);
+                }
+            }
+        }
+        private bool isParent(int id)
+        {
+            var item = _db.Menus.Where(s=>s.ParentId == id).FirstOrDefault();
+            if (item != null)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

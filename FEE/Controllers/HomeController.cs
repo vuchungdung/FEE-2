@@ -73,8 +73,9 @@ namespace FEE.Controllers
             listResult.Slides = _db.Slides.Where(x => x.Deleted == false && x.Status == true)
                                             .Select(x => new SlideViewModel()
                                             {
-                                                Img = x.Img
-                                            }).ToList();
+                                                Img = x.Img,
+                                                CreateDate = x.CreateDate
+                                            }).OrderByDescending(s=>s.CreateDate).ToList();
             return View(listResult);
         }
 

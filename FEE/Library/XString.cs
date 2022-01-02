@@ -76,7 +76,8 @@ namespace FEE.Library
                                  new String[] { "[óòỏõọôốồổỗộơớờởỡợ]", "o" },
                                  new String[] { "[úùủũụưứừửữự]", "u" },
                                  new String[] { "[ýỳỷỹỵ]", "y" },
-                                 new String[] { "[\\s'\";,/-%]", "-" }
+                                 new String[] { "[\\s'\";,/-]", "-" },
+                                  new String[] { "[%]", "" }
                              };
             s = s.ToLower();
             foreach (var ss in symbols)
