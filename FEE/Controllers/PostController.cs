@@ -69,7 +69,10 @@ namespace FEE.Controllers
                 {
                     this.ids = "";
                     var list = _db.Menus.Where(s => s.ParentId == id).ToList();
-                    this.ids = String.Join(",", list.Select(s=>s.MenuId).ToList()) + ",";
+                    var temps = list.Select(s => s.MenuId).ToList();
+                    int v = id ?? default(int);
+                    temps.Add(v);
+                    this.ids = String.Join(",",temps) + ",";
                     foreach(var item in list)
                     {
                         Ids(item.MenuId);
